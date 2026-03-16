@@ -1,0 +1,27 @@
+import { Command } from 'commander';
+import { recordCommand } from './commands/record.js';
+import { importCommand } from './commands/import.js';
+import { generateCommand } from './commands/generate.js';
+import { testCommand } from './commands/test.js';
+import { listCommand } from './commands/list.js';
+import { exportCommand } from './commands/export.js';
+import { registerProjectCommands } from './runtime/project-runner.js';
+
+const program = new Command();
+
+program
+  .name('api-creator')
+  .description('Reverse-engineer APIs from browser traffic into typed TypeScript clients')
+  .version('0.1.0');
+
+program.addCommand(recordCommand);
+program.addCommand(importCommand);
+program.addCommand(generateCommand);
+program.addCommand(testCommand);
+program.addCommand(listCommand);
+program.addCommand(exportCommand);
+
+// Dynamically register subcommands for each project in ~/.api-creator/projects/
+registerProjectCommands(program);
+
+program.parse();

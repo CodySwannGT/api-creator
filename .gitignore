@@ -1,0 +1,21 @@
+node_modules
+dist
+recordings
+generated
+*.har
+
+# Leftover generated project artifacts
+airbnb/
+
+# Auth files (contain secrets)
+*.auth
+
+# OS files
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Claude memory (per-user)
+.claude/memory/
