@@ -1,5 +1,7 @@
 # api-creator
 
+[![npm version](https://img.shields.io/npm/v/@codyswann/api-creator.svg)](https://www.npmjs.com/package/@codyswann/api-creator)
+
 Reverse-engineer any web API into a typed CLI by recording real browser traffic.
 
 Record a live browser session, auto-generate endpoints, set up auth, and call any API endpoint directly from your terminal.
@@ -7,7 +9,7 @@ Record a live browser session, auto-generate endpoints, set up auth, and call an
 ## Install
 
 ```bash
-npm install -g api-creator
+npm install -g @codyswann/api-creator
 npx playwright install chromium
 ```
 
