@@ -19,7 +19,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          # Workaround for npm ci not installing correct platform-specific optional deps
+          # See: https://github.com/npm/cli/issues/4828
+          npm install --no-save @rollup/rollup-linux-x64-gnu || true
 
       - name: Build
         run: npm run build
