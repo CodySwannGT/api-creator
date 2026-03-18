@@ -39,9 +39,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npm install --no-save @rollup/rollup-linux-x64-gnu || true
+        run: npm install
 
       - name: Build
         run: npm run build
@@ -127,9 +125,7 @@ jobs:
           npm config set registry https://registry.npmjs.org
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npm install --no-save @rollup/rollup-linux-x64-gnu || true
+        run: npm install
 
       - name: Build
         run: npm run build
