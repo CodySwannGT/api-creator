@@ -1,18 +1,24 @@
-import { Command } from 'commander';
-import { recordCommand } from './commands/record.js';
-import { importCommand } from './commands/import.js';
-import { generateCommand } from './commands/generate.js';
-import { testCommand } from './commands/test.js';
-import { listCommand } from './commands/list.js';
-import { exportCommand } from './commands/export.js';
-import { registerProjectCommands } from './runtime/project-runner.js';
+import { createRequire } from "module";
+import { Command } from "commander";
+import { recordCommand } from "./commands/record.js";
+import { importCommand } from "./commands/import.js";
+import { generateCommand } from "./commands/generate.js";
+import { testCommand } from "./commands/test.js";
+import { listCommand } from "./commands/list.js";
+import { exportCommand } from "./commands/export.js";
+import { registerProjectCommands } from "./runtime/project-runner.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json") as { version: string };
 
 const program = new Command();
 
 program
-  .name('api-creator')
-  .description('Reverse-engineer APIs from browser traffic into typed TypeScript clients')
-  .version('0.1.0');
+  .name("api-creator")
+  .description(
+    "Reverse-engineer APIs from browser traffic into typed TypeScript clients",
+  )
+  .version(version);
 
 program.addCommand(recordCommand);
 program.addCommand(importCommand);
