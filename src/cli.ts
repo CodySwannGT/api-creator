@@ -16,7 +16,7 @@ const program = new Command();
 program
   .name("api-creator")
   .description(
-    "Reverse-engineer APIs from browser traffic into typed TypeScript clients",
+    "Reverse-engineer any web API into a typed CLI by recording real browser traffic",
   )
   .version(version);
 
