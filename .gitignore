@@ -19,3 +19,9 @@ airbnb/
 
 # Claude memory (per-user)
 .claude/memory/
+
+# Lisa backups
+.lisabak/
+
+# Coverage
+coverage/
