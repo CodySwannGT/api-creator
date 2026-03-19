@@ -1,13 +1,16 @@
-import { readFile, writeFile, access } from 'node:fs/promises';
-import { join } from 'node:path';
-import type { Endpoint } from '../types/endpoint.js';
-import type { TypeDefinition } from '../parser/type-inferrer.js';
-import { pathToMethodName } from '../utils/naming.js';
+import { readFile, writeFile, access } from "node:fs/promises";
+import { join } from "node:path";
+import type { Endpoint } from "../types/endpoint.js";
+import type { TypeDefinition } from "../parser/type-inferrer.js";
+import { pathToMethodName } from "../utils/naming.js";
 
 // ---------------------------------------------------------------------------
 // Interfaces
 // ---------------------------------------------------------------------------
 
+/**
+ *
+ */
 export interface ExistingClient {
   methodNames: string[];
   typeNames: string[];
@@ -16,11 +19,17 @@ export interface ExistingClient {
   typesSource: string;
 }
 
+/**
+ *
+ */
 export interface CustomSection {
   marker: string;
   content: string;
 }
 
+/**
+ *
+ */
 export interface MergeResult {
   added: string[];
   updated: string[];
@@ -38,12 +47,13 @@ export interface MergeResult {
  * If both `client.ts` and `types.ts` exist, parse them and return an
  * {@link ExistingClient} describing what is already generated.  Otherwise
  * return `null`.
+ * @param outputDir
  */
 export async function detectExistingClient(
-  outputDir: string,
+  outputDir: string
 ): Promise<ExistingClient | null> {
-  const clientPath = join(outputDir, 'client.ts');
-  const typesPath = join(outputDir, 'types.ts');
+  const clientPath = join(outputDir, "client.ts");
+  const typesPath = join(outputDir, "types.ts");
 
   try {
     await access(clientPath);
@@ -52,13 +62,13 @@ export async function detectExistingClient(
     return null;
   }
 
-  const clientSource = await readFile(clientPath, 'utf-8');
-  const typesSource = await readFile(typesPath, 'utf-8');
+  const clientSource = await readFile(clientPath, "utf-8");
+  const typesSource = await readFile(typesPath, "utf-8");
 
   const methodNames = parseMethodNames(clientSource);
   const typeNames = parseTypeNames(typesSource);
   const customSections = parseCustomSections(clientSource).concat(
-    parseCustomSections(typesSource),
+    parseCustomSections(typesSource)
   );
 
   return { methodNames, typeNames, customSections, clientSource, typesSource };
@@ -67,6 +77,7 @@ export async function detectExistingClient(
 /**
  * Extract async method names from client source using the pattern
  * `async methodName(`.
+ * @param source
  */
 function parseMethodNames(source: string): string[] {
   const re = /async\s+(\w+)\s*\(/g;
@@ -81,6 +92,7 @@ function parseMethodNames(source: string): string[] {
 /**
  * Extract exported interface / type names from types source using the
  * pattern `export interface TypeName`.
+ * @param source
  */
 function parseTypeNames(source: string): string[] {
   const re = /export\s+interface\s+(\w+)/g;
@@ -96,6 +108,7 @@ function parseTypeNames(source: string): string[] {
  * Parse `// @custom` … `// @end-custom` blocks.  Each block is returned as a
  * {@link CustomSection} with the marker line and the content between the two
  * comment lines (inclusive).
+ * @param source
  */
 function parseCustomSections(source: string): CustomSection[] {
   const sections: CustomSection[] = [];
@@ -103,7 +116,7 @@ function parseCustomSections(source: string): CustomSection[] {
   let match: RegExpExecArray | null;
   while ((match = re.exec(source)) !== null) {
     const marker = match[1].trim();
-    const content = match[0] + '// @end-custom';
+    const content = `${match[0]}// @end-custom`;
     sections.push({ marker, content });
   }
   return sections;
@@ -116,11 +129,14 @@ function parseCustomSections(source: string): CustomSection[] {
 /**
  * Compare the endpoints / types that already exist with the newly inferred
  * ones and return a categorised {@link MergeResult}.
+ * @param existing
+ * @param newEndpoints
+ * @param _newTypes
  */
 export function mergeEndpoints(
   existing: ExistingClient,
   newEndpoints: Endpoint[],
-  newTypes: TypeDefinition[],
+  _newTypes: TypeDefinition[]
 ): MergeResult {
   const existingMethodSet = new Set(existing.methodNames);
 
@@ -155,16 +171,22 @@ export function mergeEndpoints(
 
   const parts: string[] = [];
   if (added.length > 0) {
-    parts.push(`Added ${added.length} new endpoint${added.length === 1 ? '' : 's'}`);
+    parts.push(
+      `Added ${added.length} new endpoint${added.length === 1 ? "" : "s"}`
+    );
   }
   if (updated.length > 0) {
-    parts.push(`updated ${updated.length} type${updated.length === 1 ? '' : 's'}`);
+    parts.push(
+      `updated ${updated.length} type${updated.length === 1 ? "" : "s"}`
+    );
   }
   if (deprecated.length > 0) {
-    parts.push(`${deprecated.length} endpoint${deprecated.length === 1 ? '' : 's'} deprecated`);
+    parts.push(
+      `${deprecated.length} endpoint${deprecated.length === 1 ? "" : "s"} deprecated`
+    );
   }
 
-  const summary = parts.length > 0 ? parts.join(', ') : 'No changes detected';
+  const summary = parts.length > 0 ? parts.join(", ") : "No changes detected";
 
   return { added, updated, deprecated, summary, hasChanges };
 }
@@ -177,12 +199,16 @@ export function mergeEndpoints(
  * Write the merged client and types files to `outputDir`, applying
  * deprecation markers and preserving custom sections.  Returns a
  * human-readable summary string.
+ * @param outputDir
+ * @param mergeResult
+ * @param fullClientCode
+ * @param fullTypesCode
  */
 export async function applyMerge(
   outputDir: string,
   mergeResult: MergeResult,
   fullClientCode: string,
-  fullTypesCode: string,
+  fullTypesCode: string
 ): Promise<string> {
   let clientCode = fullClientCode;
   let typesCode = fullTypesCode;
@@ -204,24 +230,26 @@ export async function applyMerge(
   }
 
   // 3. Write files.
-  await writeFile(join(outputDir, 'client.ts'), clientCode, 'utf-8');
-  await writeFile(join(outputDir, 'types.ts'), typesCode, 'utf-8');
+  await writeFile(join(outputDir, "client.ts"), clientCode, "utf-8");
+  await writeFile(join(outputDir, "types.ts"), typesCode, "utf-8");
 
   return mergeResult.summary;
 }
 
 /**
- * Insert a `/** @deprecated … *​/` JSDoc comment before an `async methodName(`
+ * Insert a @deprecated JSDoc comment before an `async methodName(`
  * declaration if one is not already present.
+ * @param source
+ * @param methodName
  */
 function addDeprecationMarker(source: string, methodName: string): string {
   const deprecationComment =
-    '/** @deprecated No longer observed in API traffic */';
+    "/** @deprecated No longer observed in API traffic */";
 
   // Build a regex that matches the method, optionally preceded by existing JSDoc.
   const methodPattern = new RegExp(
     `(^[ \\t]*)(async\\s+${escapeRegExp(methodName)}\\s*\\()`,
-    'm',
+    "m"
   );
 
   const match = methodPattern.exec(source);
@@ -238,7 +266,7 @@ function addDeprecationMarker(source: string, methodName: string): string {
 
   return source.replace(
     methodPattern,
-    `${indent}${deprecationComment}\n${indent}${methodDecl}`,
+    `${indent}${deprecationComment}\n${indent}${methodDecl}`
   );
 }
 
@@ -247,13 +275,15 @@ function addDeprecationMarker(source: string, methodName: string): string {
  * generated block between `@custom` and `@end-custom` with the preserved
  * content.  If the marker is not present, append the custom section at the end
  * of the file (before the final closing brace if one exists).
+ * @param source
+ * @param section
  */
 function restoreCustomSection(source: string, section: CustomSection): string {
   // Try to find an existing @custom…@end-custom block with the same marker.
   const markerEscaped = escapeRegExp(section.marker);
   const blockRe = new RegExp(
     `${markerEscaped}[\\s\\S]*?//\\s*@end-custom`,
-    'g',
+    "g"
   );
 
   if (blockRe.test(source)) {
@@ -261,25 +291,25 @@ function restoreCustomSection(source: string, section: CustomSection): string {
   }
 
   // The marker doesn't exist in the new source – append before the last `}`.
-  const lastBrace = source.lastIndexOf('}');
+  const lastBrace = source.lastIndexOf("}");
   if (lastBrace !== -1) {
-    return (
-      source.slice(0, lastBrace) +
-      '\n' +
-      section.content +
-      '\n' +
-      source.slice(lastBrace)
-    );
+    return `${source.slice(0, lastBrace)}\n${section.content}\n${source.slice(
+      lastBrace
+    )}`;
   }
 
   // Fallback – just append.
-  return source + '\n' + section.content + '\n';
+  return `${source}\n${section.content}\n`;
 }
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ *
+ * @param s
+ */
 function escapeRegExp(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

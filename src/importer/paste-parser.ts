@@ -1,19 +1,31 @@
-import type { HarEntry, HarHeader, HarRequest, HarResponse } from '../types/har.js';
+import type {
+  HarEntry,
+  HarHeader,
+  HarRequest,
+  HarResponse,
+} from "../types/har.js";
 
+/**
+ *
+ */
 function makeDefaultResponse(): HarResponse {
   return {
     status: 0,
-    statusText: '',
-    httpVersion: 'HTTP/1.1',
+    statusText: "",
+    httpVersion: "HTTP/1.1",
     headers: [],
-    content: { size: 0, mimeType: '' },
-    redirectURL: '',
+    content: { size: 0, mimeType: "" },
+    redirectURL: "",
     headersSize: -1,
     bodySize: -1,
     cookies: [],
   };
 }
 
+/**
+ *
+ * @param request
+ */
 function makeEntry(request: HarRequest): HarEntry {
   return {
     startedDateTime: new Date().toISOString(),
@@ -23,6 +35,10 @@ function makeEntry(request: HarRequest): HarEntry {
   };
 }
 
+/**
+ *
+ * @param url
+ */
 function parseQueryString(url: string): { name: string; value: string }[] {
   try {
     const parsed = new URL(url);
@@ -36,45 +52,57 @@ function parseQueryString(url: string): { name: string; value: string }[] {
   }
 }
 
+/**
+ *
+ * @param body
+ */
 function inferMimeType(body: string): string {
   const trimmed = body.trim();
-  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
-    return 'application/json';
+  if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+    return "application/json";
   }
-  if (trimmed.includes('=') && !trimmed.includes('<')) {
-    return 'application/x-www-form-urlencoded';
+  if (trimmed.includes("=") && !trimmed.includes("<")) {
+    return "application/x-www-form-urlencoded";
   }
-  return 'text/plain';
+  return "text/plain";
 }
 
 // --- cURL Parser ---
 
+/**
+ *
+ * @param input
+ */
 function splitCurlCommands(input: string): string[] {
   // Join backslash-continued lines first
-  const joined = input.replace(/\\\s*\n/g, ' ');
+  const joined = input.replace(/\\\s*\n/g, " ");
   // Split on lines starting with curl
   const commands: string[] = [];
-  for (const line of joined.split('\n')) {
+  for (const line of joined.split("\n")) {
     const trimmed = line.trim();
-    if (trimmed.startsWith('curl ')) {
+    if (trimmed.startsWith("curl ")) {
       commands.push(trimmed);
     } else if (commands.length > 0 && trimmed) {
       // Append continuation to the last command
-      commands[commands.length - 1] += ' ' + trimmed;
+      commands[commands.length - 1] += ` ${trimmed}`;
     }
   }
   return commands.filter(Boolean);
 }
 
+/**
+ *
+ * @param command
+ */
 function tokenizeCurl(command: string): string[] {
   const tokens: string[] = [];
-  let current = '';
+  let current = "";
   let inSingle = false;
   let inDouble = false;
   let escaped = false;
 
   // Strip leading "curl "
-  const input = command.replace(/^\s*curl\s+/, '');
+  const input = command.replace(/^\s*curl\s+/, "");
 
   for (let i = 0; i < input.length; i++) {
     const ch = input[i];
@@ -85,7 +113,7 @@ function tokenizeCurl(command: string): string[] {
       continue;
     }
 
-    if (ch === '\\' && !inSingle) {
+    if (ch === "\\" && !inSingle) {
       escaped = true;
       continue;
     }
@@ -100,10 +128,10 @@ function tokenizeCurl(command: string): string[] {
       continue;
     }
 
-    if ((ch === ' ' || ch === '\t') && !inSingle && !inDouble) {
+    if ((ch === " " || ch === "\t") && !inSingle && !inDouble) {
       if (current.length > 0) {
         tokens.push(current);
-        current = '';
+        current = "";
       }
       continue;
     }
@@ -118,23 +146,27 @@ function tokenizeCurl(command: string): string[] {
   return tokens;
 }
 
+/**
+ *
+ * @param command
+ */
 function parseSingleCurl(command: string): HarEntry {
   const tokens = tokenizeCurl(command);
 
-  let method = 'GET';
-  let url = '';
+  let method = "GET";
+  let url = "";
   const headers: HarHeader[] = [];
   let body: string | undefined;
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
 
-    if (token === '-X' || token === '--request') {
+    if (token === "-X" || token === "--request") {
       method = tokens[++i]?.toUpperCase() ?? method;
-    } else if (token === '-H' || token === '--header') {
+    } else if (token === "-H" || token === "--header") {
       const headerStr = tokens[++i];
       if (headerStr) {
-        const colonIdx = headerStr.indexOf(':');
+        const colonIdx = headerStr.indexOf(":");
         if (colonIdx !== -1) {
           headers.push({
             name: headerStr.slice(0, colonIdx).trim(),
@@ -142,24 +174,37 @@ function parseSingleCurl(command: string): HarEntry {
           });
         }
       }
-    } else if (token === '-d' || token === '--data' || token === '--data-raw' || token === '--data-binary') {
+    } else if (
+      token === "-d" ||
+      token === "--data" ||
+      token === "--data-raw" ||
+      token === "--data-binary"
+    ) {
       body = tokens[++i];
-      if (method === 'GET') {
-        method = 'POST';
+      if (method === "GET") {
+        method = "POST";
       }
-    } else if (token.startsWith('-d')) {
+    } else if (token.startsWith("-d")) {
       // Handle -d'data' (no space)
       body = token.slice(2);
-      if (method === 'GET') {
-        method = 'POST';
+      if (method === "GET") {
+        method = "POST";
       }
-    } else if (!token.startsWith('-') && !url) {
+    } else if (!token.startsWith("-") && !url) {
       url = token;
-    } else if (token === '--url') {
+    } else if (token === "--url") {
       url = tokens[++i] ?? url;
-    } else if (token === '--compressed' || token === '-s' || token === '-S'
-      || token === '-k' || token === '--insecure' || token === '-L'
-      || token === '--location' || token === '-v' || token === '--verbose') {
+    } else if (
+      token === "--compressed" ||
+      token === "-s" ||
+      token === "-S" ||
+      token === "-k" ||
+      token === "--insecure" ||
+      token === "-L" ||
+      token === "--location" ||
+      token === "-v" ||
+      token === "--verbose"
+    ) {
       // Skip known boolean flags
     }
   }
@@ -167,7 +212,7 @@ function parseSingleCurl(command: string): HarEntry {
   const request: HarRequest = {
     method,
     url,
-    httpVersion: 'HTTP/1.1',
+    httpVersion: "HTTP/1.1",
     headers,
     queryString: parseQueryString(url),
     headersSize: -1,
@@ -177,7 +222,9 @@ function parseSingleCurl(command: string): HarEntry {
 
   if (body) {
     request.postData = {
-      mimeType: headers.find(h => h.name.toLowerCase() === 'content-type')?.value ?? inferMimeType(body),
+      mimeType:
+        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
+        inferMimeType(body),
       text: body,
     };
   }
@@ -185,6 +232,10 @@ function parseSingleCurl(command: string): HarEntry {
   return makeEntry(request);
 }
 
+/**
+ *
+ * @param input
+ */
 function parseCurl(input: string): HarEntry[] {
   const commands = splitCurlCommands(input);
   return commands.map(parseSingleCurl);
@@ -192,6 +243,10 @@ function parseCurl(input: string): HarEntry[] {
 
 // --- fetch() Parser ---
 
+/**
+ *
+ * @param input
+ */
 function parseFetch(input: string): HarEntry[] {
   const entries: HarEntry[] = [];
 
@@ -210,18 +265,24 @@ function parseFetch(input: string): HarEntry[] {
   return entries;
 }
 
-function extractStringLiteral(str: string): { value: string; rest: string } | null {
+/**
+ *
+ * @param str
+ */
+function extractStringLiteral(
+  str: string
+): { value: string; rest: string } | null {
   const trimmed = str.trim();
   const quote = trimmed[0];
-  if (quote !== "'" && quote !== '"' && quote !== '`') {
+  if (quote !== "'" && quote !== '"' && quote !== "`") {
     return null;
   }
   let i = 1;
-  let value = '';
+  let value = "";
   while (i < trimmed.length) {
-    if (trimmed[i] === '\\') {
+    if (trimmed[i] === "\\") {
       i++;
-      value += trimmed[i] ?? '';
+      value += trimmed[i] ?? "";
     } else if (trimmed[i] === quote) {
       return { value, rest: trimmed.slice(i + 1).trim() };
     } else {
@@ -229,22 +290,26 @@ function extractStringLiteral(str: string): { value: string; rest: string } | nu
     }
     i++;
   }
-  return { value, rest: '' };
+  return { value, rest: "" };
 }
 
+/**
+ *
+ * @param argsStr
+ */
 function parseSingleFetch(argsStr: string): HarEntry | null {
   // Extract URL (first argument — a string literal)
   const urlResult = extractStringLiteral(argsStr);
   if (!urlResult) return null;
 
   const url = urlResult.value;
-  let method = 'GET';
+  let method = "GET";
   const headers: HarHeader[] = [];
   let body: string | undefined;
 
   // Look for options object after the URL
-  const rest = urlResult.rest.replace(/^\s*,\s*/, '');
-  if (rest.startsWith('{')) {
+  const rest = urlResult.rest.replace(/^\s*,\s*/, "");
+  if (rest.startsWith("{")) {
     // Extract method
     const methodMatch = rest.match(/method\s*:\s*["'`](\w+)["'`]/);
     if (methodMatch) {
@@ -255,7 +320,8 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
     const headersMatch = rest.match(/headers\s*:\s*\{([^}]*)\}/s);
     if (headersMatch) {
       const headersBlock = headersMatch[1];
-      const headerPairRegex = /["'`]?([^"'`:\s,]+)["'`]?\s*:\s*["'`]([^"'`]*)["'`]/g;
+      const headerPairRegex =
+        /["'`]?([^"'`:\s,]+)["'`]?\s*:\s*["'`]([^"'`]*)["'`]/g;
       let hMatch: RegExpExecArray | null;
       while ((hMatch = headerPairRegex.exec(headersBlock)) !== null) {
         headers.push({ name: hMatch[1], value: hMatch[2] });
@@ -268,7 +334,9 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
       body = bodyMatch[1];
     } else {
       // Try JSON.stringify style: body: JSON.stringify(...)
-      const jsonBodyMatch = rest.match(/body\s*:\s*JSON\.stringify\s*\(\s*([\s\S]*?)\s*\)\s*[,}]/);
+      const jsonBodyMatch = rest.match(
+        /body\s*:\s*JSON\.stringify\s*\(\s*([\s\S]*?)\s*\)\s*[,}]/
+      );
       if (jsonBodyMatch) {
         body = jsonBodyMatch[1];
       }
@@ -278,7 +346,7 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
   const request: HarRequest = {
     method,
     url,
-    httpVersion: 'HTTP/1.1',
+    httpVersion: "HTTP/1.1",
     headers,
     queryString: parseQueryString(url),
     headersSize: -1,
@@ -288,7 +356,9 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
 
   if (body) {
     request.postData = {
-      mimeType: headers.find(h => h.name.toLowerCase() === 'content-type')?.value ?? inferMimeType(body),
+      mimeType:
+        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
+        inferMimeType(body),
       text: body,
     };
   }
@@ -298,34 +368,48 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
 
 // --- Raw HTTP Parser ---
 
+/**
+ *
+ * @param input
+ */
 function parseRawHttp(input: string): HarEntry[] {
   // Split on double-newline-then-HTTP-method pattern to find multiple requests
-  const blocks = input.split(/\n(?=(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s)/);
-  return blocks.map(parseSingleRawHttp).filter((e): e is HarEntry => e !== null);
+  const blocks = input.split(
+    /\n(?=(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s)/
+  );
+  return blocks
+    .map(parseSingleRawHttp)
+    .filter((e): e is HarEntry => e !== null);
 }
 
+/**
+ *
+ * @param block
+ */
 function parseSingleRawHttp(block: string): HarEntry | null {
-  const lines = block.split('\n');
+  const lines = block.split("\n");
   if (lines.length === 0) return null;
 
   const requestLine = lines[0].trim();
-  const requestLineMatch = requestLine.match(/^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+(\S+)(?:\s+(HTTP\/\S+))?/);
+  const requestLineMatch = requestLine.match(
+    /^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+(\S+)(?:\s+(HTTP\/\S+))?/
+  );
   if (!requestLineMatch) return null;
 
   const method = requestLineMatch[1];
-  let path = requestLineMatch[2];
-  const httpVersion = requestLineMatch[3] ?? 'HTTP/1.1';
+  const path = requestLineMatch[2];
+  const httpVersion = requestLineMatch[3] ?? "HTTP/1.1";
 
   const headers: HarHeader[] = [];
   let bodyStart = -1;
 
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i];
-    if (line.trim() === '') {
+    if (line.trim() === "") {
       bodyStart = i + 1;
       break;
     }
-    const colonIdx = line.indexOf(':');
+    const colonIdx = line.indexOf(":");
     if (colonIdx !== -1) {
       headers.push({
         name: line.slice(0, colonIdx).trim(),
@@ -334,12 +418,13 @@ function parseSingleRawHttp(block: string): HarEntry | null {
     }
   }
 
-  const body = bodyStart > 0 ? lines.slice(bodyStart).join('\n').trim() : undefined;
+  const body =
+    bodyStart > 0 ? lines.slice(bodyStart).join("\n").trim() : undefined;
 
   // If path is relative, try to construct URL from Host header
   let url = path;
-  if (!path.startsWith('http')) {
-    const hostHeader = headers.find(h => h.name.toLowerCase() === 'host');
+  if (!path.startsWith("http")) {
+    const hostHeader = headers.find(h => h.name.toLowerCase() === "host");
     if (hostHeader) {
       url = `https://${hostHeader.value}${path}`;
     }
@@ -358,7 +443,9 @@ function parseSingleRawHttp(block: string): HarEntry | null {
 
   if (body) {
     request.postData = {
-      mimeType: headers.find(h => h.name.toLowerCase() === 'content-type')?.value ?? inferMimeType(body),
+      mimeType:
+        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
+        inferMimeType(body),
       text: body,
     };
   }
@@ -368,6 +455,10 @@ function parseSingleRawHttp(block: string): HarEntry | null {
 
 // --- HAR Parser ---
 
+/**
+ *
+ * @param input
+ */
 function parseHar(input: string): HarEntry[] {
   try {
     const parsed = JSON.parse(input);
@@ -382,15 +473,20 @@ function parseHar(input: string): HarEntry[] {
 
 // --- Main export ---
 
+/**
+ *
+ * @param input
+ * @param format
+ */
 export function parseInput(input: string, format: string): HarEntry[] {
   switch (format) {
-    case 'curl':
+    case "curl":
       return parseCurl(input);
-    case 'fetch':
+    case "fetch":
       return parseFetch(input);
-    case 'raw-http':
+    case "raw-http":
       return parseRawHttp(input);
-    case 'har':
+    case "har":
       return parseHar(input);
     default:
       return [];

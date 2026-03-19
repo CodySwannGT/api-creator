@@ -1,10 +1,10 @@
-import type { HarEntry } from '../types/har.js';
+import type { HarEntry } from "../types/har.js";
 import type {
   Endpoint,
   EndpointGroup,
   QueryParamInfo,
-} from '../types/endpoint.js';
-import { normalizePath } from '../utils/url-pattern.js';
+} from "../types/endpoint.js";
+import { normalizePath } from "../utils/url-pattern.js";
 
 /** Matches long hex hash strings (32+ hex chars) used as GraphQL persisted query hashes. */
 const HEX_HASH_RE = /^[0-9a-f]{32,}$/i;
@@ -12,15 +12,16 @@ const HEX_HASH_RE = /^[0-9a-f]{32,}$/i;
 /**
  * For Airbnb-style persisted GraphQL queries like `/api/v3/OperationName/<hash>`,
  * drop the hash segment so all requests to the same operation group together.
+ * @param pathname
  */
 function collapseGraphqlHash(pathname: string): string {
-  const segments = pathname.split('/');
+  const segments = pathname.split("/");
   // If the last segment is a long hex hash, remove it
   if (segments.length >= 2) {
     const last = segments[segments.length - 1];
     if (last && HEX_HASH_RE.test(last)) {
       segments.pop();
-      return segments.join('/');
+      return segments.join("/");
     }
   }
   return pathname;
@@ -29,6 +30,7 @@ function collapseGraphqlHash(pathname: string): string {
 /**
  * Extract the base URL (scheme + host) from the first entry,
  * or find the most common one across all entries.
+ * @param entries
  */
 function extractBaseUrl(entries: HarEntry[]): string {
   const counts = new Map<string, number>();
@@ -43,7 +45,7 @@ function extractBaseUrl(entries: HarEntry[]): string {
     }
   }
 
-  let best = '';
+  let best = "";
   let bestCount = 0;
   for (const [base, count] of counts) {
     if (count > bestCount) {
@@ -57,6 +59,7 @@ function extractBaseUrl(entries: HarEntry[]): string {
 
 /**
  * Try to parse a JSON string, returning undefined on failure.
+ * @param text
  */
 function tryParseJson(text: string | undefined): unknown {
   if (!text) return undefined;
@@ -69,6 +72,7 @@ function tryParseJson(text: string | undefined): unknown {
 
 /**
  * Group HAR entries into endpoints by {method, normalizedPath}.
+ * @param entries
  */
 export function groupEndpoints(entries: HarEntry[]): EndpointGroup {
   const baseUrl = extractBaseUrl(entries);
@@ -154,11 +158,7 @@ export function groupEndpoints(entries: HarEntry[]): EndpointGroup {
     // Collect common headers (first seen wins)
     for (const header of entry.request.headers) {
       const lc = header.name.toLowerCase();
-      if (
-        lc === 'content-type' ||
-        lc === 'accept' ||
-        lc === 'authorization'
-      ) {
+      if (lc === "content-type" || lc === "accept" || lc === "authorization") {
         if (!(header.name in group.headers)) {
           group.headers[header.name] = header.value;
         }

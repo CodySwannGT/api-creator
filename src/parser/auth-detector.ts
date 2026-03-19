@@ -1,28 +1,26 @@
-import type { HarEntry } from '../types/har.js';
-import type { AuthInfo } from '../types/auth.js';
+import type { HarEntry } from "../types/har.js";
+import type { AuthInfo } from "../types/auth.js";
 
 const AUTH_COOKIE_NAMES = new Set([
-  'session',
-  'token',
-  'sid',
-  'jwt',
-  'auth',
-  'sess',
-  '_session',
+  "session",
+  "token",
+  "sid",
+  "jwt",
+  "auth",
+  "sess",
+  "_session",
 ]);
 
 const CUSTOM_AUTH_HEADERS: Record<string, boolean> = {
-  'x-api-key': true,
-  'x-auth-token': true,
+  "x-api-key": true,
+  "x-auth-token": true,
 };
 
-const AUTH_QUERY_PARAMS = new Set([
-  'api_key',
-  'token',
-  'access_token',
-  'key',
-]);
+const AUTH_QUERY_PARAMS = new Set(["api_key", "token", "access_token", "key"]);
 
+/**
+ *
+ */
 interface AuthCandidate {
   info: AuthInfo;
   count: number;
@@ -31,11 +29,16 @@ interface AuthCandidate {
 /**
  * Detect authentication patterns across all HAR entries.
  * Returns deduplicated results sorted by confidence descending.
+ * @param entries
  */
 export function detectAuth(entries: HarEntry[]): AuthInfo[] {
   // Map from a dedup key to {info, count}
   const seen = new Map<string, AuthCandidate>();
 
+  /**
+   *
+   * @param info
+   */
   function track(info: AuthInfo): void {
     const key = `${info.type}:${info.location}:${info.key}:${info.value}`;
     const existing = seen.get(key);
@@ -53,22 +56,22 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
     for (const header of request.headers) {
       const name = header.name.toLowerCase();
 
-      if (name === 'authorization') {
+      if (name === "authorization") {
         const value = header.value.trim();
 
-        if (value.toLowerCase().startsWith('bearer ')) {
+        if (value.toLowerCase().startsWith("bearer ")) {
           track({
-            type: 'bearer',
-            location: 'header',
-            key: 'Authorization',
+            type: "bearer",
+            location: "header",
+            key: "Authorization",
             value,
             confidence: 1.0,
           });
-        } else if (value.toLowerCase().startsWith('basic ')) {
+        } else if (value.toLowerCase().startsWith("basic ")) {
           track({
-            type: 'bearer',
-            location: 'header',
-            key: 'Authorization',
+            type: "bearer",
+            location: "header",
+            key: "Authorization",
             value,
             confidence: 0.9,
           });
@@ -78,8 +81,8 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
       // Check custom auth headers
       if (CUSTOM_AUTH_HEADERS[name]) {
         track({
-          type: 'api-key',
-          location: 'header',
+          type: "api-key",
+          location: "header",
           key: header.name,
           value: header.value,
           confidence: 0.7,
@@ -91,8 +94,8 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
     for (const cookie of request.cookies) {
       if (AUTH_COOKIE_NAMES.has(cookie.name.toLowerCase())) {
         track({
-          type: 'cookie',
-          location: 'cookie',
+          type: "cookie",
+          location: "cookie",
           key: cookie.name,
           value: cookie.value,
           confidence: 0.8,
@@ -104,8 +107,8 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
     for (const param of request.queryString) {
       if (AUTH_QUERY_PARAMS.has(param.name.toLowerCase())) {
         track({
-          type: 'query-param',
-          location: 'query',
+          type: "query-param",
+          location: "query",
           key: param.name,
           value: param.value,
           confidence: 0.6,
@@ -117,10 +120,10 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
   // If most requests have a Cookie header, treat that as cookie auth
   // (many sites use non-standard cookie names)
   let cookieHeaderCount = 0;
-  let cookieHeaderValue = '';
+  let cookieHeaderValue = "";
   for (const entry of entries) {
     for (const header of entry.request.headers) {
-      if (header.name.toLowerCase() === 'cookie' && header.value.length > 0) {
+      if (header.name.toLowerCase() === "cookie" && header.value.length > 0) {
         cookieHeaderCount++;
         if (header.value.length > cookieHeaderValue.length) {
           cookieHeaderValue = header.value;
@@ -133,10 +136,10 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
     if (!seen.has(key)) {
       seen.set(key, {
         info: {
-          type: 'cookie',
-          location: 'cookie',
-          key: 'Cookie',
-          value: '(full cookie header)',
+          type: "cookie",
+          location: "cookie",
+          key: "Cookie",
+          value: "(full cookie header)",
           confidence: 0.85,
         },
         count: cookieHeaderCount,
@@ -171,5 +174,5 @@ export function detectAuth(entries: HarEntry[]): AuthInfo[] {
     return b.count - a.count;
   });
 
-  return results.map((r) => r.info);
+  return results.map(r => r.info);
 }

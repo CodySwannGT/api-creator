@@ -1,3 +1,6 @@
+/**
+ *
+ */
 export interface HarLog {
   log: {
     version: string;
@@ -6,6 +9,9 @@ export interface HarLog {
   };
 }
 
+/**
+ *
+ */
 export interface HarEntry {
   startedDateTime: string;
   time: number;
@@ -15,6 +21,9 @@ export interface HarEntry {
   _resourceType?: string;
 }
 
+/**
+ *
+ */
 export interface HarRequest {
   method: string;
   url: string;
@@ -27,6 +36,9 @@ export interface HarRequest {
   cookies: HarCookie[];
 }
 
+/**
+ *
+ */
 export interface HarResponse {
   status: number;
   statusText: string;
@@ -39,22 +51,34 @@ export interface HarResponse {
   cookies: HarCookie[];
 }
 
+/**
+ *
+ */
 export interface HarHeader {
   name: string;
   value: string;
 }
 
+/**
+ *
+ */
 export interface HarQueryParam {
   name: string;
   value: string;
 }
 
+/**
+ *
+ */
 export interface HarPostData {
   mimeType: string;
   text?: string;
   params?: HarParam[];
 }
 
+/**
+ *
+ */
 export interface HarParam {
   name: string;
   value?: string;
@@ -62,6 +86,9 @@ export interface HarParam {
   contentType?: string;
 }
 
+/**
+ *
+ */
 export interface HarContent {
   size: number;
   compression?: number;
@@ -70,6 +97,9 @@ export interface HarContent {
   encoding?: string;
 }
 
+/**
+ *
+ */
 export interface HarCookie {
   name: string;
   value: string;
