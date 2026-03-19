@@ -37,7 +37,7 @@
     "graphql-ws",
     "lodash"
   ],
-  "ignoreBinaries": ["expo", "playwright", "audit", "docker", "eval", "eslint", "prettier", "knip", "ast-grep"],
+  "ignoreBinaries": ["expo", "playwright", "audit", "docker", "eval"],
   "ignoreExportsUsedInFile": true,
   "rules": {
     "devDependencies": "off"
