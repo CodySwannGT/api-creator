@@ -25,3 +25,6 @@ airbnb/
 
 # Coverage
 coverage/
+
+# ESLint cache
+.eslintcache
