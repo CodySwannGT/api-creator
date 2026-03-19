@@ -1,0 +1,25 @@
+# This file is managed by Lisa.
+# Do not edit directly — changes will be overwritten on the next `lisa` run.
+
+node_modules/**/*
+.serverless/**/*
+.webpack/**/*
+.warmup/**/*
+	
+build
+dist
+node_modules
+graphql
+generated
+public
+components/ui/
+playwright-report/
+AGENTS.md
+CHANGELOG.md
+src/graphql
+src/graphql-generated
+*.md
+*.mdx
+*.sh
+*.json
+coverage
