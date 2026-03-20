@@ -5,50 +5,53 @@ import chalk from "chalk";
 import { generateClient } from "../generator/codegen.js";
 
 /**
+ * Represents a file with its path and modification time
+ */
+type FileEntry = { filePath: string; mtimeMs: number };
+
+/**
  * Find the most recent .har file in the given directory.
- * @param dir
+ * @param dir - the directory to search for HAR files
+ * @returns the absolute path to the most recently modified HAR file, or null if none found
  */
 async function findMostRecentHar(dir: string): Promise<string | null> {
-  let files: string[];
-  try {
-    files = await readdir(dir);
-  } catch {
-    return null;
-  }
+  const files = await readdir(dir).catch(() => [] as string[]);
 
   const harFiles = files.filter(f => f.endsWith(".har"));
   if (harFiles.length === 0) return null;
 
-  let newest: string | null = null;
-  let newestMtime = 0;
-
-  for (const file of harFiles) {
-    const filePath = join(dir, file);
-    try {
-      const s = await stat(filePath);
-      if (s.mtimeMs > newestMtime) {
-        newestMtime = s.mtimeMs;
-        newest = filePath;
+  const entries = await Promise.all(
+    harFiles.map(async (file): Promise<FileEntry | null> => {
+      const filePath = join(dir, file);
+      try {
+        const s = await stat(filePath);
+        return { filePath, mtimeMs: s.mtimeMs };
+      } catch {
+        return null;
       }
-    } catch {
-      // skip
-    }
-  }
+    })
+  );
 
-  return newest;
+  const valid = entries.filter((e): e is FileEntry => e !== null);
+  if (valid.length === 0) return null;
+
+  return valid.reduce(
+    (best: FileEntry, e: FileEntry) => (e.mtimeMs > best.mtimeMs ? e : best),
+    valid[0]
+  ).filePath;
 }
 
 /**
  * Derive a project name from a HAR file path or domain.
  * E.g., "recordings/airbnb.com.har" -> "airbnb"
- * @param harPath
+ * @param harPath - the path to the HAR file
+ * @returns a derived lowercase project name, or "api-client" as fallback
  */
 function deriveNameFromHarPath(harPath: string): string {
-  const basename = harPath.split("/").pop() ?? "api-client";
-  // Strip .har extension
+  const segments = harPath.split("/");
+  const basename = segments[segments.length - 1] ?? "api-client";
   const noExt = basename.replace(/\.har$/i, "");
-  // Try to extract a domain-like name: "airbnb.com" -> "airbnb"
-  const domainMatch = noExt.match(/^([a-zA-Z][a-zA-Z0-9-]*)/);
+  const domainMatch = /^([a-zA-Z][a-zA-Z0-9-]*)/.exec(noExt);
   if (domainMatch) {
     return domainMatch[1].toLowerCase();
   }
@@ -62,26 +65,23 @@ export const generateCommand = new Command("generate")
   .option("--base-url <url>", "Base URL override for the API client")
   .action(async options => {
     try {
-      let inputPath = options.input;
+      const recordingsDir = resolve("./recordings");
+      const inputPath: string =
+        options.input ?? (await findMostRecentHar(recordingsDir));
 
-      // Default: look for most recent .har file in ./recordings/
       if (!inputPath) {
-        const recordingsDir = resolve("./recordings");
-        inputPath = await findMostRecentHar(recordingsDir);
+        console.error(
+          chalk.red(
+            "No HAR file found. Provide --input <path> or place a .har file in ./recordings/"
+          )
+        );
+        process.exit(1);
+      }
 
-        if (!inputPath) {
-          console.error(
-            chalk.red(
-              "No HAR file found. Provide --input <path> or place a .har file in ./recordings/"
-            )
-          );
-          process.exit(1);
-        }
-
+      if (!options.input) {
         console.log(chalk.gray(`  Using HAR file: ${inputPath}`));
       }
 
-      // Derive name from HAR file if not provided
       const name = options.name ?? deriveNameFromHarPath(inputPath);
 
       console.log(chalk.blue.bold("\n  Generating API project...\n"));

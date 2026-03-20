@@ -1,22 +1,23 @@
 /**
- *
+ * Recognized input formats for API request import
  */
 export type InputFormat = "curl" | "fetch" | "har" | "raw-http" | "unknown";
 
 /**
- *
- * @param input
+ * Detects the format of pasted API request text by checking for known patterns
+ * @param input - the raw text input to classify
+ * @returns the detected input format
  */
 export function detectFormat(input: string): InputFormat {
   const trimmed = input.trim();
 
   // Detect cURL commands
-  if (/(?:^|\n)\s*curl\s/m.test(trimmed)) {
+  if (trimmed.split("\n").some(line => /^\s*curl\s/.test(line))) {
     return "curl";
   }
 
   // Detect fetch() calls
-  if (/(?:^|\n)\s*(?:await\s+)?fetch\s*\(/m.test(trimmed)) {
+  if (trimmed.split("\n").some(line => /^\s*(?:await )?fetch\(/.test(line))) {
     return "fetch";
   }
 

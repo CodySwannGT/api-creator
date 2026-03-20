@@ -6,7 +6,8 @@ const HEX_HASH_RE = /^[0-9a-f]{32,}$/i;
 
 /**
  * Normalize a URL path by replacing dynamic segments (numeric IDs, UUIDs) with `:id`.
- * @param path
+ * @param path - the raw URL path to normalize
+ * @returns the normalized path with dynamic segments replaced
  */
 export function normalizePath(path: string): string {
   // Strip trailing slash (keep leading slash)

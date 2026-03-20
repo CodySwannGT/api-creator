@@ -1,8 +1,10 @@
 import type { Endpoint } from "../types/endpoint.js";
+
 import { pathToTypeName } from "../utils/naming.js";
+import { mergeObjectShapes, mergeScalarTypes } from "./property-inferrer.js";
 
 /**
- *
+ * Describes a generated TypeScript type with its properties and array status
  */
 export interface TypeDefinition {
   name: string;
@@ -11,451 +13,161 @@ export interface TypeDefinition {
 }
 
 /**
- *
+ * Describes a single property within a generated type
  */
 export interface PropertyDefinition {
   name: string;
-  type: string; // 'string' | 'number' | 'boolean' | 'null' | TypeDefinition name | 'unknown'
+  type: string;
   optional: boolean;
   isArray: boolean;
   nestedType?: TypeDefinition;
 }
 
 /**
- * Infer response types from the observed response bodies of each endpoint.
- * @param endpoints
+ * Infers response types from the observed response bodies of each endpoint
+ * @param endpoints - the API endpoints with observed response data
+ * @returns array of inferred type definitions
  */
 export function inferTypes(endpoints: Endpoint[]): TypeDefinition[] {
-  const types: TypeDefinition[] = [];
-
-  for (const endpoint of endpoints) {
+  return endpoints.flatMap(endpoint => {
     const bodies = endpoint.responseBodies;
-    if (bodies.length === 0) continue;
+    if (bodies.length === 0) return [];
 
-    const baseName = pathToTypeName(endpoint.method, endpoint.normalizedPath);
-    // pathToTypeName already appends "Response", so use the name directly.
-    const typeName = baseName;
-
-    const result = inferTypeFromBodies(bodies, typeName, types);
-    if (result) {
-      types.push(result);
-    }
-  }
-
-  return types;
+    const typeName = pathToTypeName(endpoint.method, endpoint.normalizedPath);
+    const result = inferTypeFromBodies(bodies, typeName);
+    return result ? [result.type, ...result.discoveredTypes] : [];
+  });
 }
 
 /**
- * Infer request types from the observed request bodies of each endpoint.
- * @param endpoints
+ * Infers request types from the observed request bodies of each endpoint
+ * @param endpoints - the API endpoints with observed request data
+ * @returns array of inferred request type definitions
  */
 export function inferRequestTypes(endpoints: Endpoint[]): TypeDefinition[] {
-  const types: TypeDefinition[] = [];
-
-  for (const endpoint of endpoints) {
+  return endpoints.flatMap(endpoint => {
     const bodies = endpoint.requestBodies;
-    if (bodies.length === 0) continue;
+    if (bodies.length === 0) return [];
 
     const baseName = pathToTypeName(endpoint.method, endpoint.normalizedPath);
-    // Replace trailing "Response" with "Request"
     const typeName = baseName.replace(/Response$/, "Request");
-
-    const result = inferTypeFromBodies(bodies, typeName, types);
-    if (result) {
-      types.push(result);
-    }
-  }
-
-  return types;
+    const result = inferTypeFromBodies(bodies, typeName);
+    return result ? [result.type, ...result.discoveredTypes] : [];
+  });
 }
 
 /**
- * Infer a TypeDefinition from multiple observed bodies, collecting nested types into
- * the provided `collector` array.
- *
+ * Result of inferring a type from bodies, including any discovered nested types
+ */
+interface TypeInferResult {
+  type: TypeDefinition;
+  discoveredTypes: TypeDefinition[];
+}
+
+/**
+ * Infers a TypeDefinition from multiple observed bodies.
  * Returns null if none of the bodies are valid JSON objects/arrays.
- * @param bodies
- * @param typeName
- * @param collector
+ * @param bodies - the raw response/request bodies to infer from
+ * @param typeName - the name to assign to the inferred type
+ * @returns the inferred type and discovered nested types, or null
  */
 function inferTypeFromBodies(
   bodies: unknown[],
-  typeName: string,
-  collector: TypeDefinition[]
-): TypeDefinition | null {
-  // Filter to only JSON-compatible values (objects, arrays, primitives that parsed from JSON).
-  // Skip strings that look like non-JSON content and skip undefined/empty values.
+  typeName: string
+): TypeInferResult | null {
   const parsed = parseBodies(bodies);
   if (parsed.length === 0) return null;
 
-  // Determine if the response is an array type.
-  // If any observation is an array, we treat the type as an array type and unwrap elements.
   const arrayObservations = parsed.filter(Array.isArray);
   const objectObservations = parsed.filter(
-    v => v !== null && typeof v === "object" && !Array.isArray(v)
+    (v): v is Record<string, unknown> =>
+      v !== null && typeof v === "object" && !Array.isArray(v)
   );
 
   if (arrayObservations.length > 0 && objectObservations.length === 0) {
-    // All observations are arrays – unwrap and merge element types
-    const elements: unknown[] = [];
-    for (const arr of arrayObservations) {
-      elements.push(...(arr as unknown[]));
-    }
-
-    if (elements.length === 0) {
-      return { name: typeName, properties: [], isArray: true };
-    }
-
-    // Check if elements are all primitives
-    if (elements.every(e => e === null || typeof e !== "object")) {
-      mergeScalarTypes(elements);
-      return {
-        name: typeName,
-        properties: [],
-        isArray: true,
-        // Encode primitive array in a lightweight way – no properties, just the name
-        // The consumer can check isArray + properties.length === 0 to know it's a primitive array.
-      } satisfies TypeDefinition;
-    }
-
-    // Check for mixed array (some primitives, some objects)
-    const objectElements = elements.filter(
-      e => e !== null && typeof e === "object" && !Array.isArray(e)
-    );
-    if (objectElements.length === 0) {
-      // Arrays of arrays or mixed weirdness – mark as unknown
-      return { name: typeName, properties: [], isArray: true };
-    }
-
-    // Merge object elements
-    const properties = mergeObjectShapes(
-      objectElements as Record<string, unknown>[],
-      typeName,
-      collector
-    );
-    return { name: typeName, properties, isArray: true };
+    return inferArrayType(arrayObservations, typeName);
   }
 
   if (objectObservations.length > 0) {
-    // Merge all object observations (ignore array observations – mixed shape)
-    const properties = mergeObjectShapes(
-      objectObservations as Record<string, unknown>[],
-      typeName,
-      collector
+    const { properties, discoveredTypes } = mergeObjectShapes(
+      objectObservations,
+      typeName
     );
-    return { name: typeName, properties, isArray: false };
+    return {
+      type: { name: typeName, properties, isArray: false },
+      discoveredTypes,
+    };
   }
 
-  // All observations are primitives – not meaningful as a TypeDefinition
   return null;
 }
 
 /**
- * Parse bodies, filtering out non-JSON content.
- * @param bodies
+ * Infers a TypeDefinition from array observations
+ * @param arrayObservations - the observed array values
+ * @param typeName - the type name to use
+ * @returns the inferred TypeDefinition with any nested types
+ */
+function inferArrayType(
+  arrayObservations: unknown[],
+  typeName: string
+): TypeInferResult {
+  const elements = arrayObservations.flatMap(arr => arr as unknown[]);
+
+  if (elements.length === 0) {
+    return {
+      type: { name: typeName, properties: [], isArray: true },
+      discoveredTypes: [],
+    };
+  }
+
+  if (elements.every(e => e === null || typeof e !== "object")) {
+    mergeScalarTypes(elements);
+    return {
+      type: { name: typeName, properties: [], isArray: true },
+      discoveredTypes: [],
+    };
+  }
+
+  const objectElements = elements.filter(
+    (e): e is Record<string, unknown> =>
+      e !== null && typeof e === "object" && !Array.isArray(e)
+  );
+
+  if (objectElements.length === 0) {
+    return {
+      type: { name: typeName, properties: [], isArray: true },
+      discoveredTypes: [],
+    };
+  }
+
+  const { properties, discoveredTypes } = mergeObjectShapes(
+    objectElements,
+    typeName
+  );
+  return {
+    type: { name: typeName, properties, isArray: true },
+    discoveredTypes,
+  };
+}
+
+/**
+ * Parses bodies, filtering out non-JSON content and parsing JSON strings
+ * @param bodies - the raw bodies to parse
+ * @returns array of parsed values (objects, arrays, primitives)
  */
 function parseBodies(bodies: unknown[]): unknown[] {
-  const results: unknown[] = [];
-  for (const body of bodies) {
-    if (body === undefined || body === null) continue;
+  return bodies.flatMap(body => {
+    if (body === undefined || body === null) return [];
     if (typeof body === "string") {
-      // Try to parse as JSON
       const trimmed = body.trim();
-      if (trimmed === "") continue;
+      if (trimmed === "") return [];
       try {
-        results.push(JSON.parse(trimmed));
+        return [JSON.parse(trimmed)];
       } catch {
-        // Non-JSON string – skip
-        continue;
-      }
-    } else {
-      // Already parsed (object, array, number, boolean)
-      results.push(body);
-    }
-  }
-  return results;
-}
-
-/**
- * Merge multiple observations of the same object shape into a list of PropertyDefinitions.
- * Properties that don't appear in every observation are marked optional.
- * @param observations
- * @param parentTypeName
- * @param collector
- */
-function mergeObjectShapes(
-  observations: Record<string, unknown>[],
-  parentTypeName: string,
-  collector: TypeDefinition[]
-): PropertyDefinition[] {
-  if (observations.length === 0) return [];
-
-  // Gather all property names and their per-observation values
-  const allKeys = new Set<string>();
-  for (const obj of observations) {
-    for (const key of Object.keys(obj)) {
-      allKeys.add(key);
-    }
-  }
-
-  const totalCount = observations.length;
-  const properties: PropertyDefinition[] = [];
-
-  for (const key of allKeys) {
-    // Collect the values for this key across all observations
-    const values: unknown[] = [];
-    let presentCount = 0;
-
-    for (const obj of observations) {
-      if (key in obj) {
-        presentCount++;
-        values.push(obj[key]);
+        return [];
       }
     }
-
-    const optional = presentCount < totalCount;
-    const prop = inferPropertyDefinition(
-      key,
-      values,
-      optional,
-      parentTypeName,
-      collector
-    );
-    properties.push(prop);
-  }
-
-  // Sort properties alphabetically for deterministic output
-  properties.sort((a, b) => a.name.localeCompare(b.name));
-  return properties;
-}
-
-/**
- * Infer a single PropertyDefinition from the observed values of a property.
- * @param name
- * @param values
- * @param optional
- * @param parentTypeName
- * @param collector
- */
-function inferPropertyDefinition(
-  name: string,
-  values: unknown[],
-  optional: boolean,
-  parentTypeName: string,
-  collector: TypeDefinition[]
-): PropertyDefinition {
-  // Separate nulls from non-null values
-  const hasNull = values.some(v => v === null);
-  const nonNullValues = values.filter(v => v !== null);
-
-  // If all values are null, type is 'null' and optional
-  if (nonNullValues.length === 0) {
-    return { name, type: "null", optional: true, isArray: false };
-  }
-
-  // Categorize non-null values
-  const objectValues: Record<string, unknown>[] = [];
-  const arrayValues: unknown[][] = [];
-  const scalarTypes = new Set<string>();
-
-  for (const v of nonNullValues) {
-    if (Array.isArray(v)) {
-      arrayValues.push(v);
-    } else if (typeof v === "object") {
-      objectValues.push(v as Record<string, unknown>);
-    } else {
-      scalarTypes.add(typeof v); // 'string' | 'number' | 'boolean'
-    }
-  }
-
-  const hasObjects = objectValues.length > 0;
-  const hasArrays = arrayValues.length > 0;
-  const hasScalars = scalarTypes.size > 0;
-
-  // Simple case: all scalars, no objects, no arrays
-  if (!hasObjects && !hasArrays) {
-    let type = [...scalarTypes].sort().join(" | ");
-    if (hasNull) {
-      type = `${type} | null`;
-      optional = true;
-    }
-    return { name, type, optional, isArray: false };
-  }
-
-  // All values are objects (nested object)
-  if (hasObjects && !hasArrays && !hasScalars) {
-    // Use a simpler naming: ParentPropertyName
-    const nestedName = stripSuffix(parentTypeName) + capitalize(name);
-    const nestedProperties = mergeObjectShapes(
-      objectValues,
-      nestedName,
-      collector
-    );
-    const nestedType: TypeDefinition = {
-      name: nestedName,
-      properties: nestedProperties,
-      isArray: false,
-    };
-    collector.push(nestedType);
-
-    let type = nestedName;
-    if (hasNull) {
-      type = `${type} | null`;
-      optional = true;
-    }
-    return { name, type, optional, isArray: false, nestedType };
-  }
-
-  // All values are arrays
-  if (hasArrays && !hasObjects && !hasScalars) {
-    return inferArrayProperty(
-      name,
-      arrayValues,
-      optional,
-      hasNull,
-      parentTypeName,
-      collector
-    );
-  }
-
-  // Mixed types – use union
-  const typeParts: string[] = [];
-  if (hasScalars) typeParts.push(...[...scalarTypes].sort());
-  if (hasObjects) typeParts.push("object");
-  if (hasArrays) typeParts.push("unknown[]");
-  if (hasNull) {
-    typeParts.push("null");
-    optional = true;
-  }
-  return { name, type: typeParts.join(" | "), optional, isArray: false };
-}
-
-/**
- * Infer a PropertyDefinition for a property that is always an array.
- * @param name
- * @param arrayValues
- * @param optional
- * @param hasNull
- * @param parentTypeName
- * @param collector
- */
-function inferArrayProperty(
-  name: string,
-  arrayValues: unknown[][],
-  optional: boolean,
-  hasNull: boolean,
-  parentTypeName: string,
-  collector: TypeDefinition[]
-): PropertyDefinition {
-  // Flatten all array elements
-  const allElements: unknown[] = [];
-  for (const arr of arrayValues) {
-    allElements.push(...arr);
-  }
-
-  if (allElements.length === 0) {
-    const type = "unknown";
-    if (hasNull) {
-      optional = true;
-    }
-    return { name, type, optional, isArray: true };
-  }
-
-  // Categorize elements
-  const objectElements: Record<string, unknown>[] = [];
-  const elementScalarTypes = new Set<string>();
-  let hasNullElements = false;
-  let hasArrayElements = false;
-
-  for (const el of allElements) {
-    if (el === null) {
-      hasNullElements = true;
-    } else if (Array.isArray(el)) {
-      hasArrayElements = true;
-    } else if (typeof el === "object") {
-      objectElements.push(el as Record<string, unknown>);
-    } else {
-      elementScalarTypes.add(typeof el);
-    }
-  }
-
-  // All elements are objects – create nested type
-  if (
-    objectElements.length > 0 &&
-    elementScalarTypes.size === 0 &&
-    !hasArrayElements
-  ) {
-    const nestedName = `${stripSuffix(parentTypeName) + capitalize(name)}Item`;
-    const nestedProperties = mergeObjectShapes(
-      objectElements,
-      nestedName,
-      collector
-    );
-    const nestedType: TypeDefinition = {
-      name: nestedName,
-      properties: nestedProperties,
-      isArray: false,
-    };
-    collector.push(nestedType);
-
-    let type = nestedName;
-    if (hasNull) {
-      type = `${type} | null`;
-      optional = true;
-    }
-    return { name, type, optional, isArray: true, nestedType };
-  }
-
-  // All elements are primitives
-  if (objectElements.length === 0 && !hasArrayElements) {
-    const parts = [...elementScalarTypes].sort();
-    if (hasNullElements) parts.push("null");
-    const type = parts.join(" | ") || "unknown";
-    if (hasNull) {
-      optional = true;
-    }
-    return { name, type, optional, isArray: true };
-  }
-
-  // Mixed array elements – use unknown
-  const type = "unknown";
-  if (hasNull) {
-    optional = true;
-  }
-  return { name, type, optional, isArray: true };
-}
-
-/**
- * Merge types of scalar values into a union string.
- * @param values
- */
-function mergeScalarTypes(values: unknown[]): string {
-  const types = new Set<string>();
-  for (const v of values) {
-    if (v === null) {
-      types.add("null");
-    } else {
-      types.add(typeof v);
-    }
-  }
-  return [...types].sort().join(" | ") || "unknown";
-}
-
-/**
- *
- * @param s
- */
-function capitalize(s: string): string {
-  if (s.length === 0) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-/**
- * Strip "Response" or "Request" suffix from a type name.
- * @param name
- */
-function stripSuffix(name: string): string {
-  if (name.endsWith("Response")) return name.slice(0, -"Response".length);
-  if (name.endsWith("Request")) return name.slice(0, -"Request".length);
-  return name;
+    return [body];
+  });
 }

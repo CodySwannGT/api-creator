@@ -2,6 +2,13 @@ import { describe, it, expect } from "vitest";
 import { detectAuth } from "../../src/parser/auth-detector.js";
 import type { HarEntry } from "../../src/types/har.js";
 
+/**
+ *
+ * @param overrides
+ * @param overrides.headers
+ * @param overrides.cookies
+ * @param overrides.queryString
+ */
 function makeEntry(overrides: {
   headers?: { name: string; value: string }[];
   cookies?: { name: string; value: string }[];

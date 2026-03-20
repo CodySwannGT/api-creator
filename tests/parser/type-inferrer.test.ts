@@ -2,6 +2,12 @@ import { describe, it, expect } from "vitest";
 import { inferTypes } from "../../src/parser/type-inferrer.js";
 import type { Endpoint } from "../../src/types/endpoint.js";
 
+/**
+ *
+ * @param method
+ * @param path
+ * @param responseBodies
+ */
 function makeEndpoint(
   method: string,
   path: string,

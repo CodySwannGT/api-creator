@@ -4,9 +4,14 @@ import type {
   HarRequest,
   HarResponse,
 } from "../types/har.js";
+import { parseRawHttp, parseHar } from "./paste-parser-http.js";
+
+/** Header name used for content-type lookups across all parsers. */
+const CONTENT_TYPE_HEADER = "content-type";
 
 /**
- *
+ * Build a default HAR response with zero-filled fields.
+ * @returns a HAR response with empty/zero values
  */
 function makeDefaultResponse(): HarResponse {
   return {
@@ -23,8 +28,9 @@ function makeDefaultResponse(): HarResponse {
 }
 
 /**
- *
- * @param request
+ * Wrap a parsed request into a HAR entry with a default response.
+ * @param request - the HAR request to wrap
+ * @returns a HAR entry containing the request and a default response
  */
 function makeEntry(request: HarRequest): HarEntry {
   return {
@@ -36,25 +42,25 @@ function makeEntry(request: HarRequest): HarEntry {
 }
 
 /**
- *
- * @param url
+ * Parse the query string from a URL into name/value pairs.
+ * Returns an empty array if the URL is unparseable.
+ * @param url - the full URL to parse query params from
+ * @returns an array of name/value query parameter objects
  */
 function parseQueryString(url: string): { name: string; value: string }[] {
   try {
-    const parsed = new URL(url);
-    const params: { name: string; value: string }[] = [];
-    parsed.searchParams.forEach((value, name) => {
-      params.push({ name, value });
-    });
-    return params;
+    return Array.from(new URL(url).searchParams.entries()).map(
+      ([name, value]) => ({ name, value })
+    );
   } catch {
     return [];
   }
 }
 
 /**
- *
- * @param body
+ * Infer the MIME type of a request body from its content.
+ * @param body - the raw body string to inspect
+ * @returns the inferred MIME type string
  */
 function inferMimeType(body: string): string {
   const trimmed = body.trim();
@@ -67,283 +73,274 @@ function inferMimeType(body: string): string {
   return "text/plain";
 }
 
-// --- cURL Parser ---
+/**
+ * Attach postData to a request object if a body is present.
+ * @param request - the HAR request to enrich
+ * @param body - the raw body string, or undefined
+ * @returns the request with postData attached (or unchanged if no body)
+ */
+function attachPostData(
+  request: HarRequest,
+  body: string | undefined
+): HarRequest {
+  if (!body) return request;
+  const mimeType =
+    request.headers.find(h => h.name.toLowerCase() === CONTENT_TYPE_HEADER)
+      ?.value ?? inferMimeType(body);
+  return { ...request, postData: { mimeType, text: body } };
+}
 
 /**
- *
- * @param input
+ * Split a multi-command cURL input string into individual command strings.
+ * Handles backslash line continuation.
+ * @param input - raw text potentially containing multiple curl commands
+ * @returns an array of individual curl command strings
  */
 function splitCurlCommands(input: string): string[] {
-  // Join backslash-continued lines first
   const joined = input.replace(/\\\s*\n/g, " ");
-  // Split on lines starting with curl
-  const commands: string[] = [];
-  for (const line of joined.split("\n")) {
+  return joined.split("\n").reduce<string[]>((acc, line) => {
     const trimmed = line.trim();
     if (trimmed.startsWith("curl ")) {
-      commands.push(trimmed);
-    } else if (commands.length > 0 && trimmed) {
-      // Append continuation to the last command
-      commands[commands.length - 1] += ` ${trimmed}`;
+      return [...acc, trimmed];
     }
-  }
-  return commands.filter(Boolean);
+    if (acc.length > 0 && trimmed) {
+      return [...acc.slice(0, -1), `${acc[acc.length - 1]} ${trimmed}`];
+    }
+    return acc;
+  }, []);
 }
 
+/** State passed through the cURL tokenizer character loop. */
+type TokenizerState = {
+  tokens: readonly string[];
+  current: string;
+  inSingle: boolean;
+  inDouble: boolean;
+  escaped: boolean;
+};
+
 /**
- *
- * @param command
+ * Flush the current token accumulator into the tokens list if non-empty.
+ * Called when unquoted whitespace is encountered during tokenization.
+ * @param state - current tokenizer state
+ * @returns updated state with token flushed, or unchanged if accumulator is empty
  */
-function tokenizeCurl(command: string): string[] {
-  const tokens: string[] = [];
-  let current = "";
-  let inSingle = false;
-  let inDouble = false;
-  let escaped = false;
-
-  // Strip leading "curl "
-  const input = command.replace(/^\s*curl\s+/, "");
-
-  for (let i = 0; i < input.length; i++) {
-    const ch = input[i];
-
-    if (escaped) {
-      current += ch;
-      escaped = false;
-      continue;
-    }
-
-    if (ch === "\\" && !inSingle) {
-      escaped = true;
-      continue;
-    }
-
-    if (ch === "'" && !inDouble) {
-      inSingle = !inSingle;
-      continue;
-    }
-
-    if (ch === '"' && !inSingle) {
-      inDouble = !inDouble;
-      continue;
-    }
-
-    if ((ch === " " || ch === "\t") && !inSingle && !inDouble) {
-      if (current.length > 0) {
-        tokens.push(current);
-        current = "";
-      }
-      continue;
-    }
-
-    current += ch;
-  }
-
-  if (current.length > 0) {
-    tokens.push(current);
-  }
-
-  return tokens;
+function flushToken(state: TokenizerState): TokenizerState {
+  return state.current.length > 0
+    ? { ...state, tokens: [...state.tokens, state.current], current: "" }
+    : state;
 }
 
 /**
- *
- * @param command
+ * Process a single character in the cURL tokenizer, returning updated state.
+ * @param state - current tokenizer state
+ * @param ch - the character being processed
+ * @returns the updated tokenizer state
+ */
+function processTokenizerChar(
+  state: TokenizerState,
+  ch: string
+): TokenizerState {
+  if (state.escaped)
+    return { ...state, current: state.current + ch, escaped: false };
+  if (ch === "\\" && !state.inSingle) return { ...state, escaped: true };
+  if (ch === "'" && !state.inDouble)
+    return { ...state, inSingle: !state.inSingle };
+  if (ch === '"' && !state.inSingle)
+    return { ...state, inDouble: !state.inDouble };
+  if ((ch === " " || ch === "\t") && !state.inSingle && !state.inDouble)
+    return flushToken(state);
+  return { ...state, current: state.current + ch };
+}
+
+/**
+ * Tokenize a single cURL command string into an array of argument tokens.
+ * Handles single-quoted, double-quoted, and escaped characters.
+ * @param command - a full curl command string starting with "curl "
+ * @returns the list of parsed argument tokens
+ */
+function tokenizeCurl(command: string): readonly string[] {
+  const input = command.replace(/^\s*curl\s+/, "");
+  const s = [...input].reduce<TokenizerState>(processTokenizerChar, {
+    tokens: [],
+    current: "",
+    inSingle: false,
+    inDouble: false,
+    escaped: false,
+  });
+  return s.current.length > 0 ? [...s.tokens, s.current] : s.tokens;
+}
+
+/** Accumulated curl parse state passed through token iteration. */
+type CurlParseState = {
+  method: string;
+  url: string;
+  headers: readonly HarHeader[];
+  body: string | undefined;
+  skipNext: boolean;
+};
+
+/** Result type returned by applyCurlToken and its helpers. */
+type TokenResult = { state: CurlParseState; consumed: boolean };
+
+/**
+ * Handle curl data-body flags (-d, --data, --data-raw, --data-binary).
+ * @param state - the current parse state
+ * @param body - the body value (next token for long flags, or inline for -d)
+ * @param consumed - whether the next token was consumed as the body value
+ * @returns updated state with body set and method promoted from GET to POST
+ */
+function applyDataToken(
+  state: CurlParseState,
+  body: string | undefined,
+  consumed: boolean
+): TokenResult {
+  const method = state.method === "GET" ? "POST" : state.method;
+  return { state: { ...state, body, method }, consumed };
+}
+
+/**
+ * Apply a single token (and optionally the next) to the curl parse state.
+ * @param state - the current parse state
+ * @param token - the current token
+ * @param next - the following token, if any
+ * @returns the updated state and whether the next token was consumed
+ */
+function applyCurlToken(
+  state: CurlParseState,
+  token: string,
+  next: string | undefined
+): TokenResult {
+  if (token === "-X" || token === "--request") {
+    return {
+      state: { ...state, method: next?.toUpperCase() ?? state.method },
+      consumed: true,
+    };
+  }
+  if (token === "-H" || token === "--header") {
+    const idx = next?.indexOf(":") ?? -1;
+    if (next && idx !== -1) {
+      const header: HarHeader = {
+        name: next.slice(0, idx).trim(),
+        value: next.slice(idx + 1).trim(),
+      };
+      return {
+        state: { ...state, headers: [...state.headers, header] },
+        consumed: true,
+      };
+    }
+    return { state, consumed: true };
+  }
+  if (
+    token === "-d" ||
+    token === "--data" ||
+    token === "--data-raw" ||
+    token === "--data-binary"
+  ) {
+    return applyDataToken(state, next, true);
+  }
+  if (token.startsWith("-d"))
+    return applyDataToken(state, token.slice(2), false);
+  if (token === "--url")
+    return { state: { ...state, url: next ?? state.url }, consumed: true };
+  if (!token.startsWith("-") && !state.url)
+    return { state: { ...state, url: token }, consumed: false };
+  return { state, consumed: false };
+}
+
+/**
+ * Parse a single cURL command string into a HAR entry.
+ * @param command - a full curl command string
+ * @returns the HAR entry representing this request
  */
 function parseSingleCurl(command: string): HarEntry {
   const tokens = tokenizeCurl(command);
+  const parsed = [...tokens].reduce<CurlParseState>(
+    (state, token, idx) => {
+      if (state.skipNext) return { ...state, skipNext: false };
+      const { state: next, consumed } = applyCurlToken(
+        state,
+        token,
+        tokens[idx + 1]
+      );
+      return { ...next, skipNext: consumed };
+    },
+    { method: "GET", url: "", headers: [], body: undefined, skipNext: false }
+  );
 
-  let method = "GET";
-  let url = "";
-  const headers: HarHeader[] = [];
-  let body: string | undefined;
-
-  for (let i = 0; i < tokens.length; i++) {
-    const token = tokens[i];
-
-    if (token === "-X" || token === "--request") {
-      method = tokens[++i]?.toUpperCase() ?? method;
-    } else if (token === "-H" || token === "--header") {
-      const headerStr = tokens[++i];
-      if (headerStr) {
-        const colonIdx = headerStr.indexOf(":");
-        if (colonIdx !== -1) {
-          headers.push({
-            name: headerStr.slice(0, colonIdx).trim(),
-            value: headerStr.slice(colonIdx + 1).trim(),
-          });
-        }
-      }
-    } else if (
-      token === "-d" ||
-      token === "--data" ||
-      token === "--data-raw" ||
-      token === "--data-binary"
-    ) {
-      body = tokens[++i];
-      if (method === "GET") {
-        method = "POST";
-      }
-    } else if (token.startsWith("-d")) {
-      // Handle -d'data' (no space)
-      body = token.slice(2);
-      if (method === "GET") {
-        method = "POST";
-      }
-    } else if (!token.startsWith("-") && !url) {
-      url = token;
-    } else if (token === "--url") {
-      url = tokens[++i] ?? url;
-    } else if (
-      token === "--compressed" ||
-      token === "-s" ||
-      token === "-S" ||
-      token === "-k" ||
-      token === "--insecure" ||
-      token === "-L" ||
-      token === "--location" ||
-      token === "-v" ||
-      token === "--verbose"
-    ) {
-      // Skip known boolean flags
-    }
-  }
-
-  const request: HarRequest = {
-    method,
-    url,
+  const base: HarRequest = {
+    method: parsed.method,
+    url: parsed.url,
     httpVersion: "HTTP/1.1",
-    headers,
-    queryString: parseQueryString(url),
+    headers: [...parsed.headers],
+    queryString: parseQueryString(parsed.url),
     headersSize: -1,
-    bodySize: body ? body.length : 0,
+    bodySize: parsed.body ? parsed.body.length : 0,
     cookies: [],
   };
-
-  if (body) {
-    request.postData = {
-      mimeType:
-        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
-        inferMimeType(body),
-      text: body,
-    };
-  }
-
-  return makeEntry(request);
+  return makeEntry(attachPostData(base, parsed.body));
 }
 
 /**
- *
- * @param input
+ * Parse a string containing one or more cURL commands into HAR entries.
+ * @param input - raw text containing curl command(s)
+ * @returns an array of HAR entries, one per curl command found
  */
 function parseCurl(input: string): HarEntry[] {
-  const commands = splitCurlCommands(input);
-  return commands.map(parseSingleCurl);
+  return splitCurlCommands(input).map(parseSingleCurl);
 }
 
 // --- fetch() Parser ---
 
-/**
- *
- * @param input
- */
-function parseFetch(input: string): HarEntry[] {
-  const entries: HarEntry[] = [];
-
-  // Match fetch calls — supports multiline with dotAll
-  const fetchRegex = /(?:await\s+)?fetch\s*\(\s*([\s\S]*?)\)\s*;?/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = fetchRegex.exec(input)) !== null) {
-    const argsStr = match[1];
-    const entry = parseSingleFetch(argsStr);
-    if (entry) {
-      entries.push(entry);
-    }
-  }
-
-  return entries;
-}
+/** Regex to match fetch() calls — captures args up to first unmatched ")". */
+const FETCH_CALL_RE = /fetch\s*\(([^)]*)\)/g;
+/** Regex to extract the method from a fetch options object. */
+const FETCH_METHOD_RE = /method\s*:\s*["'`](\w+)["'`]/;
+/** Regex to extract a headers block from a fetch options object. */
+const FETCH_HEADERS_BLOCK_RE = /headers\s*:\s*\{([^}]*)\}/s;
+/** Regex to extract a body string literal from a fetch options object. */
+const FETCH_BODY_LITERAL_RE = /body\s*:\s*["'`]([^"'`]*)["'`]/;
+/** Regex to extract a JSON.stringify body call from a fetch options object. */
+const FETCH_BODY_STRINGIFY_RE = /body\s*:\s*JSON\.stringify\s*\(([^)]*)\)/;
+/** Regex to extract quoted header key/value pairs from a headers block. */
+const FETCH_HEADER_PAIR_RE =
+  /["'`]([^"'`:\s,]+)["'`]\s*:\s*["'`]([^"'`]*)["'`]/g;
 
 /**
- *
- * @param str
- */
-function extractStringLiteral(
-  str: string
-): { value: string; rest: string } | null {
-  const trimmed = str.trim();
-  const quote = trimmed[0];
-  if (quote !== "'" && quote !== '"' && quote !== "`") {
-    return null;
-  }
-  let i = 1;
-  let value = "";
-  while (i < trimmed.length) {
-    if (trimmed[i] === "\\") {
-      i++;
-      value += trimmed[i] ?? "";
-    } else if (trimmed[i] === quote) {
-      return { value, rest: trimmed.slice(i + 1).trim() };
-    } else {
-      value += trimmed[i];
-    }
-    i++;
-  }
-  return { value, rest: "" };
-}
-
-/**
- *
- * @param argsStr
+ * Parse a single fetch() call's argument string into a HAR entry.
+ * Returns null if the URL argument cannot be extracted.
+ * @param argsStr - the raw argument string from inside fetch(...)
+ * @returns a HAR entry, or null if parsing fails
  */
 function parseSingleFetch(argsStr: string): HarEntry | null {
-  // Extract URL (first argument — a string literal)
-  const urlResult = extractStringLiteral(argsStr);
-  if (!urlResult) return null;
+  const trimmed = argsStr.trim();
+  const quote = trimmed[0];
+  if (quote !== "'" && quote !== '"' && quote !== "`") return null;
+  const endIdx = trimmed.indexOf(quote, 1);
+  if (endIdx === -1) return null;
+  const url = trimmed.slice(1, endIdx);
+  const rest = trimmed
+    .slice(endIdx + 1)
+    .replace(/^\s*,\s*/, "")
+    .trim();
 
-  const url = urlResult.value;
-  let method = "GET";
-  const headers: HarHeader[] = [];
-  let body: string | undefined;
+  const hasOpts = rest.startsWith("{");
+  const method = hasOpts
+    ? (FETCH_METHOD_RE.exec(rest)?.[1]?.toUpperCase() ?? "GET")
+    : "GET";
+  const headers = hasOpts
+    ? Array.from(
+        (FETCH_HEADERS_BLOCK_RE.exec(rest)?.[1] ?? "").matchAll(
+          FETCH_HEADER_PAIR_RE
+        )
+      ).map(m => ({ name: m[1], value: m[2] }) as HarHeader)
+    : [];
+  const body = hasOpts
+    ? (FETCH_BODY_LITERAL_RE.exec(rest)?.[1] ??
+      FETCH_BODY_STRINGIFY_RE.exec(rest)?.[1])
+    : undefined;
 
-  // Look for options object after the URL
-  const rest = urlResult.rest.replace(/^\s*,\s*/, "");
-  if (rest.startsWith("{")) {
-    // Extract method
-    const methodMatch = rest.match(/method\s*:\s*["'`](\w+)["'`]/);
-    if (methodMatch) {
-      method = methodMatch[1].toUpperCase();
-    }
-
-    // Extract headers from headers object
-    const headersMatch = rest.match(/headers\s*:\s*\{([^}]*)\}/s);
-    if (headersMatch) {
-      const headersBlock = headersMatch[1];
-      const headerPairRegex =
-        /["'`]?([^"'`:\s,]+)["'`]?\s*:\s*["'`]([^"'`]*)["'`]/g;
-      let hMatch: RegExpExecArray | null;
-      while ((hMatch = headerPairRegex.exec(headersBlock)) !== null) {
-        headers.push({ name: hMatch[1], value: hMatch[2] });
-      }
-    }
-
-    // Extract body
-    const bodyMatch = rest.match(/body\s*:\s*["'`]([\s\S]*?)["'`]/);
-    if (bodyMatch) {
-      body = bodyMatch[1];
-    } else {
-      // Try JSON.stringify style: body: JSON.stringify(...)
-      const jsonBodyMatch = rest.match(
-        /body\s*:\s*JSON\.stringify\s*\(\s*([\s\S]*?)\s*\)\s*[,}]/
-      );
-      if (jsonBodyMatch) {
-        body = jsonBodyMatch[1];
-      }
-    }
-  }
-
-  const request: HarRequest = {
+  const base: HarRequest = {
     method,
     url,
     httpVersion: "HTTP/1.1",
@@ -353,130 +350,26 @@ function parseSingleFetch(argsStr: string): HarEntry | null {
     bodySize: body ? body.length : 0,
     cookies: [],
   };
-
-  if (body) {
-    request.postData = {
-      mimeType:
-        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
-        inferMimeType(body),
-      text: body,
-    };
-  }
-
-  return makeEntry(request);
+  return makeEntry(attachPostData(base, body));
 }
 
-// --- Raw HTTP Parser ---
-
 /**
- *
- * @param input
+ * Parse a string containing one or more fetch() calls into HAR entries.
+ * @param input - raw text containing fetch() call(s)
+ * @returns an array of HAR entries, one per fetch() call found
  */
-function parseRawHttp(input: string): HarEntry[] {
-  // Split on double-newline-then-HTTP-method pattern to find multiple requests
-  const blocks = input.split(
-    /\n(?=(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s)/
-  );
-  return blocks
-    .map(parseSingleRawHttp)
+function parseFetch(input: string): HarEntry[] {
+  return [...input.matchAll(FETCH_CALL_RE)]
+    .map(m => parseSingleFetch(m[1]))
     .filter((e): e is HarEntry => e !== null);
 }
 
 /**
- *
- * @param block
- */
-function parseSingleRawHttp(block: string): HarEntry | null {
-  const lines = block.split("\n");
-  if (lines.length === 0) return null;
-
-  const requestLine = lines[0].trim();
-  const requestLineMatch = requestLine.match(
-    /^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+(\S+)(?:\s+(HTTP\/\S+))?/
-  );
-  if (!requestLineMatch) return null;
-
-  const method = requestLineMatch[1];
-  const path = requestLineMatch[2];
-  const httpVersion = requestLineMatch[3] ?? "HTTP/1.1";
-
-  const headers: HarHeader[] = [];
-  let bodyStart = -1;
-
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.trim() === "") {
-      bodyStart = i + 1;
-      break;
-    }
-    const colonIdx = line.indexOf(":");
-    if (colonIdx !== -1) {
-      headers.push({
-        name: line.slice(0, colonIdx).trim(),
-        value: line.slice(colonIdx + 1).trim(),
-      });
-    }
-  }
-
-  const body =
-    bodyStart > 0 ? lines.slice(bodyStart).join("\n").trim() : undefined;
-
-  // If path is relative, try to construct URL from Host header
-  let url = path;
-  if (!path.startsWith("http")) {
-    const hostHeader = headers.find(h => h.name.toLowerCase() === "host");
-    if (hostHeader) {
-      url = `https://${hostHeader.value}${path}`;
-    }
-  }
-
-  const request: HarRequest = {
-    method,
-    url,
-    httpVersion,
-    headers,
-    queryString: parseQueryString(url),
-    headersSize: -1,
-    bodySize: body ? body.length : 0,
-    cookies: [],
-  };
-
-  if (body) {
-    request.postData = {
-      mimeType:
-        headers.find(h => h.name.toLowerCase() === "content-type")?.value ??
-        inferMimeType(body),
-      text: body,
-    };
-  }
-
-  return makeEntry(request);
-}
-
-// --- HAR Parser ---
-
-/**
- *
- * @param input
- */
-function parseHar(input: string): HarEntry[] {
-  try {
-    const parsed = JSON.parse(input);
-    if (parsed?.log?.entries && Array.isArray(parsed.log.entries)) {
-      return parsed.log.entries;
-    }
-  } catch {
-    // Invalid JSON
-  }
-  return [];
-}
-
-// --- Main export ---
-
-/**
- *
- * @param input
- * @param format
+ * Parse a pasted input string in the given format into an array of HAR entries.
+ * Supports curl, fetch, raw-http, and har formats.
+ * @param input - the raw text pasted by the user
+ * @param format - the detected or specified input format
+ * @returns an array of HAR entries extracted from the input
  */
 export function parseInput(input: string, format: string): HarEntry[] {
   switch (format) {

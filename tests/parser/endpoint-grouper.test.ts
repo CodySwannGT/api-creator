@@ -2,6 +2,15 @@ import { describe, it, expect } from "vitest";
 import { groupEndpoints } from "../../src/parser/endpoint-grouper.js";
 import type { HarEntry } from "../../src/types/har.js";
 
+/**
+ *
+ * @param method
+ * @param url
+ * @param opts
+ * @param opts.queryString
+ * @param opts.responseBody
+ * @param opts.requestBody
+ */
 function makeEntry(
   method: string,
   url: string,
@@ -53,7 +62,9 @@ describe("groupEndpoints", () => {
     ];
     const result = groupEndpoints(entries);
     expect(result.endpoints).toHaveLength(2);
-    expect(result.endpoints.map(e => e.method).sort()).toEqual(["GET", "POST"]);
+    expect(
+      result.endpoints.map(e => e.method).sort((a, b) => a.localeCompare(b))
+    ).toEqual(["GET", "POST"]);
   });
 
   it("normalizes numeric IDs in paths", () => {

@@ -2,8 +2,12 @@ import { describe, it, expect } from "vitest";
 import { emitClient } from "../../src/generator/client-emitter.js";
 import type { Endpoint } from "../../src/types/endpoint.js";
 import type { AuthInfo } from "../../src/types/auth.js";
-import type { TypeDefinition } from "../../src/parser/type-inferrer.js";
 
+/**
+ *
+ * @param method
+ * @param path
+ */
 function makeEndpoint(method: string, path: string): Endpoint {
   return {
     method,

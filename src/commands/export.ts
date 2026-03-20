@@ -23,16 +23,16 @@ export const exportCommand = new Command("export")
     mkdirSync(outputDir, { recursive: true });
 
     const files = ["client.ts", "types.ts"];
-    let copied = 0;
 
-    for (const file of files) {
+    const copied = files.reduce((count, file) => {
       const src = join(projectDir, file);
       if (existsSync(src)) {
         copyFileSync(src, join(outputDir, file));
-        copied++;
         console.log(chalk.gray(`  Copied ${file} -> ${join(outputDir, file)}`));
+        return count + 1;
       }
-    }
+      return count;
+    }, 0);
 
     if (copied === 0) {
       console.error(chalk.yellow("\n  No TypeScript files found to export.\n"));

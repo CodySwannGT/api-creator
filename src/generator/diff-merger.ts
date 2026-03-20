@@ -1,15 +1,12 @@
-import { readFile, writeFile, access } from "node:fs/promises";
-import { join } from "node:path";
 import type { Endpoint } from "../types/endpoint.js";
 import type { TypeDefinition } from "../parser/type-inferrer.js";
+
+import { readFile, writeFile, access } from "node:fs/promises";
+import { join } from "node:path";
 import { pathToMethodName } from "../utils/naming.js";
 
-// ---------------------------------------------------------------------------
-// Interfaces
-// ---------------------------------------------------------------------------
-
 /**
- *
+ * Describes the existing generated client files and their parsed content
  */
 export interface ExistingClient {
   methodNames: string[];
@@ -20,7 +17,7 @@ export interface ExistingClient {
 }
 
 /**
- *
+ * A preserved custom code block between @custom and @end-custom markers
  */
 export interface CustomSection {
   marker: string;
@@ -28,7 +25,7 @@ export interface CustomSection {
 }
 
 /**
- *
+ * Result of comparing existing endpoints with newly-inferred ones
  */
 export interface MergeResult {
   added: string[];
@@ -38,16 +35,11 @@ export interface MergeResult {
   hasChanges: boolean;
 }
 
-// ---------------------------------------------------------------------------
-// detectExistingClient
-// ---------------------------------------------------------------------------
-
 /**
- * Check whether `outputDir` already contains generated client files.
- * If both `client.ts` and `types.ts` exist, parse them and return an
- * {@link ExistingClient} describing what is already generated.  Otherwise
- * return `null`.
- * @param outputDir
+ * Checks whether outputDir already contains generated client files.
+ * If both client.ts and types.ts exist, parses them and returns an ExistingClient.
+ * @param outputDir - the directory to check for existing generated files
+ * @returns the parsed existing client or null if files don't exist
  */
 export async function detectExistingClient(
   outputDir: string
@@ -67,71 +59,53 @@ export async function detectExistingClient(
 
   const methodNames = parseMethodNames(clientSource);
   const typeNames = parseTypeNames(typesSource);
-  const customSections = parseCustomSections(clientSource).concat(
-    parseCustomSections(typesSource)
-  );
+  const customSections = [
+    ...parseCustomSections(clientSource),
+    ...parseCustomSections(typesSource),
+  ];
 
   return { methodNames, typeNames, customSections, clientSource, typesSource };
 }
 
 /**
- * Extract async method names from client source using the pattern
- * `async methodName(`.
- * @param source
+ * Extracts async method names from client source using the `async methodName(` pattern
+ * @param source - the client source code to parse
+ * @returns array of method names found in the source
  */
 function parseMethodNames(source: string): string[] {
   const re = /async\s+(\w+)\s*\(/g;
-  const names: string[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(source)) !== null) {
-    names.push(match[1]);
-  }
-  return names;
+  return [...source.matchAll(re)].map(m => m[1]);
 }
 
 /**
- * Extract exported interface / type names from types source using the
- * pattern `export interface TypeName`.
- * @param source
+ * Extracts exported interface names from types source
+ * @param source - the types source code to parse
+ * @returns array of interface names found in the source
  */
 function parseTypeNames(source: string): string[] {
   const re = /export\s+interface\s+(\w+)/g;
-  const names: string[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(source)) !== null) {
-    names.push(match[1]);
-  }
-  return names;
+  return [...source.matchAll(re)].map(m => m[1]);
 }
 
 /**
- * Parse `// @custom` … `// @end-custom` blocks.  Each block is returned as a
- * {@link CustomSection} with the marker line and the content between the two
- * comment lines (inclusive).
- * @param source
+ * Parses @custom ... @end-custom blocks from source code
+ * @param source - the source code to scan for custom sections
+ * @returns array of custom sections with their markers and content
  */
 function parseCustomSections(source: string): CustomSection[] {
-  const sections: CustomSection[] = [];
   const re = /(\/\/\s*@custom\b[^\n]*)\n([\s\S]*?)(?=\/\/\s*@end-custom)/g;
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(source)) !== null) {
-    const marker = match[1].trim();
-    const content = `${match[0]}// @end-custom`;
-    sections.push({ marker, content });
-  }
-  return sections;
+  return [...source.matchAll(re)].map(match => ({
+    marker: match[1].trim(),
+    content: `${match[0]}// @end-custom`,
+  }));
 }
 
-// ---------------------------------------------------------------------------
-// mergeEndpoints
-// ---------------------------------------------------------------------------
-
 /**
- * Compare the endpoints / types that already exist with the newly inferred
- * ones and return a categorised {@link MergeResult}.
- * @param existing
- * @param newEndpoints
- * @param _newTypes
+ * Compares existing endpoints/types with newly inferred ones and returns a categorized MergeResult
+ * @param existing - the existing client metadata
+ * @param newEndpoints - the newly inferred API endpoints
+ * @param _newTypes - the newly inferred types (reserved for future use)
+ * @returns a merge result categorizing endpoints as added, updated, or deprecated
  */
 export function mergeEndpoints(
   existing: ExistingClient,
@@ -139,70 +113,65 @@ export function mergeEndpoints(
   _newTypes: TypeDefinition[]
 ): MergeResult {
   const existingMethodSet = new Set(existing.methodNames);
+  const newMethodMap = new Map(
+    newEndpoints.map(ep => [pathToMethodName(ep.method, ep.normalizedPath), ep])
+  );
 
-  const newMethodMap = new Map<string, Endpoint>();
-  for (const ep of newEndpoints) {
-    const name = pathToMethodName(ep.method, ep.normalizedPath);
-    newMethodMap.set(name, ep);
-  }
-
-  const added: string[] = [];
-  const updated: string[] = [];
-  const deprecated: string[] = [];
-
-  // Categorise each new endpoint method name.
-  for (const name of newMethodMap.keys()) {
-    if (existingMethodSet.has(name)) {
-      updated.push(name);
-    } else {
-      added.push(name);
-    }
-  }
-
-  // Existing methods that no longer appear in the new set are deprecated.
-  for (const name of existing.methodNames) {
-    if (!newMethodMap.has(name)) {
-      deprecated.push(name);
-    }
-  }
+  const added = [...newMethodMap.keys()].filter(
+    name => !existingMethodSet.has(name)
+  );
+  const updated = [...newMethodMap.keys()].filter(name =>
+    existingMethodSet.has(name)
+  );
+  const deprecated = existing.methodNames.filter(
+    name => !newMethodMap.has(name)
+  );
 
   const hasChanges =
     added.length > 0 || updated.length > 0 || deprecated.length > 0;
 
-  const parts: string[] = [];
-  if (added.length > 0) {
-    parts.push(
-      `Added ${added.length} new endpoint${added.length === 1 ? "" : "s"}`
-    );
-  }
-  if (updated.length > 0) {
-    parts.push(
-      `updated ${updated.length} type${updated.length === 1 ? "" : "s"}`
-    );
-  }
-  if (deprecated.length > 0) {
-    parts.push(
-      `${deprecated.length} endpoint${deprecated.length === 1 ? "" : "s"} deprecated`
-    );
-  }
-
-  const summary = parts.length > 0 ? parts.join(", ") : "No changes detected";
+  const summary = buildSummary(added, updated, deprecated);
 
   return { added, updated, deprecated, summary, hasChanges };
 }
 
-// ---------------------------------------------------------------------------
-// applyMerge
-// ---------------------------------------------------------------------------
+/**
+ * Builds a human-readable summary string from merge categories
+ * @param added - newly added endpoint names
+ * @param updated - updated endpoint names
+ * @param deprecated - deprecated endpoint names
+ * @returns a summary string describing the changes
+ */
+function buildSummary(
+  added: string[],
+  updated: string[],
+  deprecated: string[]
+): string {
+  const parts = [
+    ...(added.length > 0
+      ? [`Added ${added.length} new endpoint${added.length === 1 ? "" : "s"}`]
+      : []),
+    ...(updated.length > 0
+      ? [`updated ${updated.length} type${updated.length === 1 ? "" : "s"}`]
+      : []),
+    ...(deprecated.length > 0
+      ? [
+          `${deprecated.length} endpoint${deprecated.length === 1 ? "" : "s"} deprecated`,
+        ]
+      : []),
+  ];
+
+  return parts.length > 0 ? parts.join(", ") : "No changes detected";
+}
 
 /**
- * Write the merged client and types files to `outputDir`, applying
- * deprecation markers and preserving custom sections.  Returns a
- * human-readable summary string.
- * @param outputDir
- * @param mergeResult
- * @param fullClientCode
- * @param fullTypesCode
+ * Writes the merged client and types files to outputDir, applying
+ * deprecation markers and preserving custom sections
+ * @param outputDir - the output directory for the generated files
+ * @param mergeResult - the merge result with categorized changes
+ * @param fullClientCode - the newly generated client source code
+ * @param fullTypesCode - the newly generated types source code
+ * @returns a human-readable summary string
  */
 export async function applyMerge(
   outputDir: string,
@@ -210,26 +179,23 @@ export async function applyMerge(
   fullClientCode: string,
   fullTypesCode: string
 ): Promise<string> {
-  let clientCode = fullClientCode;
-  let typesCode = fullTypesCode;
+  const clientWithDeprecations = mergeResult.deprecated.reduce(
+    (code, methodName) => addDeprecationMarker(code, methodName),
+    fullClientCode
+  );
 
-  // 1. Mark deprecated methods with a @deprecated JSDoc comment.
-  for (const methodName of mergeResult.deprecated) {
-    clientCode = addDeprecationMarker(clientCode, methodName);
-  }
-
-  // 2. Restore custom sections from the existing code.
-  //    We look for the matching @custom marker in the new code and replace /
-  //    inject the preserved block.
   const existing = await detectExistingClient(outputDir);
-  if (existing) {
-    for (const section of existing.customSections) {
-      clientCode = restoreCustomSection(clientCode, section);
-      typesCode = restoreCustomSection(typesCode, section);
-    }
-  }
+  const sections = existing ? existing.customSections : [];
 
-  // 3. Write files.
+  const clientCode = sections.reduce(
+    (code, section) => restoreCustomSection(code, section),
+    clientWithDeprecations
+  );
+  const typesCode = sections.reduce(
+    (code, section) => restoreCustomSection(code, section),
+    fullTypesCode
+  );
+
   await writeFile(join(outputDir, "client.ts"), clientCode, "utf-8");
   await writeFile(join(outputDir, "types.ts"), typesCode, "utf-8");
 
@@ -237,16 +203,15 @@ export async function applyMerge(
 }
 
 /**
- * Insert a @deprecated JSDoc comment before an `async methodName(`
- * declaration if one is not already present.
- * @param source
- * @param methodName
+ * Inserts a @deprecated JSDoc comment before a method declaration if not already present
+ * @param source - the source code to modify
+ * @param methodName - the method name to mark as deprecated
+ * @returns the source code with the deprecation marker added
  */
 function addDeprecationMarker(source: string, methodName: string): string {
   const deprecationComment =
     "/** @deprecated No longer observed in API traffic */";
 
-  // Build a regex that matches the method, optionally preceded by existing JSDoc.
   const methodPattern = new RegExp(
     `(^[ \\t]*)(async\\s+${escapeRegExp(methodName)}\\s*\\()`,
     "m"
@@ -258,10 +223,9 @@ function addDeprecationMarker(source: string, methodName: string): string {
   const indent = match[1];
   const methodDecl = match[2];
 
-  // Check if there is already a @deprecated tag right before this line.
   const before = source.slice(0, match.index);
   if (/\/\*\*[^]*?@deprecated[^]*?\*\/\s*$/.test(before)) {
-    return source; // already marked
+    return source;
   }
 
   return source.replace(
@@ -271,15 +235,12 @@ function addDeprecationMarker(source: string, methodName: string): string {
 }
 
 /**
- * If the new source contains the same `// @custom <marker>` line, replace the
- * generated block between `@custom` and `@end-custom` with the preserved
- * content.  If the marker is not present, append the custom section at the end
- * of the file (before the final closing brace if one exists).
- * @param source
- * @param section
+ * Restores a preserved custom section into the new source code
+ * @param source - the new source code to inject the custom section into
+ * @param section - the custom section to restore
+ * @returns the source with the custom section restored
  */
 function restoreCustomSection(source: string, section: CustomSection): string {
-  // Try to find an existing @custom…@end-custom block with the same marker.
   const markerEscaped = escapeRegExp(section.marker);
   const blockRe = new RegExp(
     `${markerEscaped}[\\s\\S]*?//\\s*@end-custom`,
@@ -290,25 +251,18 @@ function restoreCustomSection(source: string, section: CustomSection): string {
     return source.replace(blockRe, section.content);
   }
 
-  // The marker doesn't exist in the new source – append before the last `}`.
   const lastBrace = source.lastIndexOf("}");
   if (lastBrace !== -1) {
-    return `${source.slice(0, lastBrace)}\n${section.content}\n${source.slice(
-      lastBrace
-    )}`;
+    return `${source.slice(0, lastBrace)}\n${section.content}\n${source.slice(lastBrace)}`;
   }
 
-  // Fallback – just append.
   return `${source}\n${section.content}\n`;
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 /**
- *
- * @param s
+ * Escapes special regex characters in a string for safe use in RegExp
+ * @param s - the string to escape
+ * @returns the regex-safe escaped string
  */
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
