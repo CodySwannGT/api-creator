@@ -1,23 +1,31 @@
-export type InputFormat = 'curl' | 'fetch' | 'har' | 'raw-http' | 'unknown';
+/**
+ * Recognized input formats for API request import
+ */
+export type InputFormat = "curl" | "fetch" | "har" | "raw-http" | "unknown";
 
+/**
+ * Detects the format of pasted API request text by checking for known patterns
+ * @param input - the raw text input to classify
+ * @returns the detected input format
+ */
 export function detectFormat(input: string): InputFormat {
   const trimmed = input.trim();
 
   // Detect cURL commands
-  if (/(?:^|\n)\s*curl\s/m.test(trimmed)) {
-    return 'curl';
+  if (trimmed.split("\n").some(line => /^\s*curl\s/.test(line))) {
+    return "curl";
   }
 
   // Detect fetch() calls
-  if (/(?:^|\n)\s*(?:await\s+)?fetch\s*\(/m.test(trimmed)) {
-    return 'fetch';
+  if (trimmed.split("\n").some(line => /^\s*(?:await )?fetch\(/.test(line))) {
+    return "fetch";
   }
 
   // Detect HAR JSON
   try {
     const parsed = JSON.parse(trimmed);
     if (parsed?.log?.entries && Array.isArray(parsed.log.entries)) {
-      return 'har';
+      return "har";
     }
   } catch {
     // Not JSON, continue
@@ -25,11 +33,11 @@ export function detectFormat(input: string): InputFormat {
 
   // Detect raw HTTP: "METHOD /path" or "HTTP/1.1" or "HTTP/2"
   if (/^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+\S+/m.test(trimmed)) {
-    return 'raw-http';
+    return "raw-http";
   }
   if (/^HTTP\/[12]/m.test(trimmed)) {
-    return 'raw-http';
+    return "raw-http";
   }
 
-  return 'unknown';
+  return "unknown";
 }

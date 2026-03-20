@@ -1,18 +1,22 @@
-import { Command } from 'commander';
-import chalk from 'chalk';
+import { Command } from "commander";
+import chalk from "chalk";
 import {
   listProjects,
   loadManifest,
   loadAuth,
-} from '../runtime/project-manager.js';
+} from "../runtime/project-manager.js";
 
-export const listCommand = new Command('list')
-  .description('List all generated API projects')
+export const listCommand = new Command("list")
+  .description("List all generated API projects")
   .action(() => {
     const projects = listProjects();
 
     if (projects.length === 0) {
-      console.log(chalk.gray('\n  No projects found. Run `api-creator generate` to create one.\n'));
+      console.log(
+        chalk.gray(
+          "\n  No projects found. Run `api-creator generate` to create one.\n"
+        )
+      );
       return;
     }
 
@@ -23,17 +27,21 @@ export const listCommand = new Command('list')
       const auth = loadAuth(name);
 
       if (!manifest) {
-        console.log(`  ${chalk.white(name)} ${chalk.gray('(invalid manifest)')}`);
+        console.log(
+          `  ${chalk.white(name)} ${chalk.gray("(invalid manifest)")}`
+        );
         continue;
       }
 
-      const authStatus = auth ? chalk.green('authenticated') : chalk.yellow('no auth');
+      const authStatus = auth
+        ? chalk.green("authenticated")
+        : chalk.yellow("no auth");
       const endpointCount = manifest.endpoints.length;
 
       console.log(
-        `  ${chalk.white.bold(name)}  ${chalk.gray(manifest.baseUrl)}  ${chalk.gray(`${endpointCount} endpoint(s)`)}  ${authStatus}`,
+        `  ${chalk.white.bold(name)}  ${chalk.gray(manifest.baseUrl)}  ${chalk.gray(`${endpointCount} endpoint(s)`)}  ${authStatus}`
       );
     }
 
-    console.log('');
+    console.log("");
   });

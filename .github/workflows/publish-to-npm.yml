@@ -1,0 +1,154 @@
+# This file was created by Lisa on first setup.
+# You can customize this file — Lisa will not overwrite it.
+
+# Reusable workflow for publishing to npm with OIDC trusted publishing
+# This workflow is not callable directly - it must be called from another workflow
+#
+# Usage:
+#   publish:
+#     uses: ./.github/workflows/publish-to-npm.yml
+#     needs: [release]
+#     with:
+#       tag: ${{ needs.release.outputs.tag }}
+#       version: ${{ needs.release.outputs.version }}
+#       node_version: '22.x'
+#       package_manager: 'bun'
+
+name: Publish to npm
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Git tag to publish from'
+        required: true
+        type: string
+      version:
+        description: 'Version to publish'
+        required: true
+        type: string
+      node_version:
+        description: 'Node.js version to use'
+        required: false
+        default: '20.x'
+        type: string
+      package_manager:
+        description: 'Package manager to use (npm, yarn, or bun)'
+        required: false
+        default: 'npm'
+        type: string
+
+# Required permissions for OIDC publishing
+permissions:
+  contents: read
+  id-token: write # Required for npm OIDC trusted publishing
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate inputs
+        run: |
+          if [ -z "${{ inputs.tag }}" ]; then
+            echo "::error::Tag input is empty - cannot publish without a version tag"
+            echo "This usually means the version job was skipped (e.g., promotion merge detected)"
+            exit 1
+          fi
+          if [ -z "${{ inputs.version }}" ]; then
+            echo "::error::Version input is empty - cannot publish without a version"
+            exit 1
+          fi
+          echo "✅ Inputs validated: tag=${{ inputs.tag }}, version=${{ inputs.version }}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Wait for tag to be available
+        run: |
+          echo "Waiting for tag ${{ inputs.tag }} to be available..."
+          for i in {1..30}; do
+            git fetch --tags
+            if git tag --list | grep -q "^${{ inputs.tag }}$"; then
+              echo "Tag ${{ inputs.tag }} is now available"
+              git checkout ${{ inputs.tag }}
+              break
+            fi
+            echo "Attempt $i/30: Tag not found yet, waiting 10 seconds..."
+            sleep 10
+          done
+
+          # Final check
+          if [ "$(git describe --exact-match --tags 2>/dev/null)" != "${{ inputs.tag }}" ]; then
+            echo "Error: Tag ${{ inputs.tag }} is still not available after 5 minutes"
+            exit 1
+          fi
+
+      - name: Setup bun
+        if: inputs.package_manager == 'bun'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.8'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: ${{ inputs.package_manager != 'bun' && inputs.package_manager || '' }}
+
+      - name: Update npm for OIDC support
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ inputs.package_manager }}" = "npm" ]; then
+            npm ci
+          elif [ "${{ inputs.package_manager }}" = "yarn" ]; then
+            yarn install --frozen-lockfile
+          elif [ "${{ inputs.package_manager }}" = "bun" ]; then
+            bun install --frozen-lockfile
+          fi
+
+      - name: Build package
+        run: ${{ inputs.package_manager }} run build
+
+      - name: Update package version
+        run: |
+          # Update package.json to match the release version
+          VERSION="${{ inputs.version }}"
+          if [ -n "$VERSION" ]; then
+            echo "Updating package.json to version $VERSION"
+            npm version $VERSION --no-git-tag-version --allow-same-version
+          fi
+
+      - name: Publish to npm with OIDC
+        run: npm publish --access public --provenance
+        # npm publish is required for OIDC provenance - bun publish doesn't support --provenance yet
+        # Configure trusted publisher at: https://www.npmjs.com/package/<package-name>/access
+
+      - name: Publish @codyswann/eslint-plugin-code-organization
+        if: ${{ hashFiles('eslint-plugin-code-organization/package.json') != '' }}
+        run: |
+          cd eslint-plugin-code-organization
+          npm version ${{ inputs.version }} --no-git-tag-version --allow-same-version
+          npm publish --access public --provenance
+
+      - name: Publish @codyswann/eslint-plugin-component-structure
+        if: ${{ hashFiles('eslint-plugin-component-structure/package.json') != '' }}
+        run: |
+          cd eslint-plugin-component-structure
+          npm version ${{ inputs.version }} --no-git-tag-version --allow-same-version
+          npm publish --access public --provenance
+
+      - name: Publish @codyswann/eslint-plugin-ui-standards
+        if: ${{ hashFiles('eslint-plugin-ui-standards/package.json') != '' }}
+        run: |
+          cd eslint-plugin-ui-standards
+          npm version ${{ inputs.version }} --no-git-tag-version --allow-same-version
+          npm publish --access public --provenance
+
+      - name: Notify on success
+        run: echo "Successfully published version ${{ inputs.version }} to npm with provenance"
