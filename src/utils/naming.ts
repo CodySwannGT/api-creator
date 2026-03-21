@@ -31,7 +31,7 @@ function verbForMethod(method: string): string {
  * @param seg - the raw path segment to clean
  * @returns array of clean, valid identifier words from this segment
  */
-function cleanSegment(seg: string): string[] {
+export function cleanSegment(seg: string): string[] {
   if (LONG_HEX_HASH_RE.test(seg)) return [];
 
   const stripped = seg.replace(FILE_EXT_RE, "").replace(/\./g, "-");

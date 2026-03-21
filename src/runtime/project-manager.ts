@@ -48,6 +48,8 @@ export interface ManifestEndpoint {
   queryParams: { name: string; defaultValue?: string }[];
 
   hasBody: boolean;
+
+  group?: string;
 }
 
 /**
