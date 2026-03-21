@@ -202,3 +202,8 @@ expo-env.d.ts
 
 # END: AI GUARDRAILS
 
+# api-creator user data
+recordings/
+*.har
+*.auth
+
