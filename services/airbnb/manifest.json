@@ -1,0 +1,2852 @@
+{
+  "name": "airbnb",
+  "baseUrl": "https://www.airbnb.com",
+  "originalUrl": "https://www.airbnb.com",
+  "createdAt": "2026-03-21T20:09:38.993Z",
+  "authType": "cookie",
+  "endpoints": [
+    {
+      "commandName": "create-get-data-layer-variables",
+      "description": "POST /api/v2/get-data-layer-variables",
+      "methodName": "createApiV2GetDataLayerVariables",
+      "httpMethod": "POST",
+      "path": "/api/v2/get-data-layer-variables",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "navi-server-announcements-query",
+      "description": "GET /api/v3/NaviServerAnnouncementsQuery",
+      "methodName": "getApiV3NaviServerAnnouncementsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/NaviServerAnnouncementsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "NaviServerAnnouncementsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"3ed5b8174b8fc8c415c94a6be3a696380c25a3b7779e48b60ca9b3829b34a115\"}}",
+      "variables": [
+        {
+          "camelName": "appTarget",
+          "kebabName": "app-target",
+          "exampleValue": "GUEST"
+        },
+        {
+          "camelName": "shouldSkipTaskFooter",
+          "kebabName": "should-skip-task-footer",
+          "exampleValue": "false"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "header",
+      "description": "GET /api/v3/Header",
+      "methodName": "getApiV3Header",
+      "httpMethod": "GET",
+      "path": "/api/v3/Header",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "Header",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"bb590cf8c21b62e4b5122e1cd19969f1f1df72832040a335fd45af52597440e4\"}}",
+      "variables": [
+        {
+          "camelName": "cdnCacheSafe",
+          "kebabName": "cdn-cache-safe",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "hasLoggedIn",
+          "kebabName": "has-logged-in",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "isInitialLoad",
+          "kebabName": "is-initial-load",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "source",
+          "kebabName": "source",
+          "exampleValue": "EXPLORE"
+        },
+        {
+          "camelName": "supportsM13ListingsSetupFlow",
+          "kebabName": "supports-m13-listings-setup-flow",
+          "exampleValue": "true"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-client-configs",
+      "description": "POST /api/v2/client_configs",
+      "methodName": "createApiV2ClientConfigs",
+      "httpMethod": "POST",
+      "path": "/api/v2/client_configs",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "get-consent-for-user-query",
+      "description": "GET /api/v3/GetConsentForUserQuery",
+      "methodName": "getApiV3GetConsentForUserQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/GetConsentForUserQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "GetConsentForUserQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"dd2a3aa987350b2855a0075ff0c1ad62951bfe77ae8784fa92bc76b1e7a602fd\"}}",
+      "variables": [
+        {
+          "camelName": "deviceId",
+          "kebabName": "device-id",
+          "exampleValue": "1774122213.EAM2RkMmFhY2ViZDQ1ZT.1TsTNarw7qWMBfdXRnbK_06bCU5i3Fk5J_WorNWCO08"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "promotions-by-placements-query",
+      "description": "GET /api/v3/PromotionsByPlacementsQuery",
+      "methodName": "getApiV3PromotionsByPlacementsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/PromotionsByPlacementsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "PromotionsByPlacementsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"a8406e703c499e85830da39cf380f6533e546af9d914e1fa37a63351e42a72ce\"}}",
+      "variables": [
+        {
+          "camelName": "placements",
+          "kebabName": "placements",
+          "exampleValue": "[\"HOME_PAGE_POPOVER\",\"HOME_PAGE_POPOVER_STAY\"]"
+        },
+        {
+          "camelName": "context",
+          "kebabName": "context",
+          "exampleValue": "{\"incentiveCamapignContext\":null,\"hotelTonightContext\":null,\"partnerProgramContext\":null}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-js",
+      "description": "POST /js",
+      "methodName": "createJs",
+      "httpMethod": "POST",
+      "path": "/js",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": true
+    },
+    {
+      "commandName": "pictures-airbnb-platform-assets-airbnb-platform-assets-weekly-monthly-discount-original-ca838a06-bbeb6af82e45f",
+      "description": "GET /pictures/airbnb-platform-assets/AirbnbPlatformAssets-WeeklyMonthlyDiscount/original/ca838a06-168b-4805-9018-beb6af82e45f.json",
+      "methodName": "getPicturesAirbnbPlatformAssetsAirbnbPlatformAssetsWeeklyMonthlyDiscountOriginalCa838a06BBeb6af82e45f",
+      "httpMethod": "GET",
+      "path": "/pictures/airbnb-platform-assets/AirbnbPlatformAssets-WeeklyMonthlyDiscount/original/ca838a06-168b-4805-9018-beb6af82e45f.json",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "auto-suggestions-query",
+      "description": "GET /api/v3/AutoSuggestionsQuery",
+      "methodName": "getApiV3AutoSuggestionsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/AutoSuggestionsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "AutoSuggestionsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"840ae28ff24af2a4729bd74fb5b98eadcd3412e3a28fea5c9ae18e5a216e6aca\"}}",
+      "variables": [
+        {
+          "camelName": "skipExtendedSearchParams",
+          "kebabName": "skip-extended-search-params",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "autoSuggestionsRequest",
+          "kebabName": "auto-suggestions-request",
+          "exampleValue": "{\"rawParams\":[],\"source\":\"HOMEPAGE\",\"treatmentFlags\":[]}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "user-markets",
+      "description": "GET /api/v2/user_markets",
+      "methodName": "getApiV2UserMarkets",
+      "httpMethod": "GET",
+      "path": "/api/v2/user_markets",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        },
+        {
+          "name": "language"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get",
+      "description": "GET /",
+      "methodName": "get",
+      "httpMethod": "GET",
+      "path": "/",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-track-realtimeconversion",
+      "description": "POST /track/realtimeconversion",
+      "methodName": "createTrackRealtimeconversion",
+      "httpMethod": "POST",
+      "path": "/track/realtimeconversion",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": true
+    },
+    {
+      "commandName": "pictures-airbnb-platform-assets-airbnb-platform-assets-weekly-monthly-discount-original-cb064759-c8b3-c70-d419e7667990",
+      "description": "GET /pictures/airbnb-platform-assets/AirbnbPlatformAssets-WeeklyMonthlyDiscount/original/cb064759-c8b3-4236-8c70-d419e7667990.json",
+      "methodName": "getPicturesAirbnbPlatformAssetsAirbnbPlatformAssetsWeeklyMonthlyDiscountOriginalCb064759C8b3C70D419e7667990",
+      "httpMethod": "GET",
+      "path": "/pictures/airbnb-platform-assets/AirbnbPlatformAssets-WeeklyMonthlyDiscount/original/cb064759-c8b3-4236-8c70-d419e7667990.json",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-auth-options",
+      "description": "POST /api/v2/auth/options",
+      "methodName": "createApiV2AuthOptions",
+      "httpMethod": "POST",
+      "path": "/api/v2/auth/options",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "create-auth-identify-email",
+      "description": "POST /api/v2/auth/identify/email",
+      "methodName": "createApiV2AuthIdentifyEmail",
+      "httpMethod": "POST",
+      "path": "/api/v2/auth/identify/email",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "create-auth-authenticate-email-otp",
+      "description": "POST /api/v2/auth/authenticate/email_otp",
+      "methodName": "createApiV2AuthAuthenticateEmailOtp",
+      "httpMethod": "POST",
+      "path": "/api/v2/auth/authenticate/email_otp",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "wishlist-index-page-query",
+      "description": "GET /api/v3/WishlistIndexPageQuery",
+      "methodName": "getApiV3WishlistIndexPageQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/WishlistIndexPageQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "WishlistIndexPageQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"b8b421d802c399b55fb6ac1111014807a454184ad38f198365beb7836c018c18\"}}",
+      "variables": [
+        {
+          "camelName": "networkCacheVersion",
+          "kebabName": "network-cache-version",
+          "exampleValue": "1"
+        },
+        {
+          "camelName": "limit",
+          "kebabName": "limit",
+          "exampleValue": "12"
+        },
+        {
+          "camelName": "offset",
+          "kebabName": "offset",
+          "exampleValue": "0"
+        },
+        {
+          "camelName": "treatmentFlags",
+          "kebabName": "treatment-flags",
+          "exampleValue": "[\"wishlist_should_load_service\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-thumbnail-pic-query",
+      "description": "GET /api/v3/GetThumbnailPicQuery",
+      "methodName": "getApiV3GetThumbnailPicQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/GetThumbnailPicQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "GetThumbnailPicQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c580fd640ccff52e5410e321af202495da29d3438f16fb78ca4ca129119563e7\"}}",
+      "variables": [
+        {
+          "camelName": "ids",
+          "kebabName": "ids",
+          "exampleValue": "[\"VXNlcjo1NDU0NTgwNQ==\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "is-host-query",
+      "description": "GET /api/v3/IsHostQuery",
+      "methodName": "getApiV3IsHostQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/IsHostQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "IsHostQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"9c7b90a451bf2e27619bd48bdc0ef878f34121a07358db917978368dd4e162a7\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "host-reservations-tab-query",
+      "description": "GET /api/v3/HostReservationsTabQuery",
+      "methodName": "getApiV3HostReservationsTabQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/HostReservationsTabQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "HostReservationsTabQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"2b663f7d31a9cfa2db2d40d071f9502ea3b9a701a3beeb48f733d425437691c1\"}}",
+      "variables": [
+        {
+          "camelName": "viewerTimeZoneOffset",
+          "kebabName": "viewer-time-zone-offset",
+          "exampleValue": "-240"
+        },
+        {
+          "camelName": "mockTabIdentifier",
+          "kebabName": "mock-tab-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "mockRequestsIdentifier",
+          "kebabName": "mock-requests-identifier",
+          "exampleValue": "null"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-consent-flags-query",
+      "description": "GET /api/v3/GetConsentFlagsQuery",
+      "methodName": "getApiV3GetConsentFlagsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/GetConsentFlagsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "GetConsentFlagsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"eaf75f1c33af9834cc9f6342904e011fdfa512f3a0ac567360900a319408ac7d\"}}",
+      "variables": [
+        {
+          "camelName": "deviceId",
+          "kebabName": "device-id",
+          "exampleValue": "1774122213.EAM2RkMmFhY2ViZDQ1ZT.1TsTNarw7qWMBfdXRnbK_06bCU5i3Fk5J_WorNWCO08"
+        },
+        {
+          "camelName": "consentId",
+          "kebabName": "consent-id",
+          "exampleValue": "ac-ae3a33da-a3fe-4aec-a31f-a827ec833933"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "fetch-emblem-badge-counts",
+      "description": "GET /api/v3/FetchEmblemBadgeCounts",
+      "methodName": "getApiV3FetchEmblemBadgeCounts",
+      "httpMethod": "GET",
+      "path": "/api/v3/FetchEmblemBadgeCounts",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "FetchEmblemBadgeCounts",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"bdc888dd01d83d51e06721f1e0073ac9ca1af8dcc01a3505c569a178c972033a\"}}",
+      "variables": [
+        {
+          "camelName": "surfaceTypes",
+          "kebabName": "surface-types",
+          "exampleValue": "[\"UNIFIED_INBOX\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "host-recommended-actions-count-query",
+      "description": "GET /api/v3/HostRecommendedActionsCountQuery",
+      "methodName": "getApiV3HostRecommendedActionsCountQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/HostRecommendedActionsCountQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "HostRecommendedActionsCountQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"306bf94715d2edf2e62224456576fd6d1d9a7722f7b71ffaae4e8aca5457337e\"}}",
+      "variables": [
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "VXNlcjo1NDU0NTgwNQ=="
+        },
+        {
+          "camelName": "includeListingIds",
+          "kebabName": "include-listing-ids",
+          "exampleValue": "false"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "user-metastore-web-query",
+      "description": "GET /api/v3/UserMetastoreWebQuery",
+      "methodName": "getApiV3UserMetastoreWebQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/UserMetastoreWebQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "UserMetastoreWebQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"78b9d1375e3eaeb5aa594cb9505eb35a455185a9eecf70ce6e1932ed709eab7e\"}}",
+      "variables": [
+        {
+          "camelName": "eventKey",
+          "kebabName": "event-key",
+          "exampleValue": "seen_tips_fab"
+        },
+        {
+          "camelName": "eventNamespace",
+          "kebabName": "event-namespace",
+          "exampleValue": "HOST_TASK_SYSTEM"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "host-notifications-badging-query",
+      "description": "GET /api/v3/HostNotificationsBadgingQuery",
+      "methodName": "getApiV3HostNotificationsBadgingQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/HostNotificationsBadgingQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "HostNotificationsBadgingQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"b2773eb668ac3679879e904a3805090b4c2bd4249237aa65a5f730e7a536a4a3\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-emblem-badge-count-updates-subscription",
+      "description": "POST /api/v3/EmblemBadgeCountUpdatesSubscription",
+      "methodName": "createApiV3EmblemBadgeCountUpdatesSubscription",
+      "httpMethod": "POST",
+      "path": "/api/v3/EmblemBadgeCountUpdatesSubscription",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "host-reservations-tab-filters-modal-query",
+      "description": "GET /api/v3/HostReservationsTabFiltersModalQuery",
+      "methodName": "getApiV3HostReservationsTabFiltersModalQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/HostReservationsTabFiltersModalQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "HostReservationsTabFiltersModalQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"2c0e4929952ee64cff0536a1f8addcf4ca10421225e1c59aa0077f8dc6a69c7f\"}}",
+      "variables": [
+        {
+          "camelName": "paginationInput",
+          "kebabName": "pagination-input",
+          "exampleValue": "null"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "announcement-impression-info",
+      "description": "GET /api/v3/AnnouncementImpressionInfo",
+      "methodName": "getApiV3AnnouncementImpressionInfo",
+      "httpMethod": "GET",
+      "path": "/api/v3/AnnouncementImpressionInfo",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "AnnouncementImpressionInfo",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"cd65d723e598a170c213d99029f9274ba5c0591f3bbc11b283ff6bca5a8f6deb\"}}",
+      "variables": [
+        {
+          "camelName": "impressionId",
+          "kebabName": "impression-id",
+          "exampleValue": "CANVAS_ANNOUNCEMENT"
+        },
+        {
+          "camelName": "discriminator",
+          "kebabName": "discriminator",
+          "exampleValue": "30093661910289"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-user-metastore-web-mutation",
+      "description": "POST /api/v3/UserMetastoreWebMutation",
+      "methodName": "createApiV3UserMetastoreWebMutation",
+      "httpMethod": "POST",
+      "path": "/api/v3/UserMetastoreWebMutation",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "create-record-navi-announcement-view",
+      "description": "POST /api/v3/RecordNaviAnnouncementView",
+      "methodName": "createApiV3RecordNaviAnnouncementView",
+      "httpMethod": "POST",
+      "path": "/api/v3/RecordNaviAnnouncementView",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "get-list-of-listings",
+      "description": "GET /api/v3/getListOfListings",
+      "methodName": "getApiV3GetListOfListings",
+      "httpMethod": "GET",
+      "path": "/api/v3/getListOfListings",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "getListOfListings",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"4520823974858dbd609b7038e34c7bfa7af00c5cd1a9da734b18b3d2ac96449b\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "is-pro-tools-user-query",
+      "description": "GET /api/v3/IsProToolsUserQuery",
+      "methodName": "getApiV3IsProToolsUserQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/IsProToolsUserQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "IsProToolsUserQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"344e141a3bba51077797cccbee18e555f1e252beb5637bc93c2121eddf0c63cd\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "user-list-of-activities",
+      "description": "GET /api/v3/UserListOfActivities",
+      "methodName": "getApiV3UserListOfActivities",
+      "httpMethod": "GET",
+      "path": "/api/v3/UserListOfActivities",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "UserListOfActivities",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"7ec69c66e0b66b5c3c0128a278fcb7394deb245f6765e8d7fccd0dc88765e973\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "user-list-of-listings-activities",
+      "description": "GET /api/v3/UserListOfListingsActivities",
+      "methodName": "getApiV3UserListOfListingsActivities",
+      "httpMethod": "GET",
+      "path": "/api/v3/UserListOfListingsActivities",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "UserListOfListingsActivities",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"556aa1babd4bcd1425a3b4bee8d4556245602781df90cd8bed2cc4aba697d43a\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "multical-bootstrap",
+      "description": "GET /api/v3/multicalBootstrap",
+      "methodName": "getApiV3MulticalBootstrap",
+      "httpMethod": "GET",
+      "path": "/api/v3/multicalBootstrap",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "multicalBootstrap",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"52ffad63c3c6ce7e7e43acd516870a0cf4fdaba8ea4138f006a78c8bca61f836\"}}",
+      "variables": [
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "54545805"
+        },
+        {
+          "camelName": "offset",
+          "kebabName": "offset",
+          "exampleValue": "0"
+        },
+        {
+          "camelName": "limit",
+          "kebabName": "limit",
+          "exampleValue": "20"
+        },
+        {
+          "camelName": "startDate",
+          "kebabName": "start-date",
+          "exampleValue": "2026-03-18"
+        },
+        {
+          "camelName": "endDate",
+          "kebabName": "end-date",
+          "exampleValue": "2026-04-18"
+        },
+        {
+          "camelName": "calendarFields",
+          "kebabName": "calendar-fields",
+          "exampleValue": "[\"AVAILABILITY\",\"AVAILABILITY_DETAILS\",\"REASONS_FOR_UNAVAILABILITY\",\"HOST_PRICE\",\"SMART_PRICING_SUGGESTIONS\",\"HOST_PRICE_EXPLANATIONS\",\"PROMOTION\",\"LUX_INSPECTIONS\",\"BOOKABILITY\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-opportunities",
+      "description": "GET /api/v3/getOpportunities",
+      "methodName": "getApiV3GetOpportunities",
+      "httpMethod": "GET",
+      "path": "/api/v3/getOpportunities",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "getOpportunities",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"5fc02c362fef474f90eea5c08cb17164e9982db67d3f16b86de7bf1bfd60742c\"}}",
+      "variables": [
+        {
+          "camelName": "request",
+          "kebabName": "request",
+          "exampleValue": "{\"clientName\":\"multicalendar\",\"componentArguments\":[{\"componentName\":\"OPPORTUNITY_HUB_LEVERS_SECTION\",\"arguments\":{\"limit\":100}}]}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "multical-listings-and-calendars",
+      "description": "GET /api/v3/multicalListingsAndCalendars",
+      "methodName": "getApiV3MulticalListingsAndCalendars",
+      "httpMethod": "GET",
+      "path": "/api/v3/multicalListingsAndCalendars",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "multicalListingsAndCalendars",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"a0ebb5dfb64538ef79e618b28041c5a4f2ef1c491861509eb6b91ef4191b543c\"}}",
+      "variables": [
+        {
+          "camelName": "offset",
+          "kebabName": "offset",
+          "exampleValue": "0"
+        },
+        {
+          "camelName": "limit",
+          "kebabName": "limit",
+          "exampleValue": "5"
+        },
+        {
+          "camelName": "startDate",
+          "kebabName": "start-date",
+          "exampleValue": "2026-03-19"
+        },
+        {
+          "camelName": "endDate",
+          "kebabName": "end-date",
+          "exampleValue": "2026-03-31"
+        },
+        {
+          "camelName": "calendarFields",
+          "kebabName": "calendar-fields",
+          "exampleValue": "[\"AVAILABILITY\",\"AVAILABILITY_DETAILS\",\"REASONS_FOR_UNAVAILABILITY\",\"HOST_PRICE\",\"SMART_PRICING_SUGGESTIONS\",\"HOST_PRICE_EXPLANATIONS\",\"PROMOTION\",\"LUX_INSPECTIONS\",\"BOOKABILITY\",\"ANCHOR_PRICE\"]"
+        },
+        {
+          "camelName": "filters",
+          "kebabName": "filters",
+          "exampleValue": "{\"amenityIds\":null,\"apiStatuses\":null,\"bathrooms\":null,\"beds\":null,\"bedrooms\":null,\"cities\":null,\"instantBook\":null,\"listingIds\":null,\"ownerships\":null,\"propertyTypeGroups\":null,\"propertyTypeIds\":null,\"publishedApiSyncCategories\":null,\"statuses\":null,\"tags\":null,\"pttAllowed\":null,\"updatedAfter\":null,\"updatedBefore\":null,\"visibilities\":null,\"vlsVerificationRequired\":null,\"tierIds\":[0,1,2]}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "multical-additional-reservation-data",
+      "description": "GET /api/v3/multicalAdditionalReservationData",
+      "methodName": "getApiV3MulticalAdditionalReservationData",
+      "httpMethod": "GET",
+      "path": "/api/v3/multicalAdditionalReservationData",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "multicalAdditionalReservationData",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"33004973ee850e7a6826638dac7dfb82360e41ee728db8b674bdf739396dad81\"}}",
+      "variables": [
+        {
+          "camelName": "listingIds",
+          "kebabName": "listing-ids",
+          "exampleValue": "[\"1127619799922222715\",\"1257804757091983082\",\"1161763421639431136\",\"1184716939869222028\",\"1019568821478163574\"]"
+        },
+        {
+          "camelName": "startDate",
+          "kebabName": "start-date",
+          "exampleValue": "2026-03-19"
+        },
+        {
+          "camelName": "endDate",
+          "kebabName": "end-date",
+          "exampleValue": "2026-03-31"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-calendar-timelines",
+      "description": "GET /api/v3/getCalendarTimelines",
+      "methodName": "getApiV3GetCalendarTimelines",
+      "httpMethod": "GET",
+      "path": "/api/v3/getCalendarTimelines",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "getCalendarTimelines",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"340416386154d1b20058350c895c78f58a26fec828df4a3159cfb79854a5f529\"}}",
+      "variables": [
+        {
+          "camelName": "listingIds",
+          "kebabName": "listing-ids",
+          "exampleValue": "[\"1127619799922222715\",\"1257804757091983082\",\"1161763421639431136\",\"1184716939869222028\",\"1019568821478163574\"]"
+        },
+        {
+          "camelName": "startDate",
+          "kebabName": "start-date",
+          "exampleValue": "2026-03-19"
+        },
+        {
+          "camelName": "endDate",
+          "kebabName": "end-date",
+          "exampleValue": "2026-03-31"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-multical-seasonal-rulesets-by-rule-group-ids",
+      "description": "GET /api/v3/getMulticalSeasonalRulesetsByRuleGroupIds",
+      "methodName": "getApiV3GetMulticalSeasonalRulesetsByRuleGroupIds",
+      "httpMethod": "GET",
+      "path": "/api/v3/getMulticalSeasonalRulesetsByRuleGroupIds",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "getMulticalSeasonalRulesetsByRuleGroupIds",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"0526936276c052cecf92bba66fdbe72d821ee88ef162f8e1f8ad65693c497d63\"}}",
+      "variables": [
+        {
+          "camelName": "ruleGroupIds",
+          "kebabName": "rule-group-ids",
+          "exampleValue": "[\"1073598017\",\"1186782585\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "multical-get-calendars-for-host",
+      "description": "GET /api/v3/multicalGetCalendarsForHost",
+      "methodName": "getApiV3MulticalGetCalendarsForHost",
+      "httpMethod": "GET",
+      "path": "/api/v3/multicalGetCalendarsForHost",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "multicalGetCalendarsForHost",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"34f3f6de0d2be9cd5de631d4711879aab8c9d63c616da05518701c1687e1057a\"}}",
+      "variables": [
+        {
+          "camelName": "startDate",
+          "kebabName": "start-date",
+          "exampleValue": "2026-03-16"
+        },
+        {
+          "camelName": "endDate",
+          "kebabName": "end-date",
+          "exampleValue": "2026-04-12"
+        },
+        {
+          "camelName": "listingIds",
+          "kebabName": "listing-ids",
+          "exampleValue": "[\"1127619799922222715\"]"
+        },
+        {
+          "camelName": "calendarFields",
+          "kebabName": "calendar-fields",
+          "exampleValue": "[\"AVAILABILITY\",\"AVAILABILITY_DETAILS\",\"REASONS_FOR_UNAVAILABILITY\",\"HOST_PRICE\",\"SMART_PRICING_SUGGESTIONS\",\"HOST_PRICE_EXPLANATIONS\",\"PROMOTION\",\"LUX_INSPECTIONS\",\"BOOKABILITY\",\"ANCHOR_PRICE\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "host-reservation-details-query",
+      "description": "GET /api/v3/HostReservationDetailsQuery",
+      "methodName": "getApiV3HostReservationDetailsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/HostReservationDetailsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "HostReservationDetailsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"8697e73596888f082a32846bcd83c5ebcc95d6cb1e98b13feb3f93bcfaa6ffa0\"}}",
+      "variables": [
+        {
+          "camelName": "requestSource",
+          "kebabName": "request-source",
+          "exampleValue": "PERMALINK"
+        },
+        {
+          "camelName": "confirmationCode",
+          "kebabName": "confirmation-code",
+          "exampleValue": "HMMFNAKFNM"
+        },
+        {
+          "camelName": "stayReservationConfirmationCode",
+          "kebabName": "stay-reservation-confirmation-code",
+          "exampleValue": "HMMFNAKFNM"
+        },
+        {
+          "camelName": "hasStayReservationConfirmationCode",
+          "kebabName": "has-stay-reservation-confirmation-code",
+          "exampleValue": "true"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-unsubscribe-mutation",
+      "description": "POST /api/v3/UnsubscribeMutation",
+      "methodName": "createApiV3UnsubscribeMutation",
+      "httpMethod": "POST",
+      "path": "/api/v3/UnsubscribeMutation",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "unified-list-of-listings-query",
+      "description": "GET /api/v3/UnifiedListOfListingsQuery",
+      "methodName": "getApiV3UnifiedListOfListingsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/UnifiedListOfListingsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "UnifiedListOfListingsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"7b22025d8ea98e8d6f914a8b0ab22c20346185382e9ad52fb6f01945fd7bea48\"}}",
+      "variables": [
+        {
+          "camelName": "first",
+          "kebabName": "first",
+          "exampleValue": "24"
+        },
+        {
+          "camelName": "filter",
+          "kebabName": "filter",
+          "exampleValue": "{\"stays\":{\"collapseOnBnbPropertyId\":true},\"experiences\":{},\"services\":{}}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "account-enforcement-query",
+      "description": "GET /api/v3/AccountEnforcementQuery",
+      "methodName": "getApiV3AccountEnforcementQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/AccountEnforcementQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "AccountEnforcementQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"4ff7e79467de54afffb52f7a530d92ccccec2a0ea1b70bdb874cc1d1b7efc2b0\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "list-of-listings-with-recommended-actions-query",
+      "description": "GET /api/v3/ListOfListingsWithRecommendedActionsQuery",
+      "methodName": "getApiV3ListOfListingsWithRecommendedActionsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/ListOfListingsWithRecommendedActionsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "ListOfListingsWithRecommendedActionsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"408ea3f6a57366ee4d43635096f5365c88d49e82bb160452736192a8b3932b09\"}}",
+      "variables": [
+        {
+          "camelName": "mockIdentifier",
+          "kebabName": "mock-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "VXNlcjo1NDU0NTgwNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-listing-query",
+      "description": "GET /api/v3/MysListingQuery",
+      "methodName": "getApiV3MysListingQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysListingQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysListingQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"4696989b89d2976bf7c6f5758ab41a27550934adb139e5bc8a11bf6306cb2b0e\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-listing-details-query",
+      "description": "GET /api/v3/MysListingDetailsQuery",
+      "methodName": "getApiV3MysListingDetailsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysListingDetailsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysListingDetailsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"e44b1e58b6fbdffeb2c17a85ccb0b7eeef0dd52487d8f75254934c5b08a05f09\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        },
+        {
+          "camelName": "isPnADiscoverabilityEnabled",
+          "kebabName": "is-pn-adiscoverability-enabled",
+          "exampleValue": "true"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "listing-verification-reminder-query",
+      "description": "GET /api/v3/ListingVerificationReminderQuery",
+      "methodName": "getApiV3ListingVerificationReminderQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/ListingVerificationReminderQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "ListingVerificationReminderQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"36b7708d4ccd841f8f8cf47478198869f74befd30657c828e2e4779307f03b16\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "cohost-management-wiggle-list-query",
+      "description": "GET /api/v3/CohostManagementWiggleListQuery",
+      "methodName": "getApiV3CohostManagementWiggleListQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/CohostManagementWiggleListQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "CohostManagementWiggleListQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"ea2d9007167c0a341167b13313ab82af94bf544a87d09f1a6a3c0521873b7c4d\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "1127619799922222715"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-photo-tour-query",
+      "description": "GET /api/v3/MysPhotoTourQuery",
+      "methodName": "getApiV3MysPhotoTourQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysPhotoTourQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysPhotoTourQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"be4989f6f496f1deb7ef315e6b73b5ca86463505dea8307d61468fc4b24ac247\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "maps-mapsjs-gen",
+      "description": "GET /maps/api/mapsjs/gen_204",
+      "methodName": "getMapsApiMapsjsGen",
+      "httpMethod": "GET",
+      "path": "/maps/api/mapsjs/gen_204",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "csp_test"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mysarrival-query",
+      "description": "GET /api/v3/MYSArrivalQuery",
+      "methodName": "getApiV3MysarrivalQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSArrivalQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSArrivalQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"5f1aa43e92036a90fccfedb26d1aefaa4fce74b7be207a1d15e0f0e94829aacb\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        },
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "54545805"
+        },
+        {
+          "camelName": "userGlobalID",
+          "kebabName": "user-global-id",
+          "exampleValue": "VXNlcjo1NDU0NTgwNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myscheck-in-out-query",
+      "description": "GET /api/v3/MYSCheckInOutQuery",
+      "methodName": "getApiV3MyscheckInOutQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSCheckInOutQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSCheckInOutQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"8906430200296fa97f9ae705e3994a2aa8c073dc5216097399d783cd5ebf7570\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mysdirections-query",
+      "description": "GET /api/v3/MYSDirectionsQuery",
+      "methodName": "getApiV3MysdirectionsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSDirectionsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSDirectionsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"4f6d0c687e412b69c351d39d77af5ce3336999f278b379a1a61a6810bd16c7fa\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myscheck-in-method-query",
+      "description": "GET /api/v3/MYSCheckInMethodQuery",
+      "methodName": "getApiV3MyscheckInMethodQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSCheckInMethodQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSCheckInMethodQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"5abdac31b36b4b2c99fa0f4d91320713062c63862dafbb566123ce5213fdf52b\"}}",
+      "variables": [
+        {
+          "camelName": "mockIdentifier",
+          "kebabName": "mock-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        },
+        {
+          "camelName": "userGlobalID",
+          "kebabName": "user-global-id",
+          "exampleValue": "VXNlcjo1NDU0NTgwNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-abbi-command-response-subscription",
+      "description": "POST /api/v3/AbbiCommandResponseSubscription",
+      "methodName": "createApiV3AbbiCommandResponseSubscription",
+      "httpMethod": "POST",
+      "path": "/api/v3/AbbiCommandResponseSubscription",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "ea-air-pictures-bf3f7b1d-dd0-e60-d2b9dfb36bc",
+      "description": "GET /4ea/air/v2/pictures/bf3f7b1d-4409-4dd0-8e60-5d2b9dfb36bc.json",
+      "methodName": "getEaAirV2PicturesBf3f7b1dDd0E60D2b9dfb36bc",
+      "httpMethod": "GET",
+      "path": "/4ea/air/v2/pictures/bf3f7b1d-4409-4dd0-8e60-5d2b9dfb36bc.json",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "abbi-smart-listing-feature-state-query",
+      "description": "GET /api/v3/AbbiSmartListingFeatureStateQuery",
+      "methodName": "getApiV3AbbiSmartListingFeatureStateQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/AbbiSmartListingFeatureStateQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "AbbiSmartListingFeatureStateQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"b3cc362921a28714abda6e20a06d54f0b6f14a404348818368418700eba1bec9\"}}",
+      "variables": [
+        {
+          "camelName": "request",
+          "kebabName": "request",
+          "exampleValue": "{\"forceRefresh\":true,\"smartListingFeatureUri\":\"1127619799922222715:seamless-entry\",\"requestUuid\":\"83e07ad0-6bab-4663-9c50-3641267a3e75\"}"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "lock-status-page-query",
+      "description": "GET /api/v3/LockStatusPageQuery",
+      "methodName": "getApiV3LockStatusPageQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/LockStatusPageQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "LockStatusPageQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"1d4faa43583e4b84384cd074105a3899628bd3a39118304116b5beecdfc3a932\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        },
+        {
+          "camelName": "isTimeout",
+          "kebabName": "is-timeout",
+          "exampleValue": "false"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myswifi-details-query",
+      "description": "GET /api/v3/MYSWifiDetailsQuery",
+      "methodName": "getApiV3MyswifiDetailsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSWifiDetailsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSWifiDetailsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"8bb7d04ea35e4b3c2360cffb9b0f816d9230f198f2007e685183c2dab77def69\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myshouse-manual-query",
+      "description": "GET /api/v3/MYSHouseManualQuery",
+      "methodName": "getApiV3MyshouseManualQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSHouseManualQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSHouseManualQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"fd0ea2574db5a54620f7fde2cb136e1f17a41fe19fd4a7ff8f45ae90d056c1d9\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-house-rules-query",
+      "description": "GET /api/v3/MysHouseRulesQuery",
+      "methodName": "getApiV3MysHouseRulesQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysHouseRulesQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysHouseRulesQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c9249921ac3f5b6281ecb0d7903db66c843608cd4056570ef4e3f5bdf8dfd2c8\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myscheckout-instructions-query",
+      "description": "GET /api/v3/MYSCheckoutInstructionsQuery",
+      "methodName": "getApiV3MyscheckoutInstructionsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSCheckoutInstructionsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSCheckoutInstructionsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"a41550454a526aa646a8bb474fe2c62d1ec9aad28f08a7a9ac89794cae746be8\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "pictures-f1199d80-ddd8-c35-d37d4ada1e29",
+      "description": "GET /pictures/f1199d80-637d-4dd8-9c35-d37d4ada1e29.json",
+      "methodName": "getPicturesF1199d80DDd8C35D37d4ada1e29",
+      "httpMethod": "GET",
+      "path": "/pictures/f1199d80-637d-4dd8-9c35-d37d4ada1e29.json",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "mysguidebooks-query",
+      "description": "GET /api/v3/MYSGuidebooksQuery",
+      "methodName": "getApiV3MysguidebooksQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSGuidebooksQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSGuidebooksQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"fa4a53304f8736de37cd64d58cbc9f4098f9e573d9bef2c418c1511dd15334bd\"}}",
+      "variables": [
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "54545805"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "interaction-preferences-query",
+      "description": "GET /api/v3/InteractionPreferencesQuery",
+      "methodName": "getApiV3InteractionPreferencesQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/InteractionPreferencesQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "InteractionPreferencesQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"e37c89a013448ce4e86f74bcde707e0bbffb107b1fb9625a0ebcb2fab6b6321b\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-title-query",
+      "description": "GET /api/v3/MysTitleQuery",
+      "methodName": "getApiV3MysTitleQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysTitleQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysTitleQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c57f95727fcd32ffcad7fceea560331420e107f3f77dd3120b618e7d8544bb01\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        },
+        {
+          "camelName": "viewerId",
+          "kebabName": "viewer-id",
+          "exampleValue": "Vmlld2VyOjU0NTQ1ODA1"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-language-corrections",
+      "description": "POST /api/v2/language_corrections",
+      "methodName": "createApiV2LanguageCorrections",
+      "httpMethod": "POST",
+      "path": "/api/v2/language_corrections",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "npm-emojibase-data4-en-data",
+      "description": "GET /npm/emojibase-data@4.2.1/en/data.json",
+      "methodName": "getNpmEmojibaseData4EnData",
+      "httpMethod": "GET",
+      "path": "/npm/emojibase-data@4.2.1/en/data.json",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-property-type-query",
+      "description": "GET /api/v3/MysPropertyTypeQuery",
+      "methodName": "getApiV3MysPropertyTypeQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysPropertyTypeQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysPropertyTypeQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"7b464f5abb15bcb3c0ce6f85dc04c195819f289f702d4f169727066dc4b27fda\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "pricing-settings-query",
+      "description": "GET /api/v3/PricingSettingsQuery",
+      "methodName": "getApiV3PricingSettingsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/PricingSettingsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "PricingSettingsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"14c6ab59662afee45f4e59bdd5d004f3210488ba70e7010d69db564d6cbb8f67\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "1127619799922222715"
+        },
+        {
+          "camelName": "types",
+          "kebabName": "types",
+          "exampleValue": "[\"LOW_DEMAND_PROMOTION\",\"NEW_HOSTING_PROMOTION\",\"HOST_CUSTOM_PROMOTION\",\"HIGH_QUALITY_AND_EXPERIENCED_GUEST_PROMOTION\"]"
+        },
+        {
+          "camelName": "promotionOrderBy",
+          "kebabName": "promotion-order-by",
+          "exampleValue": "[{\"orderField\":\"START_DATE\",\"sortOrder\":\"ASC\"}]"
+        },
+        {
+          "camelName": "mockIdentifier",
+          "kebabName": "mock-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "listingIdString",
+          "kebabName": "listing-id-string",
+          "exampleValue": "1127619799922222715"
+        },
+        {
+          "camelName": "tooltipSurface",
+          "kebabName": "tooltip-surface",
+          "exampleValue": "HOST_CALENDAR_SETTINGS"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-hof-transition-client-side-lock",
+      "description": "GET /api/v3/GetHofTransitionClientSideLock",
+      "methodName": "getApiV3GetHofTransitionClientSideLock",
+      "httpMethod": "GET",
+      "path": "/api/v3/GetHofTransitionClientSideLock",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "GetHofTransitionClientSideLock",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c8cad3dfc0de3e723a1707fcafce1898e5f64b82ed781a2f54d34823272a0a6b\"}}",
+      "variables": [
+        {
+          "camelName": "listingIds",
+          "kebabName": "listing-ids",
+          "exampleValue": "[\"U3RheUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ==\"]"
+        },
+        {
+          "camelName": "nodeListingIds",
+          "kebabName": "node-listing-ids",
+          "exampleValue": "[\"U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ==\"]"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-availability-settings",
+      "description": "GET /api/v3/getAvailabilitySettings",
+      "methodName": "getApiV3GetAvailabilitySettings",
+      "httpMethod": "GET",
+      "path": "/api/v3/getAvailabilitySettings",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "getAvailabilitySettings",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"8b5fd6317c03a99bbac35d1432aab0d013452a44e1b7d37da8785a99fee44f9f\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "1127619799922222715"
+        },
+        {
+          "camelName": "mockIdentifier",
+          "kebabName": "mock-identifier",
+          "exampleValue": "null"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-number-of-guests-query",
+      "description": "GET /api/v3/MysNumberOfGuestsQuery",
+      "methodName": "getApiV3MysNumberOfGuestsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysNumberOfGuestsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysNumberOfGuestsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"e4e80cb30166999015898f105b5616cfd861a3d4828844c491611da295e95f80\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mysdescription-query",
+      "description": "GET /api/v3/MYSDescriptionQuery",
+      "methodName": "getApiV3MysdescriptionQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSDescriptionQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSDescriptionQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"0caefcdb914bbcc37731a76bc3efa061cc4e3813b274e460088381c8c0a055bc\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-amenities-query",
+      "description": "GET /api/v3/MysAmenitiesQuery",
+      "methodName": "getApiV3MysAmenitiesQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysAmenitiesQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysAmenitiesQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"584616b0048e640f9b5e3fc625045c4d5cf74fee76ae3c8028101f55ba55f92b\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-accessibility-features-query",
+      "description": "GET /api/v3/MysAccessibilityFeaturesQuery",
+      "methodName": "getApiV3MysAccessibilityFeaturesQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysAccessibilityFeaturesQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysAccessibilityFeaturesQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"a00a3f1b4f392da86d829228dc1cbac1de5546d232de7cc08082e88f8f020bd4\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myslocation-query",
+      "description": "GET /api/v3/MYSLocationQuery",
+      "methodName": "getApiV3MyslocationQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSLocationQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSLocationQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"155b159c9ed019705e37dbb94e61d28f72847129d0d5aa3f7f0599f98100ddfc\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myslocation-resident-hosting-listing-validation-query",
+      "description": "GET /api/v3/MYSLocationResidentHostingListingValidationQuery",
+      "methodName": "getApiV3MyslocationResidentHostingListingValidationQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSLocationResidentHostingListingValidationQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSLocationResidentHostingListingValidationQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"1b84a7248b858ece1a82ef84e76ac6a3ebcb914f9b81f82a3facdb2d985c87f5\"}}",
+      "variables": [
+        {
+          "camelName": "staySupplyListingId",
+          "kebabName": "stay-supply-listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "about-the-host-query",
+      "description": "GET /api/v3/AboutTheHostQuery",
+      "methodName": "getApiV3AboutTheHostQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/AboutTheHostQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "AboutTheHostQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"9b3af36f2fd48cb8c524e2267a3f966fba4e00d02a3d049c7f32e3469b8ba805\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "get-user-profile-query",
+      "description": "GET /api/v3/GetUserProfileQuery",
+      "methodName": "getApiV3GetUserProfileQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/GetUserProfileQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "GetUserProfileQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"32c712675e67b94696a1e0d472788b059aeb7a52420f6125417eee68cbe1ac87\"}}",
+      "variables": [
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": ""
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "contextual-public-profile-query",
+      "description": "GET /api/v3/ContextualPublicProfileQuery",
+      "methodName": "getApiV3ContextualPublicProfileQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/ContextualPublicProfileQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "ContextualPublicProfileQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"cc10d90fbc2db4f1d74d42017017066b854e382f29d1273f32b6588d6ae25494\"}}",
+      "variables": [
+        {
+          "camelName": "contextualUserId",
+          "kebabName": "contextual-user-id",
+          "exampleValue": "Q29udGV4dHVhbFVzZXI6MTQ2NTg4OTI2MTk0Mjg3MTg1OQ=="
+        },
+        {
+          "camelName": "isViewerLoggedIn",
+          "kebabName": "is-viewer-logged-in",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "viewerUserId",
+          "kebabName": "viewer-user-id",
+          "exampleValue": "VXNlcjo1NDU0NTgwNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "cohost-management-list-query",
+      "description": "GET /api/v3/CohostManagementListQuery",
+      "methodName": "getApiV3CohostManagementListQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/CohostManagementListQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "CohostManagementListQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"71220caea76fe63075c6c82da1f77ac4e3e5c161e043d84b5302be65e3023470\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "1127619799922222715"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "cohost-invitation-get-phone-countries",
+      "description": "GET /api/v3/CohostInvitationGetPhoneCountries",
+      "methodName": "getApiV3CohostInvitationGetPhoneCountries",
+      "httpMethod": "GET",
+      "path": "/api/v3/CohostInvitationGetPhoneCountries",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "CohostInvitationGetPhoneCountries",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"4d0068a77473fd134d9912d43111fe53bde3c152eb582421cafd815161b8aeb8\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mysinstant-book-query",
+      "description": "GET /api/v3/MYSInstantBookQuery",
+      "methodName": "getApiV3MysinstantBookQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSInstantBookQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSInstantBookQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c8007a81f96e7fcbfdcef2f1a0e4614dbda332275eaeea4a0dad05ad98f9b93a\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-guest-safety-query",
+      "description": "GET /api/v3/MysGuestSafetyQuery",
+      "methodName": "getApiV3MysGuestSafetyQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysGuestSafetyQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysGuestSafetyQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"08ec1869cca949b0948299a37e56db9def56b8e7d50f9a6038e8362ef94d21b9\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "mys-cancellation-policy-query",
+      "description": "GET /api/v3/MysCancellationPolicyQuery",
+      "methodName": "getApiV3MysCancellationPolicyQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MysCancellationPolicyQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MysCancellationPolicyQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"0da5ca4fd48e1d5dd6bb686bb73bb43217cd1333cc0b9a5758f2555317b8f4b8\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "myscustom-link-query",
+      "description": "GET /api/v3/MYSCustomLinkQuery",
+      "methodName": "getApiV3MyscustomLinkQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/MYSCustomLinkQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "MYSCustomLinkQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"d2d27f4483b9dae08b22abb91b37100de9a3ceb2f4a254f0d63631834cea0245\"}}",
+      "variables": [
+        {
+          "camelName": "listingId",
+          "kebabName": "listing-id",
+          "exampleValue": "U3RheVN1cHBseUxpc3Rpbmc6MTEyNzYxOTc5OTkyMjIyMjcxNQ=="
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "fetch-inbox-filters-config",
+      "description": "GET /api/v3/FetchInboxFiltersConfig",
+      "methodName": "getApiV3FetchInboxFiltersConfig",
+      "httpMethod": "GET",
+      "path": "/api/v3/FetchInboxFiltersConfig",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "FetchInboxFiltersConfig",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"076e2b08aa8463475790dad6f5c6d6676cc2d0a46477df9f08a7faa6d5c6f56a\"}}",
+      "variables": [],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "viaduct-inbox-data",
+      "description": "GET /api/v3/ViaductInboxData",
+      "methodName": "getApiV3ViaductInboxData",
+      "httpMethod": "GET",
+      "path": "/api/v3/ViaductInboxData",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "ViaductInboxData",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"bcd895bbf187ef3ef814c634e61130ddc3bd0bc45e4c9edf7fd7dc63714a898d\"}}",
+      "variables": [
+        {
+          "camelName": "getParticipants",
+          "kebabName": "get-participants",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "numRequestedThreads",
+          "kebabName": "num-requested-threads",
+          "exampleValue": "15"
+        },
+        {
+          "camelName": "useUserThreadTag",
+          "kebabName": "use-user-thread-tag",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "userId",
+          "kebabName": "user-id",
+          "exampleValue": "Vmlld2VyOjU0NTQ1ODA1"
+        },
+        {
+          "camelName": "originType",
+          "kebabName": "origin-type",
+          "exampleValue": "USER_INBOX"
+        },
+        {
+          "camelName": "threadVisibility",
+          "kebabName": "thread-visibility",
+          "exampleValue": "UNARCHIVED"
+        },
+        {
+          "camelName": "threadTagFilters",
+          "kebabName": "thread-tag-filters",
+          "exampleValue": "[]"
+        },
+        {
+          "camelName": "query",
+          "kebabName": "query",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "getLastReads",
+          "kebabName": "get-last-reads",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "getThreadState",
+          "kebabName": "get-thread-state",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "getInboxFields",
+          "kebabName": "get-inbox-fields",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "getInboxOnlyFields",
+          "kebabName": "get-inbox-only-fields",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "getMessageFields",
+          "kebabName": "get-message-fields",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "getThreadOnlyFields",
+          "kebabName": "get-thread-only-fields",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "skipOldMessagePreviewFields",
+          "kebabName": "skip-old-message-preview-fields",
+          "exampleValue": "false"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-sync-protocol-subscription",
+      "description": "POST /api/v3/SyncProtocolSubscription",
+      "methodName": "createApiV3SyncProtocolSubscription",
+      "httpMethod": "POST",
+      "path": "/api/v3/SyncProtocolSubscription",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "viaduct-get-thread-and-data-query",
+      "description": "GET /api/v3/ViaductGetThreadAndDataQuery",
+      "methodName": "getApiV3ViaductGetThreadAndDataQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/ViaductGetThreadAndDataQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "ViaductGetThreadAndDataQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"c9145d212132b6bd7c57a0b172056091d56baed1dcfc1628690bab4d4cd3e803\"}}",
+      "variables": [
+        {
+          "camelName": "numRequestedMessages",
+          "kebabName": "num-requested-messages",
+          "exampleValue": "50"
+        },
+        {
+          "camelName": "getThreadState",
+          "kebabName": "get-thread-state",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "getParticipants",
+          "kebabName": "get-participants",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "mockThreadIdentifier",
+          "kebabName": "mock-thread-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "mockMessageTestIdentifier",
+          "kebabName": "mock-message-test-identifier",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "getLastReads",
+          "kebabName": "get-last-reads",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "forceUgcTranslation",
+          "kebabName": "force-ugc-translation",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "isNovaLite",
+          "kebabName": "is-nova-lite",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "globalThreadId",
+          "kebabName": "global-thread-id",
+          "exampleValue": "TWVzc2FnZVRocmVhZDoyMTE5NzgzNjM5"
+        },
+        {
+          "camelName": "mockListFooterSlot",
+          "kebabName": "mock-list-footer-slot",
+          "exampleValue": "null"
+        },
+        {
+          "camelName": "forceReturnAllReadReceipts",
+          "kebabName": "force-return-all-read-receipts",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "originType",
+          "kebabName": "origin-type",
+          "exampleValue": "USER_INBOX"
+        },
+        {
+          "camelName": "getInboxFields",
+          "kebabName": "get-inbox-fields",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "getInboxOnlyFields",
+          "kebabName": "get-inbox-only-fields",
+          "exampleValue": "false"
+        },
+        {
+          "camelName": "getMessageFields",
+          "kebabName": "get-message-fields",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "getThreadOnlyFields",
+          "kebabName": "get-thread-only-fields",
+          "exampleValue": "true"
+        },
+        {
+          "camelName": "skipOldMessagePreviewFields",
+          "kebabName": "skip-old-message-preview-fields",
+          "exampleValue": "false"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    },
+    {
+      "commandName": "create-create-last-message-read-viaduct-mutation",
+      "description": "POST /api/v3/CreateLastMessageReadViaductMutation",
+      "methodName": "createApiV3CreateLastMessageReadViaductMutation",
+      "httpMethod": "POST",
+      "path": "/api/v3/CreateLastMessageReadViaductMutation",
+      "pathParams": [],
+      "isGraphQL": false,
+      "queryParams": [
+        {
+          "name": "operationName"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "currency"
+        }
+      ],
+      "hasBody": true
+    },
+    {
+      "commandName": "stay-hosting-details-query",
+      "description": "GET /api/v3/StayHostingDetailsQuery",
+      "methodName": "getApiV3StayHostingDetailsQuery",
+      "httpMethod": "GET",
+      "path": "/api/v3/StayHostingDetailsQuery",
+      "pathParams": [],
+      "isGraphQL": true,
+      "operationName": "StayHostingDetailsQuery",
+      "extensions": "{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"086bc7d9ac9d958a4271112962b079157a750aecabc05c5d2f1d976c62d2e6db\"}}",
+      "variables": [
+        {
+          "camelName": "confirmationCode",
+          "kebabName": "confirmation-code",
+          "exampleValue": ""
+        },
+        {
+          "camelName": "requestSource",
+          "kebabName": "request-source",
+          "exampleValue": "MESSAGING"
+        },
+        {
+          "camelName": "viewerTimeZoneOffset",
+          "kebabName": "viewer-time-zone-offset",
+          "exampleValue": "-240"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "locale",
+          "defaultValue": "en"
+        },
+        {
+          "name": "currency",
+          "defaultValue": "USD"
+        }
+      ],
+      "hasBody": false
+    }
+  ]
+}

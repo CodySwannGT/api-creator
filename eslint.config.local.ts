@@ -1,5 +1,8 @@
 export default [
   {
+    ignores: ["services/**"],
+  },
+  {
     files: ["tests/**/*.test.ts"],
     rules: {
       "jsdoc/require-param-description": "off",
