@@ -2,7 +2,7 @@
   "name": "airbnb",
   "baseUrl": "https://www.airbnb.com",
   "originalUrl": "https://www.airbnb.com",
-  "createdAt": "2026-03-21T20:09:38.993Z",
+  "createdAt": "2026-03-21T20:31:12.225Z",
   "authType": "cookie",
   "endpoints": [
     {
@@ -21,7 +21,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Get"
     },
     {
       "commandName": "navi-server-announcements-query",
@@ -55,7 +56,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Announcements"
     },
     {
       "commandName": "header",
@@ -104,7 +106,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Header"
     },
     {
       "commandName": "create-client-configs",
@@ -122,7 +125,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Client"
     },
     {
       "commandName": "get-consent-for-user-query",
@@ -151,7 +155,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Consent"
     },
     {
       "commandName": "promotions-by-placements-query",
@@ -185,7 +190,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Promotions"
     },
     {
       "commandName": "create-js",
@@ -196,7 +202,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Js"
     },
     {
       "commandName": "pictures-airbnb-platform-assets-airbnb-platform-assets-weekly-monthly-discount-original-ca838a06-bbeb6af82e45f",
@@ -207,7 +214,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Pictures"
     },
     {
       "commandName": "auto-suggestions-query",
@@ -241,7 +249,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Auto"
     },
     {
       "commandName": "user-markets",
@@ -262,7 +271,8 @@
           "name": "language"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "User"
     },
     {
       "commandName": "get",
@@ -273,7 +283,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Other"
     },
     {
       "commandName": "create-track-realtimeconversion",
@@ -284,7 +295,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Track"
     },
     {
       "commandName": "pictures-airbnb-platform-assets-airbnb-platform-assets-weekly-monthly-discount-original-cb064759-c8b3-c70-d419e7667990",
@@ -295,7 +307,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Pictures"
     },
     {
       "commandName": "create-auth-options",
@@ -313,7 +326,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Auth"
     },
     {
       "commandName": "create-auth-identify-email",
@@ -331,7 +345,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Auth"
     },
     {
       "commandName": "create-auth-authenticate-email-otp",
@@ -349,7 +364,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Auth"
     },
     {
       "commandName": "wishlist-index-page-query",
@@ -393,7 +409,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Wishlist"
     },
     {
       "commandName": "get-thumbnail-pic-query",
@@ -422,7 +439,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Thumbnail"
     },
     {
       "commandName": "is-host-query",
@@ -445,7 +463,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Other"
     },
     {
       "commandName": "host-reservations-tab-query",
@@ -484,7 +503,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Reservations"
     },
     {
       "commandName": "get-consent-flags-query",
@@ -518,7 +538,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Consent"
     },
     {
       "commandName": "fetch-emblem-badge-counts",
@@ -547,7 +568,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Emblem"
     },
     {
       "commandName": "host-recommended-actions-count-query",
@@ -581,7 +603,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Recommended"
     },
     {
       "commandName": "user-metastore-web-query",
@@ -615,7 +638,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Metastore"
     },
     {
       "commandName": "host-notifications-badging-query",
@@ -638,7 +662,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Notifications"
     },
     {
       "commandName": "create-emblem-badge-count-updates-subscription",
@@ -659,7 +684,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Emblem"
     },
     {
       "commandName": "host-reservations-tab-filters-modal-query",
@@ -688,7 +714,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Reservations"
     },
     {
       "commandName": "announcement-impression-info",
@@ -722,7 +749,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Announcement"
     },
     {
       "commandName": "create-user-metastore-web-mutation",
@@ -743,7 +771,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "User"
     },
     {
       "commandName": "create-record-navi-announcement-view",
@@ -764,7 +793,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Record"
     },
     {
       "commandName": "get-list-of-listings",
@@ -787,7 +817,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listings"
     },
     {
       "commandName": "is-pro-tools-user-query",
@@ -810,7 +841,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Pro"
     },
     {
       "commandName": "user-list-of-activities",
@@ -833,7 +865,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Activities"
     },
     {
       "commandName": "user-list-of-listings-activities",
@@ -856,7 +889,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listings"
     },
     {
       "commandName": "multical-bootstrap",
@@ -910,7 +944,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Multical"
     },
     {
       "commandName": "get-opportunities",
@@ -939,7 +974,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Opportunities"
     },
     {
       "commandName": "multical-listings-and-calendars",
@@ -993,7 +1029,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Multical"
     },
     {
       "commandName": "multical-additional-reservation-data",
@@ -1032,7 +1069,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Multical"
     },
     {
       "commandName": "get-calendar-timelines",
@@ -1071,7 +1109,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Calendar"
     },
     {
       "commandName": "get-multical-seasonal-rulesets-by-rule-group-ids",
@@ -1100,7 +1139,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Multical"
     },
     {
       "commandName": "multical-get-calendars-for-host",
@@ -1144,7 +1184,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Multical"
     },
     {
       "commandName": "host-reservation-details-query",
@@ -1188,7 +1229,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Reservation"
     },
     {
       "commandName": "create-unsubscribe-mutation",
@@ -1209,7 +1251,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Unsubscribe"
     },
     {
       "commandName": "unified-list-of-listings-query",
@@ -1243,7 +1286,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listings"
     },
     {
       "commandName": "account-enforcement-query",
@@ -1266,7 +1310,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Account"
     },
     {
       "commandName": "list-of-listings-with-recommended-actions-query",
@@ -1300,7 +1345,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listings"
     },
     {
       "commandName": "mys-listing-query",
@@ -1329,7 +1375,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listing"
     },
     {
       "commandName": "mys-listing-details-query",
@@ -1363,7 +1410,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listing"
     },
     {
       "commandName": "listing-verification-reminder-query",
@@ -1392,7 +1440,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Listing"
     },
     {
       "commandName": "cohost-management-wiggle-list-query",
@@ -1421,7 +1470,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Cohost"
     },
     {
       "commandName": "mys-photo-tour-query",
@@ -1450,7 +1500,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Photo"
     },
     {
       "commandName": "maps-mapsjs-gen",
@@ -1465,7 +1516,8 @@
           "name": "csp_test"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Maps"
     },
     {
       "commandName": "mysarrival-query",
@@ -1504,7 +1556,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Arrival"
     },
     {
       "commandName": "myscheck-in-out-query",
@@ -1533,7 +1586,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Out"
     },
     {
       "commandName": "mysdirections-query",
@@ -1562,7 +1616,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Directions"
     },
     {
       "commandName": "myscheck-in-method-query",
@@ -1601,7 +1656,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Method"
     },
     {
       "commandName": "create-abbi-command-response-subscription",
@@ -1622,7 +1678,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Abbi"
     },
     {
       "commandName": "ea-air-pictures-bf3f7b1d-dd0-e60-d2b9dfb36bc",
@@ -1633,7 +1690,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Ea"
     },
     {
       "commandName": "abbi-smart-listing-feature-state-query",
@@ -1662,7 +1720,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Smart"
     },
     {
       "commandName": "lock-status-page-query",
@@ -1696,7 +1755,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Lock"
     },
     {
       "commandName": "myswifi-details-query",
@@ -1725,7 +1785,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Wifi"
     },
     {
       "commandName": "myshouse-manual-query",
@@ -1754,7 +1815,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "House"
     },
     {
       "commandName": "mys-house-rules-query",
@@ -1783,7 +1845,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "House"
     },
     {
       "commandName": "myscheckout-instructions-query",
@@ -1812,7 +1875,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Checkout"
     },
     {
       "commandName": "pictures-f1199d80-ddd8-c35-d37d4ada1e29",
@@ -1823,7 +1887,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Pictures"
     },
     {
       "commandName": "mysguidebooks-query",
@@ -1852,7 +1917,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Guidebooks"
     },
     {
       "commandName": "interaction-preferences-query",
@@ -1881,7 +1947,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Interaction"
     },
     {
       "commandName": "mys-title-query",
@@ -1915,7 +1982,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Title"
     },
     {
       "commandName": "create-language-corrections",
@@ -1933,7 +2001,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Language"
     },
     {
       "commandName": "npm-emojibase-data4-en-data",
@@ -1944,7 +2013,8 @@
       "pathParams": [],
       "isGraphQL": false,
       "queryParams": [],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Npm"
     },
     {
       "commandName": "mys-property-type-query",
@@ -1973,7 +2043,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Property"
     },
     {
       "commandName": "pricing-settings-query",
@@ -2027,7 +2098,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Pricing"
     },
     {
       "commandName": "get-hof-transition-client-side-lock",
@@ -2061,7 +2133,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Hof"
     },
     {
       "commandName": "get-availability-settings",
@@ -2095,7 +2168,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Availability"
     },
     {
       "commandName": "mys-number-of-guests-query",
@@ -2124,7 +2198,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Number"
     },
     {
       "commandName": "mysdescription-query",
@@ -2153,7 +2228,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Description"
     },
     {
       "commandName": "mys-amenities-query",
@@ -2182,7 +2258,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Amenities"
     },
     {
       "commandName": "mys-accessibility-features-query",
@@ -2211,7 +2288,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Accessibility"
     },
     {
       "commandName": "myslocation-query",
@@ -2240,7 +2318,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Location"
     },
     {
       "commandName": "myslocation-resident-hosting-listing-validation-query",
@@ -2269,7 +2348,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Location"
     },
     {
       "commandName": "about-the-host-query",
@@ -2298,7 +2378,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "About"
     },
     {
       "commandName": "get-user-profile-query",
@@ -2327,7 +2408,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Profile"
     },
     {
       "commandName": "contextual-public-profile-query",
@@ -2366,7 +2448,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Contextual"
     },
     {
       "commandName": "cohost-management-list-query",
@@ -2395,7 +2478,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Cohost"
     },
     {
       "commandName": "cohost-invitation-get-phone-countries",
@@ -2418,7 +2502,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Cohost"
     },
     {
       "commandName": "mysinstant-book-query",
@@ -2447,7 +2532,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Instant"
     },
     {
       "commandName": "mys-guest-safety-query",
@@ -2476,7 +2562,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Guest"
     },
     {
       "commandName": "mys-cancellation-policy-query",
@@ -2505,7 +2592,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Cancellation"
     },
     {
       "commandName": "myscustom-link-query",
@@ -2534,7 +2622,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Custom"
     },
     {
       "commandName": "fetch-inbox-filters-config",
@@ -2557,7 +2646,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Inbox"
     },
     {
       "commandName": "viaduct-inbox-data",
@@ -2656,7 +2746,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Inbox"
     },
     {
       "commandName": "create-sync-protocol-subscription",
@@ -2677,7 +2768,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Sync"
     },
     {
       "commandName": "viaduct-get-thread-and-data-query",
@@ -2786,7 +2878,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Thread"
     },
     {
       "commandName": "create-create-last-message-read-viaduct-mutation",
@@ -2807,7 +2900,8 @@
           "name": "currency"
         }
       ],
-      "hasBody": true
+      "hasBody": true,
+      "group": "Create"
     },
     {
       "commandName": "stay-hosting-details-query",
@@ -2846,7 +2940,8 @@
           "defaultValue": "USD"
         }
       ],
-      "hasBody": false
+      "hasBody": false,
+      "group": "Hosting"
     }
   ]
 }

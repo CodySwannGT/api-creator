@@ -444,4 +444,45 @@ describe("registerEndpointCommand", () => {
       })
     );
   });
+
+  it("sets helpGroup when endpoint has a group", () => {
+    const parent = new Command("test-api");
+    const endpoint: ManifestEndpoint = {
+      commandName: "users",
+      description: "List users",
+      methodName: "getUsers",
+      httpMethod: "GET",
+      path: "/users",
+      pathParams: [],
+      isGraphQL: false,
+      queryParams: [],
+      hasBody: false,
+      group: "Users",
+    };
+
+    registerEndpointCommand(parent, "test-api", manifest, endpoint);
+
+    const registered = parent.commands.find(c => c.name() === "users");
+    expect(registered?.helpGroup()).toBe("Users");
+  });
+
+  it("does not set helpGroup when endpoint has no group", () => {
+    const parent = new Command("test-api");
+    const endpoint: ManifestEndpoint = {
+      commandName: "users",
+      description: "List users",
+      methodName: "getUsers",
+      httpMethod: "GET",
+      path: "/users",
+      pathParams: [],
+      isGraphQL: false,
+      queryParams: [],
+      hasBody: false,
+    };
+
+    registerEndpointCommand(parent, "test-api", manifest, endpoint);
+
+    const registered = parent.commands.find(c => c.name() === "users");
+    expect(registered?.helpGroup()).toBe("");
+  });
 });

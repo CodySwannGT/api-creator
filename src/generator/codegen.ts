@@ -29,6 +29,7 @@ import {
   loadManifest,
   mergeManifests,
 } from "../runtime/project-manager.js";
+import { inferGroup } from "../utils/group-inferrer.js";
 
 /**
  * Options for the client generation process
@@ -214,6 +215,10 @@ function buildManifestEndpoint(endpoint: Endpoint): ManifestEndpoint {
   const hasBody = ["POST", "PUT", "PATCH"].includes(endpoint.method);
   const qpMap = new Map(endpoint.queryParams.map(qp => [qp.name, qp]));
   const isGraphQL = qpMap.has("operationName") && qpMap.has("extensions");
+  const operationName = isGraphQL
+    ? qpMap.get("operationName")?.observedValues[0]
+    : undefined;
+  const group = inferGroup(endpoint.normalizedPath, isGraphQL, operationName);
 
   if (isGraphQL) {
     return buildGraphQLManifestEndpoint(
@@ -223,7 +228,8 @@ function buildManifestEndpoint(endpoint: Endpoint): ManifestEndpoint {
       methodName,
       pathParams,
       hasBody,
-      qpMap
+      qpMap,
+      group
     );
   }
 
@@ -242,6 +248,7 @@ function buildManifestEndpoint(endpoint: Endpoint): ManifestEndpoint {
     isGraphQL: false,
     queryParams,
     hasBody,
+    group,
   };
 }
 
@@ -278,6 +285,7 @@ function parseGraphQLVariables(
  * @param pathParams - the path parameter names
  * @param hasBody - whether the endpoint has a request body
  * @param qpMap - map of query parameter names to their definitions
+ * @param group - the inferred help group heading
  * @returns the GraphQL manifest endpoint entry
  */
 function buildGraphQLManifestEndpoint(
@@ -290,7 +298,8 @@ function buildGraphQLManifestEndpoint(
   qpMap: Map<
     string,
     { name: string; observedValues: string[]; required: boolean }
-  >
+  >,
+  group: string
 ): ManifestEndpoint {
   const operationNameQp = qpMap.get("operationName")!;
   const extensionsQp = qpMap.get("extensions")!;
@@ -328,5 +337,6 @@ function buildGraphQLManifestEndpoint(
     variables,
     queryParams: otherParams,
     hasBody,
+    group,
   };
 }

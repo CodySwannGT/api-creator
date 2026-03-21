@@ -31,6 +31,10 @@ export function registerEndpointCommand(
     .command(endpoint.commandName)
     .description(endpoint.description);
 
+  if (endpoint.group) {
+    cmd.helpGroup(endpoint.group);
+  }
+
   for (const pp of endpoint.pathParams) {
     cmd.argument(`<${pp}>`, `${pp} path parameter`);
   }
