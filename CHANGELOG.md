@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/CodySwannGT/api-creator/compare/v0.1.5...v0.1.6) (2026-03-21)
+
+
+### Bug Fixes
+
+* skip AI co-authorship check for release commits ([#5](https://github.com/CodySwannGT/api-creator/issues/5)) ([83c17e8](https://github.com/CodySwannGT/api-creator/commit/83c17e83173272efc5c4c1a7d3017a0e3fbbd0c7))
+
 ### [0.1.5](https://github.com/CodySwannGT/api-creator/compare/v0.1.4...v0.1.5) (2026-03-18)
 
 
