@@ -1,5 +1,5 @@
 /**
- * Manages project storage under ~/.api-creator/projects/<name>/.
+ * Manages project storage under ./services/<name>/ and auth under ~/.api-creator/.
  */
 
 import {
@@ -10,12 +10,12 @@ import {
   readdirSync,
   unlinkSync,
 } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { homedir } from "node:os";
 import type { AuthConfig } from "./curl-parser.js";
 
 const API_CREATOR_DIR = ".api-creator";
-const PROJECTS_SUBDIR = "projects";
+const SERVICES_DIR = "services";
 
 // ── Manifest types ──────────────────────────────────────────────────────
 
@@ -66,10 +66,18 @@ export interface ProjectManifest {
 
 /**
  * Returns the root directory where all api-creator projects are stored.
- * @returns the absolute path to the projects directory
+ * @returns the absolute path to the services directory
  */
 export function getProjectsDir(): string {
-  return join(homedir(), API_CREATOR_DIR, PROJECTS_SUBDIR);
+  return resolve(SERVICES_DIR);
+}
+
+/**
+ * Returns the directory where HAR recordings are stored.
+ * @returns the absolute path to the recordings directory
+ */
+export function getRecordingsDir(): string {
+  return join(homedir(), API_CREATOR_DIR, "recordings");
 }
 
 /**
@@ -122,6 +130,33 @@ export function saveManifest(name: string, manifest: ProjectManifest): void {
     JSON.stringify(manifest, null, 2),
     "utf-8"
   );
+}
+
+// ── Manifest merging ────────────────────────────────────────────────────
+
+/**
+ * Merges an existing manifest with an incoming one. New endpoints override
+ * existing ones by commandName; existing-only endpoints are preserved.
+ * @param existing - the previously saved manifest
+ * @param incoming - the newly generated manifest from HAR
+ * @returns the merged manifest
+ */
+export function mergeManifests(
+  existing: ProjectManifest,
+  incoming: ProjectManifest
+): ProjectManifest {
+  const existingByCommand = existing.endpoints.reduce(
+    (acc, ep) => ({ ...acc, [ep.commandName]: ep }),
+    {} as Record<string, ManifestEndpoint>
+  );
+  const incomingByCommand = incoming.endpoints.reduce(
+    (acc, ep) => ({ ...acc, [ep.commandName]: ep }),
+    {} as Record<string, ManifestEndpoint>
+  );
+
+  const merged = { ...existingByCommand, ...incomingByCommand };
+
+  return { ...incoming, endpoints: Object.values(merged) };
 }
 
 // ── Auth storage ────────────────────────────────────────────────────────

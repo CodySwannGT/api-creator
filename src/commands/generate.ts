@@ -3,6 +3,7 @@ import { readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import chalk from "chalk";
 import { generateClient } from "../generator/codegen.js";
+import { getRecordingsDir } from "../runtime/project-manager.js";
 
 /**
  * Represents a file with its path and modification time
@@ -65,7 +66,7 @@ export const generateCommand = new Command("generate")
   .option("--base-url <url>", "Base URL override for the API client")
   .action(async options => {
     try {
-      const recordingsDir = resolve("./recordings");
+      const recordingsDir = getRecordingsDir();
       const inputPath: string =
         options.input ?? (await findMostRecentHar(recordingsDir));
 

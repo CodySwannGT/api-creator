@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import chalk from "chalk";
 import { startBrowserSession } from "../recorder/browser-session.js";
+import { getRecordingsDir } from "../runtime/project-manager.js";
 
 export const recordCommand = new Command("record")
   .description("Record browser traffic by navigating to a URL")
@@ -8,7 +9,7 @@ export const recordCommand = new Command("record")
   .option(
     "--output <path>",
     "Output path for the recorded HAR file",
-    "./recordings"
+    getRecordingsDir()
   )
   .option(
     "--include-assets",

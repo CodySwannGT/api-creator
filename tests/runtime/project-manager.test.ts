@@ -30,8 +30,12 @@ import {
   loadAuth,
   saveAuth,
   clearAuth,
+  mergeManifests,
 } from "../../src/runtime/project-manager.js";
-import type { ProjectManifest } from "../../src/runtime/project-manager.js";
+import type {
+  ProjectManifest,
+  ManifestEndpoint,
+} from "../../src/runtime/project-manager.js";
 
 const mockExistsSync = existsSync as ReturnType<typeof vi.fn>;
 const mockReadFileSync = readFileSync as ReturnType<typeof vi.fn>;
@@ -45,16 +49,14 @@ beforeEach(() => {
 });
 
 describe("getProjectsDir", () => {
-  it("returns path under homedir", () => {
-    expect(getProjectsDir()).toBe("/mock-home/.api-creator/projects");
+  it("returns services path under cwd", () => {
+    expect(getProjectsDir()).toMatch(/services$/);
   });
 });
 
 describe("getProjectDir", () => {
-  it("returns path for a named project", () => {
-    expect(getProjectDir("myapi")).toBe(
-      "/mock-home/.api-creator/projects/myapi"
-    );
+  it("returns path for a named project under services", () => {
+    expect(getProjectDir("myapi")).toMatch(/services\/myapi$/);
   });
 });
 
@@ -117,11 +119,11 @@ describe("saveManifest", () => {
     saveManifest("test", manifest);
 
     expect(mockMkdirSync).toHaveBeenCalledWith(
-      "/mock-home/.api-creator/projects/test",
+      expect.stringMatching(/services\/test$/),
       { recursive: true }
     );
     expect(mockWriteFileSync).toHaveBeenCalledWith(
-      "/mock-home/.api-creator/projects/test/manifest.json",
+      expect.stringMatching(/services\/test\/manifest\.json$/),
       JSON.stringify(manifest, null, 2),
       "utf-8"
     );
@@ -175,5 +177,70 @@ describe("clearAuth", () => {
     mockExistsSync.mockReturnValue(false);
     clearAuth("test");
     expect(mockUnlinkSync).not.toHaveBeenCalled();
+  });
+});
+
+describe("mergeManifests", () => {
+  const makeEndpoint = (commandName: string): ManifestEndpoint => ({
+    commandName,
+    description: `desc ${commandName}`,
+    methodName: commandName,
+    httpMethod: "GET",
+    path: `/${commandName}`,
+    pathParams: [],
+    isGraphQL: false,
+    queryParams: [],
+    hasBody: false,
+  });
+
+  const baseManifest: ProjectManifest = {
+    name: "test",
+    baseUrl: "https://api.test.com",
+    originalUrl: "https://test.com",
+    createdAt: "2026-01-01",
+    authType: "cookie",
+    endpoints: [],
+  };
+
+  it("preserves existing endpoints not in incoming", () => {
+    const existing = { ...baseManifest, endpoints: [makeEndpoint("old-ep")] };
+    const incoming = { ...baseManifest, endpoints: [makeEndpoint("new-ep")] };
+
+    const result = mergeManifests(existing, incoming);
+
+    const names = result.endpoints.map(ep => ep.commandName);
+    expect(names).toContain("old-ep");
+    expect(names).toContain("new-ep");
+    expect(result.endpoints).toHaveLength(2);
+  });
+
+  it("updates existing endpoints with incoming data", () => {
+    const oldEp = { ...makeEndpoint("shared"), description: "old" };
+    const newEp = { ...makeEndpoint("shared"), description: "new" };
+
+    const existing = { ...baseManifest, endpoints: [oldEp] };
+    const incoming = { ...baseManifest, endpoints: [newEp] };
+
+    const result = mergeManifests(existing, incoming);
+
+    expect(result.endpoints).toHaveLength(1);
+    expect(result.endpoints[0].description).toBe("new");
+  });
+
+  it("uses incoming manifest metadata", () => {
+    const existing = {
+      ...baseManifest,
+      baseUrl: "https://old.com",
+      endpoints: [],
+    };
+    const incoming = {
+      ...baseManifest,
+      baseUrl: "https://new.com",
+      endpoints: [],
+    };
+
+    const result = mergeManifests(existing, incoming);
+
+    expect(result.baseUrl).toBe("https://new.com");
   });
 });

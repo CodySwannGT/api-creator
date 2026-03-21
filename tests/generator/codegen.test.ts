@@ -30,9 +30,15 @@ vi.mock("../../src/generator/types-emitter.js", () => ({
   emitTypes: vi.fn(),
 }));
 
+vi.mock("../../src/generator/log-summary.js", () => ({
+  logSummary: vi.fn(),
+}));
+
 vi.mock("../../src/runtime/project-manager.js", () => ({
   saveManifest: vi.fn(),
   getProjectDir: vi.fn(),
+  loadManifest: vi.fn().mockReturnValue(null),
+  mergeManifests: vi.fn(),
 }));
 
 vi.mock("chalk", () => ({
@@ -118,9 +124,6 @@ describe("generateClient", () => {
 
     expect(saveManifest).toHaveBeenCalled();
     expect(writeFile).toHaveBeenCalledTimes(2);
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining("Project generated successfully!")
-    );
     consoleSpy.mockRestore();
   });
 

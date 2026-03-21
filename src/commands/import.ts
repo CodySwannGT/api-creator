@@ -6,6 +6,7 @@ import ora from "ora";
 import { detectFormat } from "../importer/format-detector.js";
 import { parseInput } from "../importer/paste-parser.js";
 import type { HarLog } from "../types/har.js";
+import { getRecordingsDir } from "../runtime/project-manager.js";
 
 /**
  * Reads all stdin data until EOF and returns it as a UTF-8 string.
@@ -53,7 +54,7 @@ async function readInput(file: string | undefined): Promise<string> {
  * @returns the absolute path to the saved file
  */
 function saveHarLog(harLog: HarLog): string {
-  const recordingsDir = path.resolve("recordings");
+  const recordingsDir = getRecordingsDir();
   if (!fs.existsSync(recordingsDir)) {
     fs.mkdirSync(recordingsDir, { recursive: true });
   }

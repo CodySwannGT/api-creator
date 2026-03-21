@@ -35,7 +35,7 @@ describe("recordCommand", () => {
     expect(mockStartBrowserSession).toHaveBeenCalledWith(
       expect.objectContaining({
         url: "https://example.com",
-        output: "./recordings",
+        output: expect.stringContaining(".api-creator/recordings"),
         includeAssets: false,
       })
     );

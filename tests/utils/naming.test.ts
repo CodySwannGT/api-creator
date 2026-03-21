@@ -144,4 +144,11 @@ describe("methodNameToCliCommand", () => {
   it("removes by-id suffix", () => {
     expect(methodNameToCliCommand("getUserById", "GET")).toBe("user");
   });
+
+  it("dasherizes camelCase GraphQL operation names", () => {
+    const methodName = pathToMethodName("GET", "/api/v3/getListOfListings");
+    expect(methodNameToCliCommand(methodName, "GET")).toBe(
+      "get-list-of-listings"
+    );
+  });
 });

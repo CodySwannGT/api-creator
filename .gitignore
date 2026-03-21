@@ -202,9 +202,8 @@ expo-env.d.ts
 
 # END: AI GUARDRAILS
 
-# api-creator specific
-recordings
-generated
+# api-creator user data
+recordings/
 *.har
-airbnb/
 *.auth
+
