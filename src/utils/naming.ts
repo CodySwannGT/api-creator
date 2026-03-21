@@ -26,7 +26,8 @@ function verbForMethod(method: string): string {
 }
 
 /**
- * Cleans a single path segment by stripping extensions, hashes, and invalid chars
+ * Cleans a single path segment by stripping extensions, hashes, and invalid chars,
+ * then splitting on camelCase boundaries so "getListOfListings" becomes ["get", "List", "Of", "Listings"].
  * @param seg - the raw path segment to clean
  * @returns array of clean, valid identifier words from this segment
  */
@@ -40,7 +41,8 @@ function cleanSegment(seg: string): string[] {
     const clean = part.replace(/[^a-zA-Z0-9]/g, "");
     if (clean === "") return [];
     const noLeadingDigits = clean.replace(/^\d+/, "");
-    return noLeadingDigits !== "" ? [noLeadingDigits] : [];
+    if (noLeadingDigits === "") return [];
+    return noLeadingDigits.replace(/([a-z0-9])([A-Z])/g, "$1 $2").split(" ");
   });
 }
 
