@@ -16,13 +16,19 @@ import { detectAuth } from "../parser/auth-detector.js";
 import { inferTypes, inferRequestTypes } from "../parser/type-inferrer.js";
 import { emitClient } from "./client-emitter.js";
 import { emitTypes } from "./types-emitter.js";
+import { logSummary } from "./log-summary.js";
 import {
   pathToMethodName,
   methodNameToCliCommand,
   singularize,
   camelToKebab,
 } from "../utils/naming.js";
-import { saveManifest, getProjectDir } from "../runtime/project-manager.js";
+import {
+  saveManifest,
+  getProjectDir,
+  loadManifest,
+  mergeManifests,
+} from "../runtime/project-manager.js";
 
 /**
  * Options for the client generation process
@@ -87,7 +93,12 @@ async function runPipeline(
   });
   const typesSource = emitTypes(types, requestTypes);
 
-  saveManifest(projectName, manifest);
+  const existingManifest = loadManifest(projectName);
+  const finalManifest = existingManifest
+    ? mergeManifests(existingManifest, manifest)
+    : manifest;
+
+  saveManifest(projectName, finalManifest);
   await writeFile(join(projectDir, "client.ts"), clientSource, "utf-8");
   await writeFile(join(projectDir, "types.ts"), typesSource, "utf-8");
 
@@ -146,48 +157,6 @@ export async function generateClient(options: GenerateOptions): Promise<void> {
     result.auth,
     result.projectName
   );
-}
-
-/**
- * Logs the generation summary to the console
- * @param projectDir - the directory where files were generated
- * @param endpoints - the generated endpoints
- * @param types - the inferred response types
- * @param requestTypes - the inferred request types
- * @param auth - the detected auth mechanisms
- * @param projectName - the name of the generated project
- */
-function logSummary(
-  projectDir: string,
-  endpoints: Endpoint[],
-  types: { name: string }[],
-  requestTypes: { name: string }[],
-  auth: AuthInfo[],
-  projectName: string
-): void {
-  console.log("");
-  console.log(chalk.green.bold("  Project generated successfully!"));
-  console.log("");
-  console.log(chalk.white(`    ${join(projectDir, "manifest.json")}`));
-  console.log(chalk.white(`    ${join(projectDir, "client.ts")}`));
-  console.log(chalk.white(`    ${join(projectDir, "types.ts")}`));
-  console.log("");
-  console.log(
-    chalk.gray(
-      `  ${endpoints.length} endpoints | ${types.length + requestTypes.length} types | auth: ${auth.length > 0 ? auth[0].type : "none"}`
-    )
-  );
-  console.log("");
-  console.log(chalk.cyan("  Next steps:"));
-  console.log(
-    chalk.cyan(`    api-creator ${projectName} auth setup --file curl.txt`)
-  );
-  console.log(
-    chalk.cyan(`    pbpaste | api-creator ${projectName} auth setup`)
-  );
-  console.log("");
-  console.log(chalk.gray(`  TypeScript client saved to ${projectDir}`));
-  console.log("");
 }
 
 /**
