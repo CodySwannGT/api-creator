@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/CodySwannGT/api-creator/compare/v0.1.7...v0.1.8) (2026-03-21)
+
+
+### Features
+
+* add automatic endpoint grouping via inferGroup heuristic ([614b229](https://github.com/CodySwannGT/api-creator/commit/614b22911da3afebb15b35a70d98b670350c6c9b))
+* display grouped endpoints in CLI --help output ([c405754](https://github.com/CodySwannGT/api-creator/commit/c405754e90ea732b8197018cb16711686ff9ebd6))
+
 ### [0.1.7](https://github.com/CodySwannGT/api-creator/compare/v0.1.6...v0.1.7) (2026-03-21)
 
 
