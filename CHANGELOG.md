@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/CodySwannGT/api-creator/compare/v0.1.6...v0.1.7) (2026-03-21)
+
+
+### Features
+
+* add generated airbnb CLI service ([4435d7b](https://github.com/CodySwannGT/api-creator/commit/4435d7b6d1545c130b8831a5066a4e39143cece8))
+* dasherize camelCase segments in CLI command names ([acf2fdd](https://github.com/CodySwannGT/api-creator/commit/acf2fdd0c416b4e9134b44ac89ae64f8b6c58b94))
+* generate CLI projects into ./services/ instead of ~/.api-creator/ ([b7f0810](https://github.com/CodySwannGT/api-creator/commit/b7f0810570443a9c03d25dd16e81eb314248264e))
+* move recordings storage to ~/.api-creator/recordings/ ([8216e19](https://github.com/CodySwannGT/api-creator/commit/8216e199dbb136025a910586519adfce3f7f1312))
+
+
+### Code Refactoring
+
+* extract logSummary into separate module ([3aec542](https://github.com/CodySwannGT/api-creator/commit/3aec542c19c40ef328717a24a1069c4b8d6f88ef))
+
 ### [0.1.6](https://github.com/CodySwannGT/api-creator/compare/v0.1.5...v0.1.6) (2026-03-21)
 
 
