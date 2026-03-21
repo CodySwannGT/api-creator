@@ -5,6 +5,7 @@ import * as os from "node:os";
 import chalk from "chalk";
 import ora from "ora";
 import { attachNetworkCapture } from "./network-capture.js";
+import { getRecordingsDir } from "../runtime/project-manager.js";
 
 /**
  * Prepares the output directory and returns the HAR file path
@@ -80,7 +81,7 @@ export async function startBrowserSession(options: {
   output?: string;
   includeAssets?: boolean;
 }): Promise<string> {
-  const outputDir = options.output ?? "./recordings";
+  const outputDir = options.output ?? getRecordingsDir();
   const harPath = prepareHarPath(outputDir);
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "api-creator-"));
   const spinner = ora("Launching browser...").start();
