@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "tsup",
+    "test:integration": "vitest run tests/integration --passWithNoTests",
     "postinstall": "node node_modules/@codyswann/lisa/dist/index.js --yes --skip-git-check . 2>/dev/null || true",
     "test": "vitest run",
     "dev": "tsup --watch",
@@ -11,7 +12,6 @@
     "format:check": "prettier --check .",
     "format": "prettier --check . --write",
     "test:unit": "vitest run --exclude='**/integration/**'",
-    "test:integration": "vitest run tests/integration --passWithNoTests",
     "test:cov": "vitest run --coverage",
     "test:watch": "vitest",
     "lint:fix": "eslint . --fix",
@@ -28,7 +28,7 @@
     "node": ">=18"
   },
   "name": "@codyswann/api-creator",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Reverse-engineer any web API into a typed CLI by recording real browser traffic",
   "type": "module",
   "main": "./dist/cli.js",
