@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/CodySwannGT/api-creator/compare/v0.1.10...v0.1.11) (2026-03-27)
+
+
+### Bug Fixes
+
+* add coverage_increment input to nightly test-coverage workflow ([#11](https://github.com/CodySwannGT/api-creator/issues/11)) ([a3bbf1d](https://github.com/CodySwannGT/api-creator/commit/a3bbf1d89353256c9f7a2b110aefa38690bd3802))
+
 ### [0.1.10](https://github.com/CodySwannGT/api-creator/compare/v0.1.9...v0.1.10) (2026-03-25)
 
 ### [0.1.9](https://github.com/CodySwannGT/api-creator/compare/v0.1.8...v0.1.9) (2026-03-24)
