@@ -28,7 +28,7 @@
     "node": ">=18"
   },
   "name": "@codyswann/api-creator",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Reverse-engineer any web API into a typed CLI by recording real browser traffic",
   "type": "module",
   "main": "./dist/cli.js",
