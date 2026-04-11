@@ -89,6 +89,11 @@
       "reason": "ReDoS — transitive via react-native-svg-charts, color parsing not user-controlled"
     },
     {
+      "id": "GHSA-chqc-8p9q-pq6q",
+      "package": "basic-ftp",
+      "reason": "FTP command injection via CRLF — devDep only via @lhci/cli > proxy-agent > pac-proxy-agent > get-uri, no FTP usage in production code"
+    },
+    {
       "id": "GHSA-3mfm-83xf-c92r",
       "package": "handlebars",
       "reason": "JS injection via AST type confusion — transitive devDep via ts-jest/standard-version, no template compilation of untrusted input"
