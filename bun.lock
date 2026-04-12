@@ -13,7 +13,7 @@
       },
       "devDependencies": {
         "@ast-grep/cli": "^0.42.0",
-        "@codyswann/lisa": "^1.85.1",
+        "@codyswann/lisa": "^1.85.3",
         "@commitlint/cli": "^20.0.0",
         "@commitlint/config-conventional": "^20.0.0",
         "@types/node": "^25.5.0",
@@ -35,7 +35,8 @@
   ],
   "overrides": {
     "@isaacs/brace-expansion": "^5.0.1",
-    "axios": ">=1.13.5",
+    "axios": ">=1.15.0",
+    "handlebars": ">=4.7.9",
     "minimatch": ">=10.2.1",
     "picomatch": ">=4.0.4",
     "smol-toml": ">=1.6.1",
@@ -167,7 +168,7 @@
 
     "@bcoe/v8-coverage": ["@bcoe/v8-coverage@1.0.2", "", {}, "sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA=="],
 
-    "@codyswann/lisa": ["@codyswann/lisa@1.85.1", "", { "dependencies": { "@ast-grep/cli": "^0.40.4", "@commitlint/cli": "^20.5.0", "@commitlint/config-conventional": "^20.5.0", "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0", "@eslint/eslintrc": "^3.2.0", "@eslint/js": "^9.39.0", "@inquirer/prompts": "^7.0.0", "@jest/globals": "^30.0.0", "@jest/test-sequencer": "^30.2.0", "@types/fs-extra": "^11.0.0", "@types/jest": "^30.0.0", "@types/lodash.merge": "^4.6.0", "@types/node": "^22.0.0", "@vitest/coverage-v8": "^4.1.0", "commander": "^12.0.0", "esbuild-register": "^3.6.0", "eslint": "^9.39.0", "eslint-config-expo": "^10.0.0", "eslint-config-prettier": "^10.0.0", "eslint-import-resolver-typescript": "^4.4.4", "eslint-plugin-functional": "^9.0.0", "eslint-plugin-import": "^2.32.0", "eslint-plugin-jsdoc": "^61.5.0", "eslint-plugin-jsx-a11y": "^6.10.0", "eslint-plugin-prettier": "^5.5.0", "eslint-plugin-react": "^7.37.0", "eslint-plugin-react-compiler": "^19.1.0-rc.2", "eslint-plugin-react-hooks": "^7.0.0", "eslint-plugin-react-perf": "^3.3.0", "eslint-plugin-sonarjs": "^3.0.0", "eslint-plugin-tailwindcss": "^3.18.0", "fs-extra": "^11.0.0", "globals": "^16.0.0", "husky": "^8.0.0", "jest": "^30.0.0", "jiti": "^2.4.0", "jscodeshift": "0.15.2", "knip": "^5.0.0", "lint-staged": "^16.2.7", "lodash.merge": "^4.6.2", "minimatch": "^3.1.2", "picocolors": "^1.0.0", "prettier": "^3.3.3", "standard-version": "^9.5.0", "ts-jest": "^29.4.9", "ts-morph": "^27.0.2", "tsx": "^4.0.0", "typescript": "~5.7.0", "typescript-eslint": "^8.0.0", "vitest": "^4.1.0" }, "bin": { "lisa": "dist/index.js", "setup-deploy-key": "scripts/setup-deploy-key.sh" } }, "sha512-wY5KE1WNKD7NgTKYclI7FJOedgXRF03QmvlO0rS8sFUlDIyZrkxe5+frdZ091qOPNnssBXuZeqTd0YsVGLLtIg=="],
+    "@codyswann/lisa": ["@codyswann/lisa@1.85.3", "", { "dependencies": { "@ast-grep/cli": "^0.40.4", "@commitlint/cli": "^20.5.0", "@commitlint/config-conventional": "^20.5.0", "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0", "@eslint/eslintrc": "^3.2.0", "@eslint/js": "^9.39.0", "@inquirer/prompts": "^7.0.0", "@jest/globals": "^30.0.0", "@jest/test-sequencer": "^30.2.0", "@types/fs-extra": "^11.0.0", "@types/jest": "^30.0.0", "@types/lodash.merge": "^4.6.0", "@types/node": "^22.0.0", "@vitest/coverage-v8": "^4.1.0", "commander": "^12.0.0", "esbuild-register": "^3.6.0", "eslint": "^9.39.0", "eslint-config-expo": "^10.0.0", "eslint-config-prettier": "^10.0.0", "eslint-import-resolver-typescript": "^4.4.4", "eslint-plugin-functional": "^9.0.0", "eslint-plugin-import": "^2.32.0", "eslint-plugin-jsdoc": "^61.5.0", "eslint-plugin-jsx-a11y": "^6.10.0", "eslint-plugin-prettier": "^5.5.0", "eslint-plugin-react": "^7.37.0", "eslint-plugin-react-compiler": "^19.1.0-rc.2", "eslint-plugin-react-hooks": "^7.0.0", "eslint-plugin-react-perf": "^3.3.0", "eslint-plugin-sonarjs": "^3.0.0", "eslint-plugin-tailwindcss": "^3.18.0", "fs-extra": "^11.0.0", "globals": "^16.0.0", "husky": "^8.0.0", "jest": "^30.0.0", "jiti": "^2.4.0", "jscodeshift": "0.15.2", "knip": "^5.0.0", "lint-staged": "^16.2.7", "lodash.merge": "^4.6.2", "minimatch": "^3.1.2", "picocolors": "^1.0.0", "prettier": "^3.3.3", "standard-version": "^9.5.0", "ts-jest": "^29.4.9", "ts-morph": "^27.0.2", "tsx": "^4.0.0", "typescript": "~5.7.0", "typescript-eslint": "^8.0.0", "vitest": "^4.1.0" }, "bin": { "lisa": "dist/index.js", "setup-deploy-key": "scripts/setup-deploy-key.sh" } }, "sha512-5WpsALQ2GYwEIPP3SuFIojkyRra1TwwB7MrkBrclHjfo/0xasYJHQZR5gbQPFTcBzN09yzlGNcHihAfsYRbCTw=="],
 
     "@commitlint/cli": ["@commitlint/cli@20.5.0", "", { "dependencies": { "@commitlint/format": "^20.5.0", "@commitlint/lint": "^20.5.0", "@commitlint/load": "^20.5.0", "@commitlint/read": "^20.5.0", "@commitlint/types": "^20.5.0", "tinyexec": "^1.0.0", "yargs": "^17.0.0" }, "bin": { "commitlint": "./cli.js" } }, "sha512-yNkyN/tuKTJS3wdVfsZ2tXDM4G4Gi7z+jW54Cki8N8tZqwKBltbIvUUrSbT4hz1bhW/h0CdR+5sCSpXD+wMKaQ=="],
 
@@ -2055,8 +2056,6 @@
 
     "conventional-changelog-core/git-raw-commits": ["git-raw-commits@2.0.11", "", { "dependencies": { "dargs": "^7.0.0", "lodash": "^4.17.15", "meow": "^8.0.0", "split2": "^3.0.0", "through2": "^4.0.0" }, "bin": { "git-raw-commits": "cli.js" } }, "sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A=="],
 
-    "conventional-changelog-writer/handlebars": ["handlebars@4.7.8", "", { "dependencies": { "minimist": "^1.2.5", "neo-async": "^2.6.2", "source-map": "^0.6.1", "wordwrap": "^1.0.0" }, "optionalDependencies": { "uglify-js": "^3.1.4" }, "bin": { "handlebars": "bin/handlebars" } }, "sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ=="],
-
     "conventional-changelog-writer/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "conventional-commits-parser/meow": ["meow@13.2.0", "", {}, "sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA=="],
@@ -2338,8 +2337,6 @@
     "cliui/strip-ansi/ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
 
     "cliui/wrap-ansi/ansi-styles": ["ansi-styles@4.3.0", "", { "dependencies": { "color-convert": "^2.0.1" } }, "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg=="],
-
-    "conventional-changelog-writer/handlebars/source-map": ["source-map@0.6.1", "", {}, "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="],
 
     "dotgitignore/find-up/locate-path": ["locate-path@3.0.0", "", { "dependencies": { "p-locate": "^3.0.0", "path-exists": "^3.0.0" } }, "sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A=="],
 
