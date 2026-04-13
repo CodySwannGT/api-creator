@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsup",
     "test:integration": "vitest run tests/integration --passWithNoTests",
-    "postinstall": "node node_modules/@codyswann/lisa/dist/index.js --yes --skip-git-check . 2>/dev/null || true",
+    "postinstall": "[ -n \"$CI\" ] || node node_modules/@codyswann/lisa/dist/index.js --yes --skip-git-check . 2>/dev/null || true",
     "test": "vitest run",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@ast-grep/cli": "^0.42.0",
-    "@codyswann/lisa": "^1.85.6",
+    "@codyswann/lisa": "^1.85.7",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^25.5.0",
