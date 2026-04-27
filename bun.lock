@@ -19,12 +19,13 @@
         "@types/node": "^25.5.0",
         "@vitest/coverage-v8": "^4.1.0",
         "eslint": "^10.0.3",
+        "eslint-plugin-sonarjs": "^4.0.3",
         "husky": "^8.0.0",
         "knip": "^5.88.1",
         "prettier": "^3.8.1",
         "standard-version": "^9.5.0",
         "tsup": "^8.5.1",
-        "typescript": "^5.9.3",
+        "typescript": "^6.0.3",
         "vitest": "^4.1.0",
       },
     },
@@ -36,6 +37,7 @@
   "overrides": {
     "@isaacs/brace-expansion": "^5.0.1",
     "axios": ">=1.15.0",
+    "eslint-plugin-sonarjs": "^4.0.3",
     "handlebars": ">=4.7.9",
     "minimatch": ">=10.2.1",
     "picomatch": ">=4.0.4",
@@ -1004,7 +1006,7 @@
 
     "eslint-plugin-react-perf": ["eslint-plugin-react-perf@3.3.3", "", { "peerDependencies": { "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0" } }, "sha512-EzPdxsRJg5IllCAH9ny/3nK7sv9251tvKmi/d3Ouv5KzI8TB3zNhzScxL9wnh9Hvv8GYC5LEtzTauynfOEYiAw=="],
 
-    "eslint-plugin-sonarjs": ["eslint-plugin-sonarjs@3.0.7", "", { "dependencies": { "@eslint-community/regexpp": "4.12.2", "builtin-modules": "3.3.0", "bytes": "3.1.2", "functional-red-black-tree": "1.0.1", "jsx-ast-utils-x": "0.1.0", "lodash.merge": "4.6.2", "minimatch": "10.1.2", "scslre": "0.3.0", "semver": "7.7.4", "typescript": ">=5" }, "peerDependencies": { "eslint": "^8.0.0 || ^9.0.0" } }, "sha512-62jB20krIPvcwBLAyG3VVKa2ce2j2lL1yCb8Y0ylMRR/dLvCCTiQx8gQbXb+G81k1alPZ2/I3muZinqWQdBbzw=="],
+    "eslint-plugin-sonarjs": ["eslint-plugin-sonarjs@4.0.3", "", { "dependencies": { "@eslint-community/regexpp": "^4.12.2", "builtin-modules": "^3.3.0", "bytes": "^3.1.2", "functional-red-black-tree": "^1.0.1", "globals": "^17.4.0", "jsx-ast-utils-x": "^0.1.0", "lodash.merge": "^4.6.2", "minimatch": "^10.2.5", "scslre": "^0.3.0", "semver": "^7.7.4", "ts-api-utils": "^2.5.0", "typescript": ">=5" }, "peerDependencies": { "eslint": "^8.0.0 || ^9.0.0 || ^10.0.0" } }, "sha512-5drkJKLC9qQddIiaATV0e8+ygbUc7b0Ti6VB7M2d3jmKNh3X0RaiIJYTs3dr9xnlhlrxo+/s1FoO3Jgv6O/c7g=="],
 
     "eslint-plugin-tailwindcss": ["eslint-plugin-tailwindcss@3.18.2", "", { "dependencies": { "fast-glob": "^3.2.5", "postcss": "^8.4.4" }, "peerDependencies": { "tailwindcss": "^3.4.0" } }, "sha512-QbkMLDC/OkkjFQ1iz/5jkMdHfiMu/uwujUHLAJK5iwNHD8RTxVTlsUezE0toTZ6VhybNBsk+gYGPDq2agfeRNA=="],
 
@@ -1888,7 +1890,7 @@
 
     "typedarray": ["typedarray@0.0.6", "", {}, "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA=="],
 
-    "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+    "typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
     "typescript-eslint": ["typescript-eslint@8.57.1", "", { "dependencies": { "@typescript-eslint/eslint-plugin": "8.57.1", "@typescript-eslint/parser": "8.57.1", "@typescript-eslint/typescript-estree": "8.57.1", "@typescript-eslint/utils": "8.57.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0", "typescript": ">=4.8.4 <6.0.0" } }, "sha512-fLvZWf+cAGw3tqMCYzGIU6yR8K+Y9NT2z23RwOjlNFF2HwSB3KhdEFI5lSBv8tNmFkkBShSjsCjzx1vahZfISA=="],
 
@@ -2093,6 +2095,8 @@
     "eslint-plugin-react-compiler/zod": ["zod@3.25.76", "", {}, "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="],
 
     "eslint-plugin-react-hooks/zod-validation-error": ["zod-validation-error@4.0.2", "", { "peerDependencies": { "zod": "^3.25.0 || ^4.0.0" } }, "sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ=="],
+
+    "eslint-plugin-sonarjs/globals": ["globals@17.5.0", "", {}, "sha512-qoV+HK2yFl/366t2/Cb3+xxPUo5BuMynomoDmiaZBIdbs+0pYbjfZU+twLhGKp4uCZ/+NbtpVepH5bGCxRyy2g=="],
 
     "execa/onetime": ["onetime@5.1.2", "", { "dependencies": { "mimic-fn": "^2.1.0" } }, "sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg=="],
 
