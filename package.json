@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@ast-grep/cli": "^0.42.0",
-    "@codyswann/lisa": "^2.8.2",
+    "@codyswann/lisa": "^2.8.3",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^25.5.0",
