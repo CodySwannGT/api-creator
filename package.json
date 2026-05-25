@@ -18,7 +18,8 @@
     "lint:slow": "eslint . --config eslint.slow.config.ts --quiet",
     "knip": "knip",
     "knip:fix": "knip --fix",
-    "sg:scan": "ast-grep scan"
+    "sg:scan": "ast-grep scan",
+    "setup:deploy-key": "setup-deploy-key"
   },
   "engines": {
     "npm": "please-use-bun",
@@ -67,7 +68,7 @@
   },
   "devDependencies": {
     "@ast-grep/cli": "^0.42.0",
-    "@codyswann/lisa": "^2.23.1",
+    "@codyswann/lisa": "^2.59.0",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^25.5.0",
