@@ -1,0 +1,18 @@
+{
+  "connector": "git",
+  "profile": "api-creator",
+  "lastSuccessfulRunAt": "2026-05-28T00:58:03.560Z",
+  "cursor": {
+    "lastCommit": "fa3c66de9a52c92172124193e01cd330e0c2850a",
+    "lastPr": 153
+  },
+  "sourceNotes": [
+    "wiki/sources/git/2026-05-28-thumbwar-infrastructure-git.md"
+  ],
+  "synthesisPages": [
+    "architecture/pipeline-overview.md",
+    "concepts/har-to-cli.md",
+    "projects/api-creator.md"
+  ],
+  "schemaVersion": "1.0.0"
+}

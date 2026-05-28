@@ -1,0 +1,17 @@
+{
+  "connector": "roles",
+  "profile": "project",
+  "lastSuccessfulRunAt": "2026-05-28T00:58:03.560Z",
+  "cursor": {
+    "roles": 7,
+    "pages": 7,
+    "lastIngest": "2026-05-28"
+  },
+  "sourceNotes": [
+    "wiki/sources/roles/2026-05-28-roles.md"
+  ],
+  "synthesisPages": [
+    "projects/api-creator.md"
+  ],
+  "schemaVersion": "1.0.0"
+}
