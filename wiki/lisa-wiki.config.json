@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0.0",
+  "org": "api-creator",
+  "displayName": "api-creator Wiki",
+  "purpose": "The durable knowledge base for api-creator, a TypeScript CLI that reverse-engineers any web API into a typed command-line tool by recording real browser traffic, auto-generating endpoints, wiring up auth, and letting users call endpoints directly from the terminal. This wiki captures the project's architecture, domain concepts, design decisions, requirements, and operating playbooks so contributors and agents can answer questions about how api-creator works without re-deriving it from the source each time.",
+  "mode": "embedded",
+  "wikiRoot": "wiki",
+  "frontmatter": true,
+  "categories": [
+    "concepts",
+    "entities",
+    "architecture",
+    "requirements",
+    "decisions",
+    "playbooks",
+    "open-questions",
+    "projects",
+    "sales",
+    "marketing",
+    "finance",
+    "customers",
+    "people",
+    "legal"
+  ],
+  "sources": {
+    "layout": "by-system"
+  },
+  "git": {
+    "prPerIngestion": true,
+    "autoMerge": true,
+    "targetBranch": "main",
+    "branchPrefix": "wiki/ingest"
+  },
+  "sensitivity": {
+    "enabled": true,
+    "default": "internal"
+  },
+  "sourceRetention": "sanitized-note-only",
+  "readme": {
+    "mode": "rich"
+  },
+  "documentation": {
+    "absorb": true
+  },
+  "connectors": {
+    "git": {
+      "enabled": true,
+      "sideEffects": "read-only-ingest"
+    },
+    "memory": {
+      "enabled": true,
+      "sideEffects": "read-only-ingest"
+    },
+    "roles": {
+      "enabled": true,
+      "sideEffects": "read-only-ingest"
+    },
+    "docs": {
+      "enabled": true,
+      "sideEffects": "read-only-ingest"
+    }
+  },
+  "staff": [
+    {
+      "id": "chief",
+      "role": "Chief of Staff",
+      "expertise": "Cross-functional coordination, project status, decisions, playbooks, and open questions",
+      "owns": {
+        "categories": ["projects", "decisions", "playbooks", "open-questions"]
+      },
+      "sensitivity": "confidential"
+    },
+    {
+      "id": "sally",
+      "role": "Sales",
+      "expertise": "Pipeline, prospects, and revenue motion",
+      "owns": {
+        "categories": ["sales"]
+      },
+      "sensitivity": "internal"
+    },
+    {
+      "id": "mark",
+      "role": "Marketing",
+      "expertise": "Positioning, messaging, and demand generation",
+      "owns": {
+        "categories": ["marketing"]
+      },
+      "sensitivity": "internal"
+    },
+    {
+      "id": "felix",
+      "role": "Finance",
+      "expertise": "Budgets, forecasts, and financial reporting",
+      "owns": {
+        "categories": ["finance"]
+      },
+      "sensitivity": "confidential"
+    },
+    {
+      "id": "casey",
+      "role": "Customer Success",
+      "expertise": "Onboarding, retention, and customer health",
+      "owns": {
+        "categories": ["customers"]
+      },
+      "sensitivity": "internal"
+    },
+    {
+      "id": "parker",
+      "role": "People",
+      "expertise": "Hiring, team operations, and people processes",
+      "owns": {
+        "categories": ["people"]
+      },
+      "sensitivity": "confidential"
+    },
+    {
+      "id": "lex",
+      "role": "Legal & Compliance",
+      "expertise": "Contracts, licensing, privacy, and compliance",
+      "owns": {
+        "categories": ["legal"]
+      },
+      "sensitivity": "confidential"
+    }
+  ],
+  "contaminationTerms": []
+}

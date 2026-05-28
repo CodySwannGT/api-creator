@@ -7,5 +7,6 @@ This project maintains an in-repo LLM Wiki under `wiki/`, managed by the `lisa-w
 - Navigation: `wiki/index.md`
 
 When answering questions about this project (code, architecture, decisions, domain concepts,
-conventions, or documentation), query the wiki first: `/query "<question>"`. Add durable knowledge
-with `/ingest`. See the contract for the full ordered ingestion pipeline and standards.
+conventions, or documentation), query the wiki first (Codex: `$lisa-wiki-query`). Add durable
+knowledge with `$lisa-wiki-ingest`. See the contract for the full ordered ingestion pipeline and
+standards.
