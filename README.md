@@ -81,6 +81,13 @@ GraphQL persisted queries are detected automatically. `operationName` and `exten
 api-creator airbnb mystitlequery --listing-id "abc123" --viewer-id "xyz789"
 ```
 
+## Project knowledge (LLM Wiki)
+
+This repo maintains a git-native LLM Wiki under [`wiki/`](wiki/start-here.md), managed by the
+`lisa-wiki` kernel. New to the project? Run `/onboard-me` (Codex: `$lisa-wiki-onboard-me`) for a
+guided tour, or `/query "<question>"` for cited answers. See [`wiki/index.md`](wiki/index.md) to
+browse and [`wiki/schema/llm-wiki-contract.md`](wiki/schema/llm-wiki-contract.md) for the rules.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -25,7 +25,8 @@
     "skill-creator@claude-plugins-official": true,
     "atlassian@claude-plugins-official": true,
     "lisa-typescript@lisa": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "lisa-wiki@lisa": true
   },
   "extraKnownMarketplaces": {
     "CodySwannGT/lisa": {
