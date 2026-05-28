@@ -4,27 +4,32 @@
 > rows are `| Page | Summary | Updated |`. Read this first when looking for anything.
 
 ## Orientation
+
 | Page | Summary | Updated |
 |---|---|---|
 | [start-here](start-here.md) | Orientation and the wiki's purpose | 2026-05-28 |
 | [LLM Wiki Contract](schema/llm-wiki-contract.md) | The rules this wiki follows | 2026-05-28 |
 
 ## Architecture
+
 | Page | Summary | Updated |
 |---|---|---|
 | [pipeline-overview](architecture/pipeline-overview.md) | The record → parse → generate → run pipeline and its `src/` modules | 2026-05-28 |
 
 ## Concepts
+
 | Page | Summary | Updated |
 |---|---|---|
 | [har-to-cli](concepts/har-to-cli.md) | Generating a typed CLI from a recorded HAR of real browser traffic | 2026-05-28 |
 
 ## Projects
+
 | Page | Summary | Updated |
 |---|---|---|
 | [api-creator](projects/api-creator.md) | Repository, technology, and structure profile of api-creator | 2026-05-28 |
 
 ## Staff
+
 | Page | Summary | Updated |
 |---|---|---|
 | [chief](staff/chief.md) | Chief of Staff — coordination, decisions, playbooks, open questions | 2026-05-28 |
@@ -36,6 +41,7 @@
 | [lex](staff/lex.md) | Legal & Compliance | 2026-05-28 |
 
 ## Sources
+
 | Source notes | Latest |
 |---|---|
 | `sources/git/` | [2026-05-28-api-creator-git.md](sources/git/2026-05-28-api-creator-git.md) |
