@@ -1,0 +1,35 @@
+{
+  "harness": "both",
+  "tracker": "github",
+  "source": "github",
+  "github": {
+    "org": "CodySwannGT",
+    "repo": "api-creator",
+    "labels": {
+      "build": {
+        "ready": "status:ready",
+        "claimed": "status:in-progress",
+        "blocked": "status:blocked",
+        "done": {
+          "dev": "status:done",
+          "staging": "status:done",
+          "production": "status:done"
+        }
+      },
+      "prd": {
+        "draft": "prd-draft",
+        "ready": "prd-ready",
+        "in_review": "prd-in-review",
+        "blocked": "prd-blocked",
+        "ticketed": "prd-ticketed",
+        "shipped": "prd-shipped",
+        "sentinel": "prd-intake-feedback"
+      }
+    }
+  },
+  "deploy": {
+    "branches": {
+      "production": "main"
+    }
+  }
+}
