@@ -8,8 +8,10 @@
     ".serverless/**",
     ".webpack/**",
     ".warmup/**",
+
     "node_modules/**",
     "**/node_modules/**",
+
     "src/graphql/**",
     "src/graphql.ts",
     "src/graphql-generated/**",
@@ -19,11 +21,15 @@
     "generated/**",
     "components/ui/**",
     "src/components/ui/**",
+
     "**/k6/**/*.js",
+
     "ios",
     "android",
+
     ".beads",
     ".maestro",
+
     ".lisabak/**",
     ".claude/worktrees/**",
     ".claude-active-project/**",
@@ -40,17 +46,23 @@
     "e2e/**",
     "playwright-report/**",
     ".lighthouseci/**",
+
     ".expo/**",
     ".codex/**",
+    ".opencode/**",
     ".github/**",
     "public/**",
     ".dead/**",
     "example/**",
     "tmp/**",
     ".vscode/**",
+
     "**/lighthouserc.js",
+
     "**/*.md",
+
     "**/__fixtures__/**",
+
     "**/*.config.js",
     "**/*.config.mjs",
     "babel.config.js",
@@ -58,15 +70,20 @@
     "webpack.*.js",
     "*.d.ts",
     "esbuild.plugins.js",
+
     "projects/**/scripts/**",
     "scripts/**",
+
     "lib/**/*.js",
     "src/lib/**/*.js",
     "cdk.out/**",
+
     "audit.ignore.config.json",
     "audit.ignore.local.json",
+    ".lisa.config.json",
+
     "amplify/**",
-    "wiki/**",
-    ".lisa.config.json"
+
+    "wiki/**"
   ]
 }
