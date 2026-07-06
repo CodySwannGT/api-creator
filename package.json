@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@ast-grep/cli": "^0.42.0",
-    "@codyswann/lisa": "^2.176.0",
+    "@codyswann/lisa": "^2.191.5",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^25.5.0",
@@ -96,9 +96,11 @@
     "handlebars": ">=4.7.9",
     "esbuild": ">=0.28.1",
     "lodash": ">=4.18.1",
-    "vite": ">=8.0.16",
+    "vite": "$vite",
     "ws": ">=8.21.0",
-    "form-data": ">=4.0.6"
+    "form-data": ">=4.0.6",
+    "multer": ">=2.2.0",
+    "undici": ">=6.27.0"
   },
   "overrides": {
     "@isaacs/brace-expansion": "^5.0.1",
@@ -107,13 +109,15 @@
     "minimatch": ">=10.2.1",
     "yaml": ">=2.8.3",
     "smol-toml": ">=1.6.1",
-    "vite": "^8.0.16",
+    "vite": "$vite",
     "handlebars": ">=4.7.9",
     "eslint-plugin-sonarjs": "^4.0.3",
     "esbuild": ">=0.28.1",
     "lodash": ">=4.18.1",
     "ws": ">=8.21.0",
-    "form-data": ">=4.0.6"
+    "form-data": ">=4.0.6",
+    "multer": ">=2.2.0",
+    "undici": ">=6.27.0"
   },
   "trustedDependencies": [
     "@ast-grep/cli",
